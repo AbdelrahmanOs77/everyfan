@@ -19,7 +19,7 @@ param(
     [string] $AdminToken = "",
     [string] $ExtraEnvJson = "[]"
 )
-$ErrorActionPreference = "Stop"
+$ErrorActionPreference = "Continue"
 $Root = Split-Path -Parent $PSScriptRoot
 function Step([string] $m) { Write-Host "`n==> $m" -ForegroundColor Cyan }
 function Fail([string] $m) { Write-Host "ERROR: $m" -ForegroundColor Red; exit 1 }
