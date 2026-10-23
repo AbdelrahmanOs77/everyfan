@@ -1,0 +1,18 @@
+[
+  ["mom_004", 1104, "pressing_shift", "PRESS_SHIFT_V1", "delta_utd"],
+  ["mom_007", 1482, "big_chance", "BIG_CHANCE_V1", "nile_fc"],
+  ["mom_008", 1625, "big_chance", "BIG_CHANCE_V1", "nile_fc"],
+  ["mom_010", 1718, "control_to_chaos", "CONTROL_TO_CHAOS_V1", null],
+  ["mom_013", 1902, "big_chance", "BIG_CHANCE_V1", "nile_fc"],
+  ["mom_015", 2325, "big_chance", "BIG_CHANCE_V1", "nile_fc"],
+  ["mom_016", 2342, "goal", "GOAL_V1", "nile_fc"],
+  ["mom_017", 2520, "control_to_chaos", "CONTROL_TO_CHAOS_V1", null],
+  ["mom_018", 2779, "big_chance", "BIG_CHANCE_V1", "nile_fc"],
+  ["mom_021", 3151, "pressing_shift", "PRESS_SHIFT_V1", "delta_utd"],
+  ["mom_022", 3182, "big_chance", "BIG_CHANCE_V1", "nile_fc"],
+  ["mom_024", 3618, "big_chance", "BIG_CHANCE_V1", "nile_fc"],
+  ["mom_026", 3723, "big_chance", "BIG_CHANCE_V1", "nile_fc"],
+  ["mom_028", 4209, "goal", "GOAL_V1", "delta_utd"],
+  ["mom_031", 4883, "pressing_shift", "PRESS_SHIFT_V1", "nile_fc"],
+  ["mom_033", 5397, "rhythm_change", "RHYTHM_CHANGE_V1", null]
+]

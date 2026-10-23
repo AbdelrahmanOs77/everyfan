@@ -205,6 +205,13 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     async def overlay_spec():
         return Overlay.model_json_schema()
 
+    # Owner B: evidence API (moments, evidence trail, stats at any second) for the UI and the MCP tools
+    try:
+        from backend.analytics.api import router as analytics_router
+        app.include_router(analytics_router)
+    except Exception:  # analytics must never stop the API from starting
+        log.exception("evidence API not mounted")
+
     # ----------------------------------------------------------- WebSockets
 
     async def _admit(ws: WebSocket) -> str | None:

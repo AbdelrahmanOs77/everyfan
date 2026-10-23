@@ -12,13 +12,13 @@ shared/schemas/        frozen contracts A, A2, B, C, D, E + stream envelope (+ J
 backend/simulator/     match engine, 2 Hz tracking, scenarios, validator, replay controller
 backend/services/      stream transports (local + Event Hubs), consumer, rate limiter, token budget
 backend/api/           FastAPI: replay control, live + demo WebSockets, plugin pipeline, template overlays
-backend/analytics/     metrics, indices, moments                         (Owner B, as a pipeline plugin)
+backend/analytics/     metrics, indices, moments, evidence API, Cosmos DB  (Owner B, as a pipeline plugin)
 backend/agents/        Foundry agents, workflow, MCP server, verifier    (Owner C, as a pipeline plugin)
 frontend/              React viewer                                       (Owner D)
 demo/                  cached demo-match bundles (Judge mode)
 deployment/            Bicep template + one-command deploy / update scripts
 tests/                 contracts, determinism, realism, streaming, API
-docs/                  OWNER_A.md · API.md · DEPLOYMENT.md
+docs/                  OWNER_A.md · OWNER_B.md · API.md · DEPLOYMENT.md
 ```
 
 ## Run it locally (no Azure needed)
@@ -39,5 +39,6 @@ see [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md). Images are built, smoke-tested and
 ## Docs
 
 - [docs/OWNER_A.md](docs/OWNER_A.md) — simulator, scenarios, streaming, how teammates plug in
+- [docs/OWNER_B.md](docs/OWNER_B.md) — formulas, thresholds, moment rules, evidence API, Cosmos DB
 - [docs/API.md](docs/API.md) — REST + WebSocket contract for the frontend, plugin interface for analytics and agents
 - [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) — Azure deployment and judging-period runbook
