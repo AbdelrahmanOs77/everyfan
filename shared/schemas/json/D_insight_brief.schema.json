@@ -1,0 +1,97 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "moment_id": {
+      "title": "Moment Id",
+      "type": "string"
+    },
+    "match_id": {
+      "title": "Match Id",
+      "type": "string"
+    },
+    "claim": {
+      "maxLength": 240,
+      "title": "Claim",
+      "type": "string"
+    },
+    "facts": {
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "number"
+          },
+          {
+            "type": "string"
+          },
+          {
+            "type": "boolean"
+          }
+        ]
+      },
+      "title": "Facts",
+      "type": "object"
+    },
+    "evidence_event_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Evidence Event Ids",
+      "type": "array"
+    },
+    "focus_player_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Focus Player Id"
+    },
+    "confidence": {
+      "enum": [
+        "high",
+        "medium",
+        "low"
+      ],
+      "title": "Confidence",
+      "type": "string"
+    },
+    "target_personas": {
+      "items": {
+        "enum": [
+          "beginner",
+          "tactical",
+          "player",
+          "club",
+          "metric"
+        ],
+        "type": "string"
+      },
+      "title": "Target Personas",
+      "type": "array"
+    }
+  },
+  "required": [
+    "moment_id",
+    "match_id",
+    "claim",
+    "facts",
+    "evidence_event_ids",
+    "confidence",
+    "target_personas"
+  ],
+  "title": "InsightBrief",
+  "type": "object"
+}

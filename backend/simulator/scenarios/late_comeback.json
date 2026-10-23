@@ -1,0 +1,19 @@
+{
+  "scenario_id": "late_comeback",
+  "match_id": "match_002",
+  "title": "Nile FC 2-2 Delta United (late comeback)",
+  "description": "Nile dominate and lead 2-0 after 51 minutes. Underdogs Delta change shape and score twice after 75'.",
+  "seed": 77,
+  "home": {"team_id": "nile_fc", "strength": 0.6, "press_intensity": 0.6, "tempo": 1.05},
+  "away": {"team_id": "delta_utd", "strength": 0.44, "press_intensity": 0.4, "tempo": 0.95},
+  "phases": [
+    {"from_minute": 70, "to_minute": 90, "team_id": "delta_utd", "strength_delta": 0.22, "press_intensity": 0.8, "tempo": 1.3, "label": "Delta all-out attack"},
+    {"from_minute": 70, "to_minute": 90, "team_id": "nile_fc", "strength_delta": -0.1, "press_intensity": 0.3, "label": "Nile sit deep"}
+  ],
+  "forced_events": [
+    {"minute": 22, "type": "goal", "team_id": "nile_fc", "player_id": "nil_07"},
+    {"minute": 51, "type": "goal", "team_id": "nile_fc", "player_id": "nil_09"},
+    {"minute": 77, "type": "goal", "team_id": "delta_utd", "player_id": "del_09"},
+    {"minute": 87, "type": "goal", "team_id": "delta_utd", "player_id": "del_11", "shot_speed_kmh": 98}
+  ]
+}

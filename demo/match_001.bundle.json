@@ -1,0 +1,851 @@
+{
+ "schema_version": "1.0",
+ "match_id": "match_001",
+ "scenario_id": "derby_balanced",
+ "fingerprint": "c571572574d34d4b86edf1fbfc7cd8ff6c6dfea08451eeed25df0ebb50e5a74b",
+ "plugins": [
+  "backend.api.template_plugin:register"
+ ],
+ "created_at": "2026-10-23T17:40:51Z",
+ "counts": {
+  "moment": 4,
+  "overlay": 24
+ },
+ "items": [
+  {
+   "type": "moment",
+   "game_time_s": 726.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_9001",
+    "match_id": "match_001",
+    "game_clock_s": 726,
+    "type": "goal",
+    "importance": 1.0,
+    "team_id": "nile_fc",
+    "player_id": "nil_09",
+    "evidence_event_ids": [
+     "evt_00378",
+     "evt_00379"
+    ],
+    "verified_facts": {
+     "scorer_id": "nil_09",
+     "minute": 13,
+     "home_score": 1,
+     "away_score": 0,
+     "passes_in_move": 7,
+     "shot_speed_kmh": 85,
+     "shot_distance_m": 9,
+     "assist_id": "nil_11"
+    },
+    "rule_id": "GOAL_TEMPLATE_V1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 726.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9001_beginner_en",
+    "moment_id": "mom_9001",
+    "match_id": "match_001",
+    "persona": "beginner",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "GOAL! Nile FC",
+    "body": "Ramy Galal scores in the 13th minute. Nile FC 1-0 Delta United.",
+    "fields": {},
+    "evidence_event_ids": [
+     "evt_00378",
+     "evt_00379"
+    ],
+    "show_at_s": 726,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 726.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9001_tactical_en",
+    "moment_id": "mom_9001",
+    "match_id": "match_001",
+    "persona": "tactical",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "Goal 13' - Nile FC",
+    "body": "Ramy Galal scores from 9 m after a 7-pass move. Shot speed 85 km/h. Nile FC 1-0 Delta United.",
+    "fields": {
+     "shot_speed_kmh": 85,
+     "shot_distance_m": 9
+    },
+    "evidence_event_ids": [
+     "evt_00378",
+     "evt_00379"
+    ],
+    "show_at_s": 726,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 726.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9001_player_en",
+    "moment_id": "mom_9001",
+    "match_id": "match_001",
+    "persona": "player",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "Ramy Galal scores!",
+    "body": "Ramy Galal's shot in the 13th minute left the boot at 85 km/h.",
+    "fields": {
+     "player_id": "nil_09",
+     "shot_speed_kmh": 85
+    },
+    "evidence_event_ids": [
+     "evt_00378",
+     "evt_00379"
+    ],
+    "show_at_s": 726,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 726.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9001_beginner_ar",
+    "moment_id": "mom_9001",
+    "match_id": "match_001",
+    "persona": "beginner",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "هدف! نادي النيل",
+    "body": "رامي جلال يسجل في الدقيقة 13. نادي النيل 1-0 دلتا يونايتد",
+    "fields": {},
+    "evidence_event_ids": [
+     "evt_00378",
+     "evt_00379"
+    ],
+    "show_at_s": 726,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 726.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9001_tactical_ar",
+    "moment_id": "mom_9001",
+    "match_id": "match_001",
+    "persona": "tactical",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "هدف في الدقيقة 13 - نادي النيل",
+    "body": "رامي جلال يسجل من مسافة 9 م بعد هجمة من 7 تمريرات. سرعة التسديدة 85 كم/س. نادي النيل 1-0 دلتا يونايتد",
+    "fields": {
+     "shot_speed_kmh": 85,
+     "shot_distance_m": 9
+    },
+    "evidence_event_ids": [
+     "evt_00378",
+     "evt_00379"
+    ],
+    "show_at_s": 726,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 726.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9001_player_ar",
+    "moment_id": "mom_9001",
+    "match_id": "match_001",
+    "persona": "player",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "رامي جلال يسجل!",
+    "body": "تسديدة رامي جلال في الدقيقة 13 انطلقت بسرعة 85 كم/س.",
+    "fields": {
+     "player_id": "nil_09",
+     "shot_speed_kmh": 85
+    },
+    "evidence_event_ids": [
+     "evt_00378",
+     "evt_00379"
+    ],
+    "show_at_s": 726,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 1864.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_9002",
+    "match_id": "match_001",
+    "game_clock_s": 1864,
+    "type": "goal",
+    "importance": 1.0,
+    "team_id": "delta_utd",
+    "player_id": "del_10",
+    "evidence_event_ids": [
+     "evt_00885",
+     "evt_00886"
+    ],
+    "verified_facts": {
+     "scorer_id": "del_10",
+     "minute": 32,
+     "home_score": 1,
+     "away_score": 1,
+     "passes_in_move": 0,
+     "shot_speed_kmh": 74,
+     "shot_distance_m": 10
+    },
+    "rule_id": "GOAL_TEMPLATE_V1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1864.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9002_beginner_en",
+    "moment_id": "mom_9002",
+    "match_id": "match_001",
+    "persona": "beginner",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "GOAL! Delta United",
+    "body": "Omar Kandil scores in the 32nd minute. Nile FC 1-1 Delta United.",
+    "fields": {},
+    "evidence_event_ids": [
+     "evt_00885",
+     "evt_00886"
+    ],
+    "show_at_s": 1864,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1864.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9002_tactical_en",
+    "moment_id": "mom_9002",
+    "match_id": "match_001",
+    "persona": "tactical",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "Goal 32' - Delta United",
+    "body": "Omar Kandil scores from 10 m after winning the ball and driving forward. Shot speed 74 km/h. Nile FC 1-1 Delta United.",
+    "fields": {
+     "shot_speed_kmh": 74,
+     "shot_distance_m": 10
+    },
+    "evidence_event_ids": [
+     "evt_00885",
+     "evt_00886"
+    ],
+    "show_at_s": 1864,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1864.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9002_player_en",
+    "moment_id": "mom_9002",
+    "match_id": "match_001",
+    "persona": "player",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "Omar Kandil scores!",
+    "body": "Omar Kandil's shot in the 32nd minute left the boot at 74 km/h.",
+    "fields": {
+     "player_id": "del_10",
+     "shot_speed_kmh": 74
+    },
+    "evidence_event_ids": [
+     "evt_00885",
+     "evt_00886"
+    ],
+    "show_at_s": 1864,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1864.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9002_beginner_ar",
+    "moment_id": "mom_9002",
+    "match_id": "match_001",
+    "persona": "beginner",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "هدف! دلتا يونايتد",
+    "body": "عمر قنديل يسجل في الدقيقة 32. نادي النيل 1-1 دلتا يونايتد",
+    "fields": {},
+    "evidence_event_ids": [
+     "evt_00885",
+     "evt_00886"
+    ],
+    "show_at_s": 1864,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1864.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9002_tactical_ar",
+    "moment_id": "mom_9002",
+    "match_id": "match_001",
+    "persona": "tactical",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "هدف في الدقيقة 32 - دلتا يونايتد",
+    "body": "عمر قنديل يسجل من مسافة 10 م بعد استخلاص الكرة والانطلاق بها. سرعة التسديدة 74 كم/س. نادي النيل 1-1 دلتا يونايتد",
+    "fields": {
+     "shot_speed_kmh": 74,
+     "shot_distance_m": 10
+    },
+    "evidence_event_ids": [
+     "evt_00885",
+     "evt_00886"
+    ],
+    "show_at_s": 1864,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1864.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9002_player_ar",
+    "moment_id": "mom_9002",
+    "match_id": "match_001",
+    "persona": "player",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "عمر قنديل يسجل!",
+    "body": "تسديدة عمر قنديل في الدقيقة 32 انطلقت بسرعة 74 كم/س.",
+    "fields": {
+     "player_id": "del_10",
+     "shot_speed_kmh": 74
+    },
+    "evidence_event_ids": [
+     "evt_00885",
+     "evt_00886"
+    ],
+    "show_at_s": 1864,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 2942.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_9003",
+    "match_id": "match_001",
+    "game_clock_s": 2942,
+    "type": "goal",
+    "importance": 1.0,
+    "team_id": "delta_utd",
+    "player_id": "del_09",
+    "evidence_event_ids": [
+     "evt_01383",
+     "evt_01384"
+    ],
+    "verified_facts": {
+     "scorer_id": "del_09",
+     "minute": 50,
+     "home_score": 1,
+     "away_score": 2,
+     "passes_in_move": 4,
+     "shot_speed_kmh": 92,
+     "shot_distance_m": 13,
+     "assist_id": "del_07"
+    },
+    "rule_id": "GOAL_TEMPLATE_V1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2942.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9003_beginner_en",
+    "moment_id": "mom_9003",
+    "match_id": "match_001",
+    "persona": "beginner",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "GOAL! Delta United",
+    "body": "Adel Ghoneim scores in the 50th minute. Nile FC 1-2 Delta United.",
+    "fields": {},
+    "evidence_event_ids": [
+     "evt_01383",
+     "evt_01384"
+    ],
+    "show_at_s": 2942,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2942.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9003_tactical_en",
+    "moment_id": "mom_9003",
+    "match_id": "match_001",
+    "persona": "tactical",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "Goal 50' - Delta United",
+    "body": "Adel Ghoneim scores from 13 m after a 4-pass move. Shot speed 92 km/h. Nile FC 1-2 Delta United.",
+    "fields": {
+     "shot_speed_kmh": 92,
+     "shot_distance_m": 13
+    },
+    "evidence_event_ids": [
+     "evt_01383",
+     "evt_01384"
+    ],
+    "show_at_s": 2942,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2942.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9003_player_en",
+    "moment_id": "mom_9003",
+    "match_id": "match_001",
+    "persona": "player",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "Adel Ghoneim scores!",
+    "body": "Adel Ghoneim's shot in the 50th minute left the boot at 92 km/h.",
+    "fields": {
+     "player_id": "del_09",
+     "shot_speed_kmh": 92
+    },
+    "evidence_event_ids": [
+     "evt_01383",
+     "evt_01384"
+    ],
+    "show_at_s": 2942,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2942.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9003_beginner_ar",
+    "moment_id": "mom_9003",
+    "match_id": "match_001",
+    "persona": "beginner",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "هدف! دلتا يونايتد",
+    "body": "عادل غنيم يسجل في الدقيقة 50. نادي النيل 1-2 دلتا يونايتد",
+    "fields": {},
+    "evidence_event_ids": [
+     "evt_01383",
+     "evt_01384"
+    ],
+    "show_at_s": 2942,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2942.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9003_tactical_ar",
+    "moment_id": "mom_9003",
+    "match_id": "match_001",
+    "persona": "tactical",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "هدف في الدقيقة 50 - دلتا يونايتد",
+    "body": "عادل غنيم يسجل من مسافة 13 م بعد هجمة من 4 تمريرات. سرعة التسديدة 92 كم/س. نادي النيل 1-2 دلتا يونايتد",
+    "fields": {
+     "shot_speed_kmh": 92,
+     "shot_distance_m": 13
+    },
+    "evidence_event_ids": [
+     "evt_01383",
+     "evt_01384"
+    ],
+    "show_at_s": 2942,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2942.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9003_player_ar",
+    "moment_id": "mom_9003",
+    "match_id": "match_001",
+    "persona": "player",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "عادل غنيم يسجل!",
+    "body": "تسديدة عادل غنيم في الدقيقة 50 انطلقت بسرعة 92 كم/س.",
+    "fields": {
+     "player_id": "del_09",
+     "shot_speed_kmh": 92
+    },
+    "evidence_event_ids": [
+     "evt_01383",
+     "evt_01384"
+    ],
+    "show_at_s": 2942,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3783.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_9004",
+    "match_id": "match_001",
+    "game_clock_s": 3783,
+    "type": "goal",
+    "importance": 1.0,
+    "team_id": "nile_fc",
+    "player_id": "nil_10",
+    "evidence_event_ids": [
+     "evt_01728",
+     "evt_01729"
+    ],
+    "verified_facts": {
+     "scorer_id": "nil_10",
+     "minute": 64,
+     "home_score": 2,
+     "away_score": 2,
+     "passes_in_move": 1,
+     "shot_speed_kmh": 104,
+     "shot_distance_m": 21,
+     "assist_id": "nil_07"
+    },
+    "rule_id": "GOAL_TEMPLATE_V1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3783.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9004_beginner_en",
+    "moment_id": "mom_9004",
+    "match_id": "match_001",
+    "persona": "beginner",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "GOAL! Nile FC",
+    "body": "Hassan Nour scores in the 64th minute. Nile FC 2-2 Delta United.",
+    "fields": {},
+    "evidence_event_ids": [
+     "evt_01728",
+     "evt_01729"
+    ],
+    "show_at_s": 3783,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3783.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9004_tactical_en",
+    "moment_id": "mom_9004",
+    "match_id": "match_001",
+    "persona": "tactical",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "Goal 64' - Nile FC",
+    "body": "Hassan Nour scores from 21 m after a single pass. Shot speed 104 km/h. Nile FC 2-2 Delta United.",
+    "fields": {
+     "shot_speed_kmh": 104,
+     "shot_distance_m": 21
+    },
+    "evidence_event_ids": [
+     "evt_01728",
+     "evt_01729"
+    ],
+    "show_at_s": 3783,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3783.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9004_player_en",
+    "moment_id": "mom_9004",
+    "match_id": "match_001",
+    "persona": "player",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "Hassan Nour scores!",
+    "body": "Hassan Nour's shot in the 64th minute left the boot at 104 km/h.",
+    "fields": {
+     "player_id": "nil_10",
+     "shot_speed_kmh": 104
+    },
+    "evidence_event_ids": [
+     "evt_01728",
+     "evt_01729"
+    ],
+    "show_at_s": 3783,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3783.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9004_beginner_ar",
+    "moment_id": "mom_9004",
+    "match_id": "match_001",
+    "persona": "beginner",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "هدف! نادي النيل",
+    "body": "حسن نور يسجل في الدقيقة 64. نادي النيل 2-2 دلتا يونايتد",
+    "fields": {},
+    "evidence_event_ids": [
+     "evt_01728",
+     "evt_01729"
+    ],
+    "show_at_s": 3783,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3783.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9004_tactical_ar",
+    "moment_id": "mom_9004",
+    "match_id": "match_001",
+    "persona": "tactical",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "هدف في الدقيقة 64 - نادي النيل",
+    "body": "حسن نور يسجل من مسافة 21 م بعد تمريرة واحدة. سرعة التسديدة 104 كم/س. نادي النيل 2-2 دلتا يونايتد",
+    "fields": {
+     "shot_speed_kmh": 104,
+     "shot_distance_m": 21
+    },
+    "evidence_event_ids": [
+     "evt_01728",
+     "evt_01729"
+    ],
+    "show_at_s": 3783,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3783.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9004_player_ar",
+    "moment_id": "mom_9004",
+    "match_id": "match_001",
+    "persona": "player",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "حسن نور يسجل!",
+    "body": "تسديدة حسن نور في الدقيقة 64 انطلقت بسرعة 104 كم/س.",
+    "fields": {
+     "player_id": "nil_10",
+     "shot_speed_kmh": 104
+    },
+    "evidence_event_ids": [
+     "evt_01728",
+     "evt_01729"
+    ],
+    "show_at_s": 3783,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  }
+ ]
+}

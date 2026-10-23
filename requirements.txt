@@ -1,0 +1,8 @@
+# Backend runtime (Owner A: simulator, streaming, API). Pin exact versions after the first green deploy.
+pydantic>=2.8,<3
+fastapi>=0.115
+uvicorn[standard]>=0.30
+azure-eventhub>=5.11
+azure-identity>=1.17
+aiohttp>=3.9
+python-dotenv>=1.0

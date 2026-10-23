@@ -1,0 +1,200 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "overlay_id": {
+      "title": "Overlay Id",
+      "type": "string"
+    },
+    "moment_id": {
+      "title": "Moment Id",
+      "type": "string"
+    },
+    "match_id": {
+      "title": "Match Id",
+      "type": "string"
+    },
+    "persona": {
+      "enum": [
+        "beginner",
+        "tactical",
+        "player",
+        "club",
+        "metric"
+      ],
+      "title": "Persona",
+      "type": "string"
+    },
+    "language": {
+      "examples": [
+        "en",
+        "ar"
+      ],
+      "pattern": "^[a-z]{2}(-[A-Z]{2})?$",
+      "title": "Language",
+      "type": "string"
+    },
+    "dir": {
+      "enum": [
+        "ltr",
+        "rtl"
+      ],
+      "title": "Dir",
+      "type": "string"
+    },
+    "template_id": {
+      "enum": [
+        "lower_third",
+        "stat_card",
+        "player_tag",
+        "score_bug_note"
+      ],
+      "title": "Template Id",
+      "type": "string"
+    },
+    "slot": {
+      "enum": [
+        "lower_third",
+        "top_left",
+        "top_right",
+        "pitch",
+        "side_panel"
+      ],
+      "title": "Slot",
+      "type": "string"
+    },
+    "priority": {
+      "maximum": 5,
+      "minimum": 1,
+      "title": "Priority",
+      "type": "integer"
+    },
+    "headline": {
+      "maxLength": 60,
+      "title": "Headline",
+      "type": "string"
+    },
+    "body": {
+      "maxLength": 160,
+      "title": "Body",
+      "type": "string"
+    },
+    "fields": {
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "number"
+          },
+          {
+            "type": "string"
+          },
+          {
+            "type": "boolean"
+          }
+        ]
+      },
+      "title": "Fields",
+      "type": "object"
+    },
+    "evidence_event_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Evidence Event Ids",
+      "type": "array"
+    },
+    "show_at_s": {
+      "maximum": 5400,
+      "minimum": 0,
+      "title": "Show At S",
+      "type": "integer"
+    },
+    "ttl_s": {
+      "maximum": 60,
+      "minimum": 1,
+      "title": "Ttl S",
+      "type": "integer"
+    },
+    "verification_status": {
+      "enum": [
+        "approved",
+        "rejected",
+        "fallback"
+      ],
+      "title": "Verification Status",
+      "type": "string"
+    },
+    "source": {
+      "enum": [
+        "agent",
+        "template"
+      ],
+      "title": "Source",
+      "type": "string"
+    },
+    "trace_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Trace Id"
+    },
+    "model": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Model"
+    },
+    "prompt_version": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Prompt Version"
+    }
+  },
+  "required": [
+    "overlay_id",
+    "moment_id",
+    "match_id",
+    "persona",
+    "language",
+    "dir",
+    "template_id",
+    "slot",
+    "priority",
+    "headline",
+    "body",
+    "evidence_event_ids",
+    "show_at_s",
+    "ttl_s",
+    "verification_status",
+    "source"
+  ],
+  "title": "Overlay",
+  "type": "object"
+}

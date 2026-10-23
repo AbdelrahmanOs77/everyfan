@@ -1,0 +1,850 @@
+{
+ "schema_version": "1.0",
+ "match_id": "match_002",
+ "scenario_id": "late_comeback",
+ "fingerprint": "3f059ac068155ae42cf8b2cba85d3d692d7bfa6d51f3d6139b3cd31d2f7992b9",
+ "plugins": [
+  "backend.api.template_plugin:register"
+ ],
+ "created_at": "2026-10-23T17:40:53Z",
+ "counts": {
+  "moment": 4,
+  "overlay": 24
+ },
+ "items": [
+  {
+   "type": "moment",
+   "game_time_s": 1328.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_9001",
+    "match_id": "match_002",
+    "game_clock_s": 1328,
+    "type": "goal",
+    "importance": 1.0,
+    "team_id": "nile_fc",
+    "player_id": "nil_07",
+    "evidence_event_ids": [
+     "evt_00575",
+     "evt_00576"
+    ],
+    "verified_facts": {
+     "scorer_id": "nil_07",
+     "minute": 23,
+     "home_score": 1,
+     "away_score": 0,
+     "passes_in_move": 3,
+     "shot_speed_kmh": 79,
+     "shot_distance_m": 9,
+     "assist_id": "nil_11"
+    },
+    "rule_id": "GOAL_TEMPLATE_V1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1328.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9001_beginner_en",
+    "moment_id": "mom_9001",
+    "match_id": "match_002",
+    "persona": "beginner",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "GOAL! Nile FC",
+    "body": "Seif Wahba scores in the 23rd minute. Nile FC 1-0 Delta United.",
+    "fields": {},
+    "evidence_event_ids": [
+     "evt_00575",
+     "evt_00576"
+    ],
+    "show_at_s": 1328,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1328.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9001_tactical_en",
+    "moment_id": "mom_9001",
+    "match_id": "match_002",
+    "persona": "tactical",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "Goal 23' - Nile FC",
+    "body": "Seif Wahba scores from 9 m after a 3-pass move. Shot speed 79 km/h. Nile FC 1-0 Delta United.",
+    "fields": {
+     "shot_speed_kmh": 79,
+     "shot_distance_m": 9
+    },
+    "evidence_event_ids": [
+     "evt_00575",
+     "evt_00576"
+    ],
+    "show_at_s": 1328,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1328.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9001_player_en",
+    "moment_id": "mom_9001",
+    "match_id": "match_002",
+    "persona": "player",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "Seif Wahba scores!",
+    "body": "Seif Wahba's shot in the 23rd minute left the boot at 79 km/h.",
+    "fields": {
+     "player_id": "nil_07",
+     "shot_speed_kmh": 79
+    },
+    "evidence_event_ids": [
+     "evt_00575",
+     "evt_00576"
+    ],
+    "show_at_s": 1328,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1328.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9001_beginner_ar",
+    "moment_id": "mom_9001",
+    "match_id": "match_002",
+    "persona": "beginner",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "هدف! نادي النيل",
+    "body": "سيف وهبة يسجل في الدقيقة 23. نادي النيل 1-0 دلتا يونايتد",
+    "fields": {},
+    "evidence_event_ids": [
+     "evt_00575",
+     "evt_00576"
+    ],
+    "show_at_s": 1328,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1328.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9001_tactical_ar",
+    "moment_id": "mom_9001",
+    "match_id": "match_002",
+    "persona": "tactical",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "هدف في الدقيقة 23 - نادي النيل",
+    "body": "سيف وهبة يسجل من مسافة 9 م بعد هجمة من 3 تمريرات. سرعة التسديدة 79 كم/س. نادي النيل 1-0 دلتا يونايتد",
+    "fields": {
+     "shot_speed_kmh": 79,
+     "shot_distance_m": 9
+    },
+    "evidence_event_ids": [
+     "evt_00575",
+     "evt_00576"
+    ],
+    "show_at_s": 1328,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1328.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9001_player_ar",
+    "moment_id": "mom_9001",
+    "match_id": "match_002",
+    "persona": "player",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "سيف وهبة يسجل!",
+    "body": "تسديدة سيف وهبة في الدقيقة 23 انطلقت بسرعة 79 كم/س.",
+    "fields": {
+     "player_id": "nil_07",
+     "shot_speed_kmh": 79
+    },
+    "evidence_event_ids": [
+     "evt_00575",
+     "evt_00576"
+    ],
+    "show_at_s": 1328,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3083.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_9002",
+    "match_id": "match_002",
+    "game_clock_s": 3083,
+    "type": "goal",
+    "importance": 1.0,
+    "team_id": "nile_fc",
+    "player_id": "nil_09",
+    "evidence_event_ids": [
+     "evt_01383",
+     "evt_01384"
+    ],
+    "verified_facts": {
+     "scorer_id": "nil_09",
+     "minute": 52,
+     "home_score": 2,
+     "away_score": 0,
+     "passes_in_move": 0,
+     "shot_speed_kmh": 91,
+     "shot_distance_m": 11
+    },
+    "rule_id": "GOAL_TEMPLATE_V1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3083.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9002_beginner_en",
+    "moment_id": "mom_9002",
+    "match_id": "match_002",
+    "persona": "beginner",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "GOAL! Nile FC",
+    "body": "Ramy Galal scores in the 52nd minute. Nile FC 2-0 Delta United.",
+    "fields": {},
+    "evidence_event_ids": [
+     "evt_01383",
+     "evt_01384"
+    ],
+    "show_at_s": 3083,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3083.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9002_tactical_en",
+    "moment_id": "mom_9002",
+    "match_id": "match_002",
+    "persona": "tactical",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "Goal 52' - Nile FC",
+    "body": "Ramy Galal scores from 11 m after winning the ball and driving forward. Shot speed 91 km/h. Nile FC 2-0 Delta United.",
+    "fields": {
+     "shot_speed_kmh": 91,
+     "shot_distance_m": 11
+    },
+    "evidence_event_ids": [
+     "evt_01383",
+     "evt_01384"
+    ],
+    "show_at_s": 3083,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3083.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9002_player_en",
+    "moment_id": "mom_9002",
+    "match_id": "match_002",
+    "persona": "player",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "Ramy Galal scores!",
+    "body": "Ramy Galal's shot in the 52nd minute left the boot at 91 km/h.",
+    "fields": {
+     "player_id": "nil_09",
+     "shot_speed_kmh": 91
+    },
+    "evidence_event_ids": [
+     "evt_01383",
+     "evt_01384"
+    ],
+    "show_at_s": 3083,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3083.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9002_beginner_ar",
+    "moment_id": "mom_9002",
+    "match_id": "match_002",
+    "persona": "beginner",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "هدف! نادي النيل",
+    "body": "رامي جلال يسجل في الدقيقة 52. نادي النيل 2-0 دلتا يونايتد",
+    "fields": {},
+    "evidence_event_ids": [
+     "evt_01383",
+     "evt_01384"
+    ],
+    "show_at_s": 3083,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3083.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9002_tactical_ar",
+    "moment_id": "mom_9002",
+    "match_id": "match_002",
+    "persona": "tactical",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "هدف في الدقيقة 52 - نادي النيل",
+    "body": "رامي جلال يسجل من مسافة 11 م بعد استخلاص الكرة والانطلاق بها. سرعة التسديدة 91 كم/س. نادي النيل 2-0 دلتا يونايتد",
+    "fields": {
+     "shot_speed_kmh": 91,
+     "shot_distance_m": 11
+    },
+    "evidence_event_ids": [
+     "evt_01383",
+     "evt_01384"
+    ],
+    "show_at_s": 3083,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3083.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9002_player_ar",
+    "moment_id": "mom_9002",
+    "match_id": "match_002",
+    "persona": "player",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "رامي جلال يسجل!",
+    "body": "تسديدة رامي جلال في الدقيقة 52 انطلقت بسرعة 91 كم/س.",
+    "fields": {
+     "player_id": "nil_09",
+     "shot_speed_kmh": 91
+    },
+    "evidence_event_ids": [
+     "evt_01383",
+     "evt_01384"
+    ],
+    "show_at_s": 3083,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 4624.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_9003",
+    "match_id": "match_002",
+    "game_clock_s": 4624,
+    "type": "goal",
+    "importance": 1.0,
+    "team_id": "delta_utd",
+    "player_id": "del_09",
+    "evidence_event_ids": [
+     "evt_02067",
+     "evt_02068"
+    ],
+    "verified_facts": {
+     "scorer_id": "del_09",
+     "minute": 78,
+     "home_score": 2,
+     "away_score": 1,
+     "passes_in_move": 5,
+     "shot_speed_kmh": 73,
+     "shot_distance_m": 8
+    },
+    "rule_id": "GOAL_TEMPLATE_V1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 4624.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9003_beginner_en",
+    "moment_id": "mom_9003",
+    "match_id": "match_002",
+    "persona": "beginner",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "GOAL! Delta United",
+    "body": "Adel Ghoneim scores in the 78th minute. Nile FC 2-1 Delta United.",
+    "fields": {},
+    "evidence_event_ids": [
+     "evt_02067",
+     "evt_02068"
+    ],
+    "show_at_s": 4624,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 4624.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9003_tactical_en",
+    "moment_id": "mom_9003",
+    "match_id": "match_002",
+    "persona": "tactical",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "Goal 78' - Delta United",
+    "body": "Adel Ghoneim scores from 8 m after a 5-pass move. Shot speed 73 km/h. Nile FC 2-1 Delta United.",
+    "fields": {
+     "shot_speed_kmh": 73,
+     "shot_distance_m": 8
+    },
+    "evidence_event_ids": [
+     "evt_02067",
+     "evt_02068"
+    ],
+    "show_at_s": 4624,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 4624.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9003_player_en",
+    "moment_id": "mom_9003",
+    "match_id": "match_002",
+    "persona": "player",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "Adel Ghoneim scores!",
+    "body": "Adel Ghoneim's shot in the 78th minute left the boot at 73 km/h.",
+    "fields": {
+     "player_id": "del_09",
+     "shot_speed_kmh": 73
+    },
+    "evidence_event_ids": [
+     "evt_02067",
+     "evt_02068"
+    ],
+    "show_at_s": 4624,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 4624.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9003_beginner_ar",
+    "moment_id": "mom_9003",
+    "match_id": "match_002",
+    "persona": "beginner",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "هدف! دلتا يونايتد",
+    "body": "عادل غنيم يسجل في الدقيقة 78. نادي النيل 2-1 دلتا يونايتد",
+    "fields": {},
+    "evidence_event_ids": [
+     "evt_02067",
+     "evt_02068"
+    ],
+    "show_at_s": 4624,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 4624.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9003_tactical_ar",
+    "moment_id": "mom_9003",
+    "match_id": "match_002",
+    "persona": "tactical",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "هدف في الدقيقة 78 - دلتا يونايتد",
+    "body": "عادل غنيم يسجل من مسافة 8 م بعد هجمة من 5 تمريرات. سرعة التسديدة 73 كم/س. نادي النيل 2-1 دلتا يونايتد",
+    "fields": {
+     "shot_speed_kmh": 73,
+     "shot_distance_m": 8
+    },
+    "evidence_event_ids": [
+     "evt_02067",
+     "evt_02068"
+    ],
+    "show_at_s": 4624,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 4624.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9003_player_ar",
+    "moment_id": "mom_9003",
+    "match_id": "match_002",
+    "persona": "player",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "عادل غنيم يسجل!",
+    "body": "تسديدة عادل غنيم في الدقيقة 78 انطلقت بسرعة 73 كم/س.",
+    "fields": {
+     "player_id": "del_09",
+     "shot_speed_kmh": 73
+    },
+    "evidence_event_ids": [
+     "evt_02067",
+     "evt_02068"
+    ],
+    "show_at_s": 4624,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 5232.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_9004",
+    "match_id": "match_002",
+    "game_clock_s": 5232,
+    "type": "goal",
+    "importance": 1.0,
+    "team_id": "delta_utd",
+    "player_id": "del_11",
+    "evidence_event_ids": [
+     "evt_02360",
+     "evt_02361"
+    ],
+    "verified_facts": {
+     "scorer_id": "del_11",
+     "minute": 88,
+     "home_score": 2,
+     "away_score": 2,
+     "passes_in_move": 6,
+     "shot_speed_kmh": 98,
+     "shot_distance_m": 22,
+     "assist_id": "del_14"
+    },
+    "rule_id": "GOAL_TEMPLATE_V1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 5232.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9004_beginner_en",
+    "moment_id": "mom_9004",
+    "match_id": "match_002",
+    "persona": "beginner",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "GOAL! Delta United",
+    "body": "Yassin Sabry scores in the 88th minute. Nile FC 2-2 Delta United.",
+    "fields": {},
+    "evidence_event_ids": [
+     "evt_02360",
+     "evt_02361"
+    ],
+    "show_at_s": 5232,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 5232.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9004_tactical_en",
+    "moment_id": "mom_9004",
+    "match_id": "match_002",
+    "persona": "tactical",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "Goal 88' - Delta United",
+    "body": "Yassin Sabry scores from 22 m after a 6-pass move. Shot speed 98 km/h. Nile FC 2-2 Delta United.",
+    "fields": {
+     "shot_speed_kmh": 98,
+     "shot_distance_m": 22
+    },
+    "evidence_event_ids": [
+     "evt_02360",
+     "evt_02361"
+    ],
+    "show_at_s": 5232,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 5232.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9004_player_en",
+    "moment_id": "mom_9004",
+    "match_id": "match_002",
+    "persona": "player",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "Yassin Sabry scores!",
+    "body": "Yassin Sabry's shot in the 88th minute left the boot at 98 km/h.",
+    "fields": {
+     "player_id": "del_11",
+     "shot_speed_kmh": 98
+    },
+    "evidence_event_ids": [
+     "evt_02360",
+     "evt_02361"
+    ],
+    "show_at_s": 5232,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 5232.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9004_beginner_ar",
+    "moment_id": "mom_9004",
+    "match_id": "match_002",
+    "persona": "beginner",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "هدف! دلتا يونايتد",
+    "body": "ياسين صبري يسجل في الدقيقة 88. نادي النيل 2-2 دلتا يونايتد",
+    "fields": {},
+    "evidence_event_ids": [
+     "evt_02360",
+     "evt_02361"
+    ],
+    "show_at_s": 5232,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 5232.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9004_tactical_ar",
+    "moment_id": "mom_9004",
+    "match_id": "match_002",
+    "persona": "tactical",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "هدف في الدقيقة 88 - دلتا يونايتد",
+    "body": "ياسين صبري يسجل من مسافة 22 م بعد هجمة من 6 تمريرات. سرعة التسديدة 98 كم/س. نادي النيل 2-2 دلتا يونايتد",
+    "fields": {
+     "shot_speed_kmh": 98,
+     "shot_distance_m": 22
+    },
+    "evidence_event_ids": [
+     "evt_02360",
+     "evt_02361"
+    ],
+    "show_at_s": 5232,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 5232.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9004_player_ar",
+    "moment_id": "mom_9004",
+    "match_id": "match_002",
+    "persona": "player",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "ياسين صبري يسجل!",
+    "body": "تسديدة ياسين صبري في الدقيقة 88 انطلقت بسرعة 98 كم/س.",
+    "fields": {
+     "player_id": "del_11",
+     "shot_speed_kmh": 98
+    },
+    "evidence_event_ids": [
+     "evt_02360",
+     "evt_02361"
+    ],
+    "show_at_s": 5232,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  }
+ ]
+}

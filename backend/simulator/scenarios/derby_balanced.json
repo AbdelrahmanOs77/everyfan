@@ -1,0 +1,22 @@
+{
+  "scenario_id": "derby_balanced",
+  "match_id": "match_001",
+  "title": "Nile FC 2-2 Delta United (demo match)",
+  "description": "Balanced derby. Nile score early, Delta take control mid-first-half and lead after the break, Nile's high press from 54' turns the game and Hassan Nour equalises with a 104 km/h strike. Frantic final ten minutes.",
+  "seed": 2026,
+  "home": {"team_id": "nile_fc", "strength": 0.52, "press_intensity": 0.55, "tempo": 1.0},
+  "away": {"team_id": "delta_utd", "strength": 0.5, "press_intensity": 0.45, "tempo": 1.0},
+  "phases": [
+    {"from_minute": 18, "to_minute": 36, "team_id": "delta_utd", "strength_delta": 0.15, "tempo": 1.15, "label": "Delta take control"},
+    {"from_minute": 54, "to_minute": 67, "team_id": "nile_fc", "strength_delta": 0.12, "press_intensity": 0.92, "tempo": 1.2, "label": "Nile high press"},
+    {"from_minute": 80, "to_minute": 90, "team_id": "nile_fc", "strength_delta": -0.08, "tempo": 1.4, "label": "End to end"},
+    {"from_minute": 80, "to_minute": 90, "team_id": "delta_utd", "strength_delta": -0.08, "tempo": 1.4, "label": "End to end"}
+  ],
+  "forced_events": [
+    {"minute": 12, "type": "goal", "team_id": "nile_fc", "player_id": "nil_09"},
+    {"minute": 31, "type": "goal", "team_id": "delta_utd", "player_id": "del_10"},
+    {"minute": 49, "type": "goal", "team_id": "delta_utd", "player_id": "del_09"},
+    {"minute": 63, "type": "goal", "team_id": "nile_fc", "player_id": "nil_10", "shot_speed_kmh": 104},
+    {"minute": 86, "type": "big_chance", "team_id": "delta_utd", "player_id": "del_09"}
+  ]
+}

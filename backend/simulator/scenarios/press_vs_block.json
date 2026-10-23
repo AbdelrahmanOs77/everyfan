@@ -1,0 +1,14 @@
+{
+  "scenario_id": "press_vs_block",
+  "match_id": "match_004",
+  "title": "Nile FC 1-1 Delta United (high press vs low block)",
+  "description": "Nile press relentlessly and dominate the ball; Delta defend deep and equalise on the counter.",
+  "seed": 404,
+  "home": {"team_id": "nile_fc", "strength": 0.62, "press_intensity": 0.9, "tempo": 1.2},
+  "away": {"team_id": "delta_utd", "strength": 0.44, "press_intensity": 0.15, "tempo": 0.85},
+  "phases": [],
+  "forced_events": [
+    {"minute": 39, "type": "goal", "team_id": "nile_fc", "player_id": "nil_11"},
+    {"minute": 70, "type": "goal", "team_id": "delta_utd", "player_id": "del_07"}
+  ]
+}

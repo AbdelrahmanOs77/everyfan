@@ -1,0 +1,76 @@
+# Builds the backend image, runs it, smoke-tests it, and only then publishes it to GitHub
+# Container Registry (ghcr.io). No Azure Container Registry needed: ACR Tasks are paused for
+# Azure for Students / trial-credit subscriptions.
+name: image
+
+on:
+  push:
+    branches: [main]
+    paths: ["backend/**", "shared/**", "demo/**", "Dockerfile", "requirements.txt", ".github/workflows/image.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build-test-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Image name (ghcr needs lowercase)
+        run: echo "IMAGE=ghcr.io/${GITHUB_REPOSITORY,,}-backend" >> "$GITHUB_ENV"
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Build
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          load: true
+          tags: everyfan-backend:ci
+          build-args: APP_VERSION=${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Run the container
+        run: |
+          docker run -d --name api -p 8000:8000 \
+            -e BROADCAST_DELAY_S=2 -e FRONTEND_ORIGIN=https://smoke.test everyfan-backend:ci
+          for i in $(seq 1 60); do curl -fs localhost:8000/api/health > /dev/null && break; sleep 1; done
+          docker inspect --format '{{.State.Health.Status}} as user {{.Config.User}}' api
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Smoke test the running container
+        run: |
+          pip install -r requirements-dev.txt
+          python -m backend.cli smoke --url http://localhost:8000 --origin https://smoke.test --live
+
+      - name: Container logs
+        if: always()
+        run: docker logs api | tail -100
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish
+        run: |
+          docker tag everyfan-backend:ci "$IMAGE:${GITHUB_SHA::12}"
+          docker tag everyfan-backend:ci "$IMAGE:latest"
+          docker push "$IMAGE:${GITHUB_SHA::12}"
+          docker push "$IMAGE:latest"
+          {
+            echo "### Published"
+            echo "- \`$IMAGE:${GITHUB_SHA::12}\`"
+            echo "- \`$IMAGE:latest\`"
+            echo ""
+            echo "Deploy it: \`./deployment/update-image.ps1 -Image $IMAGE:${GITHUB_SHA::12}\`"
+          } >> "$GITHUB_STEP_SUMMARY"

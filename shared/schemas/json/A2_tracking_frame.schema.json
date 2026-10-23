@@ -1,0 +1,107 @@
+{
+  "$defs": {
+    "BallPosition": {
+      "additionalProperties": false,
+      "properties": {
+        "x_m": {
+          "title": "X M",
+          "type": "number"
+        },
+        "y_m": {
+          "title": "Y M",
+          "type": "number"
+        }
+      },
+      "required": [
+        "x_m",
+        "y_m"
+      ],
+      "title": "BallPosition",
+      "type": "object"
+    },
+    "PlayerPosition": {
+      "additionalProperties": false,
+      "properties": {
+        "player_id": {
+          "title": "Player Id",
+          "type": "string"
+        },
+        "team_id": {
+          "title": "Team Id",
+          "type": "string"
+        },
+        "x_m": {
+          "maximum": 105.0,
+          "minimum": 0.0,
+          "title": "X M",
+          "type": "number"
+        },
+        "y_m": {
+          "maximum": 68.0,
+          "minimum": 0.0,
+          "title": "Y M",
+          "type": "number"
+        }
+      },
+      "required": [
+        "player_id",
+        "team_id",
+        "x_m",
+        "y_m"
+      ],
+      "title": "PlayerPosition",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "match_id": {
+      "title": "Match Id",
+      "type": "string"
+    },
+    "frame": {
+      "minimum": 0,
+      "title": "Frame",
+      "type": "integer"
+    },
+    "game_clock_s": {
+      "maximum": 5400,
+      "minimum": 0.0,
+      "title": "Game Clock S",
+      "type": "number"
+    },
+    "period": {
+      "enum": [
+        1,
+        2
+      ],
+      "title": "Period",
+      "type": "integer"
+    },
+    "ball": {
+      "$ref": "#/$defs/BallPosition"
+    },
+    "players": {
+      "items": {
+        "$ref": "#/$defs/PlayerPosition"
+      },
+      "title": "Players",
+      "type": "array"
+    }
+  },
+  "required": [
+    "match_id",
+    "frame",
+    "game_clock_s",
+    "period",
+    "ball",
+    "players"
+  ],
+  "title": "TrackingFrame",
+  "type": "object"
+}

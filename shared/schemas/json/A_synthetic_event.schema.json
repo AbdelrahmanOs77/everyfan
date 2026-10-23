@@ -1,0 +1,278 @@
+{
+  "additionalProperties": false,
+  "description": "Contract A. Immutable. `seq` is the total order within a match.",
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "event_id": {
+      "examples": [
+        "evt_00042"
+      ],
+      "pattern": "^evt_\\d{5}$",
+      "title": "Event Id",
+      "type": "string"
+    },
+    "match_id": {
+      "title": "Match Id",
+      "type": "string"
+    },
+    "seq": {
+      "minimum": 1,
+      "title": "Seq",
+      "type": "integer"
+    },
+    "game_clock_s": {
+      "maximum": 5400,
+      "minimum": 0,
+      "title": "Game Clock S",
+      "type": "integer"
+    },
+    "game_time_s": {
+      "description": "Precise time; game_clock_s = floor(game_time_s)",
+      "maximum": 5400,
+      "minimum": 0.0,
+      "title": "Game Time S",
+      "type": "number"
+    },
+    "period": {
+      "enum": [
+        1,
+        2
+      ],
+      "title": "Period",
+      "type": "integer"
+    },
+    "type": {
+      "enum": [
+        "period_start",
+        "period_end",
+        "kickoff",
+        "pass",
+        "carry",
+        "recovery",
+        "tackle",
+        "interception",
+        "duel",
+        "pressure",
+        "shot",
+        "save",
+        "goal",
+        "foul",
+        "card",
+        "substitution",
+        "corner",
+        "free_kick",
+        "throw_in",
+        "goal_kick",
+        "possession_change"
+      ],
+      "title": "Type",
+      "type": "string"
+    },
+    "team_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Team Id"
+    },
+    "player_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Player Id"
+    },
+    "receiver_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Receiver Id"
+    },
+    "start_x_m": {
+      "anyOf": [
+        {
+          "maximum": 105.0,
+          "minimum": 0.0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Start X M"
+    },
+    "start_y_m": {
+      "anyOf": [
+        {
+          "maximum": 68.0,
+          "minimum": 0.0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Start Y M"
+    },
+    "end_x_m": {
+      "anyOf": [
+        {
+          "maximum": 105.0,
+          "minimum": 0.0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "End X M"
+    },
+    "end_y_m": {
+      "anyOf": [
+        {
+          "maximum": 68.0,
+          "minimum": 0.0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "End Y M"
+    },
+    "duration_s": {
+      "anyOf": [
+        {
+          "minimum": 0.0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Duration S"
+    },
+    "pressure_level": {
+      "anyOf": [
+        {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Pressure Level"
+    },
+    "outcome": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Outcome"
+    },
+    "ball_path": {
+      "anyOf": [
+        {
+          "items": {
+            "maxItems": 3,
+            "minItems": 3,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "type": "array"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Ball Path"
+    },
+    "related_event_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Related Event Id"
+    },
+    "qualifiers": {
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "integer"
+          },
+          {
+            "type": "number"
+          },
+          {
+            "type": "boolean"
+          }
+        ]
+      },
+      "title": "Qualifiers",
+      "type": "object"
+    }
+  },
+  "required": [
+    "event_id",
+    "match_id",
+    "seq",
+    "game_clock_s",
+    "game_time_s",
+    "period",
+    "type"
+  ],
+  "title": "SyntheticEvent",
+  "type": "object"
+}

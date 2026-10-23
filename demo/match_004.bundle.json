@@ -1,0 +1,434 @@
+{
+ "schema_version": "1.0",
+ "match_id": "match_004",
+ "scenario_id": "press_vs_block",
+ "fingerprint": "cc7481a3eb6bf6791d48a2656171af957b875044ede5d32da80a1dd95e53ff15",
+ "plugins": [
+  "backend.api.template_plugin:register"
+ ],
+ "created_at": "2026-10-23T17:40:55Z",
+ "counts": {
+  "moment": 2,
+  "overlay": 12
+ },
+ "items": [
+  {
+   "type": "moment",
+   "game_time_s": 2342.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_9001",
+    "match_id": "match_004",
+    "game_clock_s": 2342,
+    "type": "goal",
+    "importance": 1.0,
+    "team_id": "nile_fc",
+    "player_id": "nil_11",
+    "evidence_event_ids": [
+     "evt_01199",
+     "evt_01200"
+    ],
+    "verified_facts": {
+     "scorer_id": "nil_11",
+     "minute": 40,
+     "home_score": 1,
+     "away_score": 0,
+     "passes_in_move": 1,
+     "shot_speed_kmh": 88,
+     "shot_distance_m": 11,
+     "assist_id": "nil_07"
+    },
+    "rule_id": "GOAL_TEMPLATE_V1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2342.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9001_beginner_en",
+    "moment_id": "mom_9001",
+    "match_id": "match_004",
+    "persona": "beginner",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "GOAL! Nile FC",
+    "body": "Adham Lotfy scores in the 40th minute. Nile FC 1-0 Delta United.",
+    "fields": {},
+    "evidence_event_ids": [
+     "evt_01199",
+     "evt_01200"
+    ],
+    "show_at_s": 2342,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2342.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9001_tactical_en",
+    "moment_id": "mom_9001",
+    "match_id": "match_004",
+    "persona": "tactical",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "Goal 40' - Nile FC",
+    "body": "Adham Lotfy scores from 11 m after a single pass. Shot speed 88 km/h. Nile FC 1-0 Delta United.",
+    "fields": {
+     "shot_speed_kmh": 88,
+     "shot_distance_m": 11
+    },
+    "evidence_event_ids": [
+     "evt_01199",
+     "evt_01200"
+    ],
+    "show_at_s": 2342,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2342.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9001_player_en",
+    "moment_id": "mom_9001",
+    "match_id": "match_004",
+    "persona": "player",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "Adham Lotfy scores!",
+    "body": "Adham Lotfy's shot in the 40th minute left the boot at 88 km/h.",
+    "fields": {
+     "player_id": "nil_11",
+     "shot_speed_kmh": 88
+    },
+    "evidence_event_ids": [
+     "evt_01199",
+     "evt_01200"
+    ],
+    "show_at_s": 2342,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2342.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9001_beginner_ar",
+    "moment_id": "mom_9001",
+    "match_id": "match_004",
+    "persona": "beginner",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "هدف! نادي النيل",
+    "body": "أدهم لطفي يسجل في الدقيقة 40. نادي النيل 1-0 دلتا يونايتد",
+    "fields": {},
+    "evidence_event_ids": [
+     "evt_01199",
+     "evt_01200"
+    ],
+    "show_at_s": 2342,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2342.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9001_tactical_ar",
+    "moment_id": "mom_9001",
+    "match_id": "match_004",
+    "persona": "tactical",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "هدف في الدقيقة 40 - نادي النيل",
+    "body": "أدهم لطفي يسجل من مسافة 11 م بعد تمريرة واحدة. سرعة التسديدة 88 كم/س. نادي النيل 1-0 دلتا يونايتد",
+    "fields": {
+     "shot_speed_kmh": 88,
+     "shot_distance_m": 11
+    },
+    "evidence_event_ids": [
+     "evt_01199",
+     "evt_01200"
+    ],
+    "show_at_s": 2342,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2342.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9001_player_ar",
+    "moment_id": "mom_9001",
+    "match_id": "match_004",
+    "persona": "player",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "أدهم لطفي يسجل!",
+    "body": "تسديدة أدهم لطفي في الدقيقة 40 انطلقت بسرعة 88 كم/س.",
+    "fields": {
+     "player_id": "nil_11",
+     "shot_speed_kmh": 88
+    },
+    "evidence_event_ids": [
+     "evt_01199",
+     "evt_01200"
+    ],
+    "show_at_s": 2342,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 4209.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_9002",
+    "match_id": "match_004",
+    "game_clock_s": 4209,
+    "type": "goal",
+    "importance": 1.0,
+    "team_id": "delta_utd",
+    "player_id": "del_07",
+    "evidence_event_ids": [
+     "evt_02060",
+     "evt_02061"
+    ],
+    "verified_facts": {
+     "scorer_id": "del_07",
+     "minute": 71,
+     "home_score": 1,
+     "away_score": 1,
+     "passes_in_move": 3,
+     "shot_speed_kmh": 82,
+     "shot_distance_m": 11,
+     "assist_id": "del_14"
+    },
+    "rule_id": "GOAL_TEMPLATE_V1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 4209.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9002_beginner_en",
+    "moment_id": "mom_9002",
+    "match_id": "match_004",
+    "persona": "beginner",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "GOAL! Delta United",
+    "body": "Hamza Yassin scores in the 71st minute. Nile FC 1-1 Delta United.",
+    "fields": {},
+    "evidence_event_ids": [
+     "evt_02060",
+     "evt_02061"
+    ],
+    "show_at_s": 4209,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 4209.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9002_tactical_en",
+    "moment_id": "mom_9002",
+    "match_id": "match_004",
+    "persona": "tactical",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "Goal 71' - Delta United",
+    "body": "Hamza Yassin scores from 11 m after a 3-pass move. Shot speed 82 km/h. Nile FC 1-1 Delta United.",
+    "fields": {
+     "shot_speed_kmh": 82,
+     "shot_distance_m": 11
+    },
+    "evidence_event_ids": [
+     "evt_02060",
+     "evt_02061"
+    ],
+    "show_at_s": 4209,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 4209.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9002_player_en",
+    "moment_id": "mom_9002",
+    "match_id": "match_004",
+    "persona": "player",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "Hamza Yassin scores!",
+    "body": "Hamza Yassin's shot in the 71st minute left the boot at 82 km/h.",
+    "fields": {
+     "player_id": "del_07",
+     "shot_speed_kmh": 82
+    },
+    "evidence_event_ids": [
+     "evt_02060",
+     "evt_02061"
+    ],
+    "show_at_s": 4209,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 4209.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9002_beginner_ar",
+    "moment_id": "mom_9002",
+    "match_id": "match_004",
+    "persona": "beginner",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "هدف! دلتا يونايتد",
+    "body": "حمزة ياسين يسجل في الدقيقة 71. نادي النيل 1-1 دلتا يونايتد",
+    "fields": {},
+    "evidence_event_ids": [
+     "evt_02060",
+     "evt_02061"
+    ],
+    "show_at_s": 4209,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 4209.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9002_tactical_ar",
+    "moment_id": "mom_9002",
+    "match_id": "match_004",
+    "persona": "tactical",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "هدف في الدقيقة 71 - دلتا يونايتد",
+    "body": "حمزة ياسين يسجل من مسافة 11 م بعد هجمة من 3 تمريرات. سرعة التسديدة 82 كم/س. نادي النيل 1-1 دلتا يونايتد",
+    "fields": {
+     "shot_speed_kmh": 82,
+     "shot_distance_m": 11
+    },
+    "evidence_event_ids": [
+     "evt_02060",
+     "evt_02061"
+    ],
+    "show_at_s": 4209,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 4209.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9002_player_ar",
+    "moment_id": "mom_9002",
+    "match_id": "match_004",
+    "persona": "player",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "حمزة ياسين يسجل!",
+    "body": "تسديدة حمزة ياسين في الدقيقة 71 انطلقت بسرعة 82 كم/س.",
+    "fields": {
+     "player_id": "del_07",
+     "shot_speed_kmh": 82
+    },
+    "evidence_event_ids": [
+     "evt_02060",
+     "evt_02061"
+    ],
+    "show_at_s": 4209,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  }
+ ]
+}

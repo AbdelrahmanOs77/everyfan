@@ -1,0 +1,565 @@
+{
+ "schema_version": "1.0",
+ "match_id": "match_003",
+ "scenario_id": "red_card_60",
+ "fingerprint": "fcf8c4ff154ca613cd398990908df2865f711021904defddb76277e9ee2a77a5",
+ "plugins": [
+  "backend.api.template_plugin:register"
+ ],
+ "created_at": "2026-10-23T17:40:57Z",
+ "counts": {
+  "moment": 3,
+  "overlay": 16
+ },
+ "items": [
+  {
+   "type": "moment",
+   "game_time_s": 1690.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_9001",
+    "match_id": "match_003",
+    "game_clock_s": 1690,
+    "type": "goal",
+    "importance": 1.0,
+    "team_id": "nile_fc",
+    "player_id": "nil_10",
+    "evidence_event_ids": [
+     "evt_00797",
+     "evt_00798"
+    ],
+    "verified_facts": {
+     "scorer_id": "nil_10",
+     "minute": 29,
+     "home_score": 1,
+     "away_score": 0,
+     "passes_in_move": 5,
+     "shot_speed_kmh": 76,
+     "shot_distance_m": 13,
+     "assist_id": "nil_07"
+    },
+    "rule_id": "GOAL_TEMPLATE_V1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1690.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9001_beginner_en",
+    "moment_id": "mom_9001",
+    "match_id": "match_003",
+    "persona": "beginner",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "GOAL! Nile FC",
+    "body": "Hassan Nour scores in the 29th minute. Nile FC 1-0 Delta United.",
+    "fields": {},
+    "evidence_event_ids": [
+     "evt_00797",
+     "evt_00798"
+    ],
+    "show_at_s": 1690,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1690.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9001_tactical_en",
+    "moment_id": "mom_9001",
+    "match_id": "match_003",
+    "persona": "tactical",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "Goal 29' - Nile FC",
+    "body": "Hassan Nour scores from 13 m after a 5-pass move. Shot speed 76 km/h. Nile FC 1-0 Delta United.",
+    "fields": {
+     "shot_speed_kmh": 76,
+     "shot_distance_m": 13
+    },
+    "evidence_event_ids": [
+     "evt_00797",
+     "evt_00798"
+    ],
+    "show_at_s": 1690,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1690.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9001_player_en",
+    "moment_id": "mom_9001",
+    "match_id": "match_003",
+    "persona": "player",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "Hassan Nour scores!",
+    "body": "Hassan Nour's shot in the 29th minute left the boot at 76 km/h.",
+    "fields": {
+     "player_id": "nil_10",
+     "shot_speed_kmh": 76
+    },
+    "evidence_event_ids": [
+     "evt_00797",
+     "evt_00798"
+    ],
+    "show_at_s": 1690,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1690.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9001_beginner_ar",
+    "moment_id": "mom_9001",
+    "match_id": "match_003",
+    "persona": "beginner",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "هدف! نادي النيل",
+    "body": "حسن نور يسجل في الدقيقة 29. نادي النيل 1-0 دلتا يونايتد",
+    "fields": {},
+    "evidence_event_ids": [
+     "evt_00797",
+     "evt_00798"
+    ],
+    "show_at_s": 1690,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1690.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9001_tactical_ar",
+    "moment_id": "mom_9001",
+    "match_id": "match_003",
+    "persona": "tactical",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "هدف في الدقيقة 29 - نادي النيل",
+    "body": "حسن نور يسجل من مسافة 13 م بعد هجمة من 5 تمريرات. سرعة التسديدة 76 كم/س. نادي النيل 1-0 دلتا يونايتد",
+    "fields": {
+     "shot_speed_kmh": 76,
+     "shot_distance_m": 13
+    },
+    "evidence_event_ids": [
+     "evt_00797",
+     "evt_00798"
+    ],
+    "show_at_s": 1690,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1690.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9001_player_ar",
+    "moment_id": "mom_9001",
+    "match_id": "match_003",
+    "persona": "player",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "حسن نور يسجل!",
+    "body": "تسديدة حسن نور في الدقيقة 29 انطلقت بسرعة 76 كم/س.",
+    "fields": {
+     "player_id": "nil_10",
+     "shot_speed_kmh": 76
+    },
+    "evidence_event_ids": [
+     "evt_00797",
+     "evt_00798"
+    ],
+    "show_at_s": 1690,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3600.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_9002",
+    "match_id": "match_003",
+    "game_clock_s": 3600,
+    "type": "red_card",
+    "importance": 0.8,
+    "team_id": "nile_fc",
+    "player_id": "nil_04",
+    "evidence_event_ids": [
+     "evt_01719"
+    ],
+    "verified_facts": {
+     "player_id": "nil_04",
+     "minute": 61,
+     "card": "red"
+    },
+    "rule_id": "RED_CARD_TEMPLATE_V1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3600.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9002_beginner_en",
+    "moment_id": "mom_9002",
+    "match_id": "match_003",
+    "persona": "beginner",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 2,
+    "headline": "Red card: Tarek Mansour",
+    "body": "Nile FC are down to 10 players after Tarek Mansour is sent off in the 61st minute.",
+    "fields": {},
+    "evidence_event_ids": [
+     "evt_01719"
+    ],
+    "show_at_s": 3600,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3600.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9002_tactical_en",
+    "moment_id": "mom_9002",
+    "match_id": "match_003",
+    "persona": "tactical",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 2,
+    "headline": "Red card 61' - Nile FC",
+    "body": "Tarek Mansour is sent off. Nile FC must defend the last 30 minutes with 10.",
+    "fields": {},
+    "evidence_event_ids": [
+     "evt_01719"
+    ],
+    "show_at_s": 3600,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3600.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9002_beginner_ar",
+    "moment_id": "mom_9002",
+    "match_id": "match_003",
+    "persona": "beginner",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 2,
+    "headline": "بطاقة حمراء: طارق منصور",
+    "body": "نادي النيل يكمل المباراة بعشرة لاعبين بعد طرد طارق منصور في الدقيقة 61.",
+    "fields": {},
+    "evidence_event_ids": [
+     "evt_01719"
+    ],
+    "show_at_s": 3600,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3600.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9002_tactical_ar",
+    "moment_id": "mom_9002",
+    "match_id": "match_003",
+    "persona": "tactical",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 2,
+    "headline": "طرد في الدقيقة 61 - نادي النيل",
+    "body": "طرد طارق منصور. على نادي النيل الدفاع بعشرة لاعبين في الدقائق المتبقية.",
+    "fields": {},
+    "evidence_event_ids": [
+     "evt_01719"
+    ],
+    "show_at_s": 3600,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 4449.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_9003",
+    "match_id": "match_003",
+    "game_clock_s": 4449,
+    "type": "goal",
+    "importance": 1.0,
+    "team_id": "delta_utd",
+    "player_id": "del_10",
+    "evidence_event_ids": [
+     "evt_02103",
+     "evt_02104"
+    ],
+    "verified_facts": {
+     "scorer_id": "del_10",
+     "minute": 75,
+     "home_score": 1,
+     "away_score": 1,
+     "passes_in_move": 6,
+     "shot_speed_kmh": 73,
+     "shot_distance_m": 13,
+     "assist_id": "del_07"
+    },
+    "rule_id": "GOAL_TEMPLATE_V1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 4449.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9003_beginner_en",
+    "moment_id": "mom_9003",
+    "match_id": "match_003",
+    "persona": "beginner",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "GOAL! Delta United",
+    "body": "Omar Kandil scores in the 75th minute. Nile FC 1-1 Delta United.",
+    "fields": {},
+    "evidence_event_ids": [
+     "evt_02103",
+     "evt_02104"
+    ],
+    "show_at_s": 4449,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 4449.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9003_tactical_en",
+    "moment_id": "mom_9003",
+    "match_id": "match_003",
+    "persona": "tactical",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "Goal 75' - Delta United",
+    "body": "Omar Kandil scores from 13 m after a 6-pass move. Shot speed 73 km/h. Nile FC 1-1 Delta United.",
+    "fields": {
+     "shot_speed_kmh": 73,
+     "shot_distance_m": 13
+    },
+    "evidence_event_ids": [
+     "evt_02103",
+     "evt_02104"
+    ],
+    "show_at_s": 4449,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 4449.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9003_player_en",
+    "moment_id": "mom_9003",
+    "match_id": "match_003",
+    "persona": "player",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "Omar Kandil scores!",
+    "body": "Omar Kandil's shot in the 75th minute left the boot at 73 km/h.",
+    "fields": {
+     "player_id": "del_10",
+     "shot_speed_kmh": 73
+    },
+    "evidence_event_ids": [
+     "evt_02103",
+     "evt_02104"
+    ],
+    "show_at_s": 4449,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 4449.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9003_beginner_ar",
+    "moment_id": "mom_9003",
+    "match_id": "match_003",
+    "persona": "beginner",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "هدف! دلتا يونايتد",
+    "body": "عمر قنديل يسجل في الدقيقة 75. نادي النيل 1-1 دلتا يونايتد",
+    "fields": {},
+    "evidence_event_ids": [
+     "evt_02103",
+     "evt_02104"
+    ],
+    "show_at_s": 4449,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 4449.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9003_tactical_ar",
+    "moment_id": "mom_9003",
+    "match_id": "match_003",
+    "persona": "tactical",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "هدف في الدقيقة 75 - دلتا يونايتد",
+    "body": "عمر قنديل يسجل من مسافة 13 م بعد هجمة من 6 تمريرات. سرعة التسديدة 73 كم/س. نادي النيل 1-1 دلتا يونايتد",
+    "fields": {
+     "shot_speed_kmh": 73,
+     "shot_distance_m": 13
+    },
+    "evidence_event_ids": [
+     "evt_02103",
+     "evt_02104"
+    ],
+    "show_at_s": 4449,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 4449.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_9003_player_ar",
+    "moment_id": "mom_9003",
+    "match_id": "match_003",
+    "persona": "player",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "عمر قنديل يسجل!",
+    "body": "تسديدة عمر قنديل في الدقيقة 75 انطلقت بسرعة 73 كم/س.",
+    "fields": {
+     "player_id": "del_10",
+     "shot_speed_kmh": 73
+    },
+    "evidence_event_ids": [
+     "evt_02103",
+     "evt_02104"
+    ],
+    "show_at_s": 4449,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "prompt_version": "template_v1"
+   }
+  }
+ ]
+}

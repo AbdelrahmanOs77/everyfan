@@ -1,0 +1,11 @@
+[project]
+name = "everyfan"
+version = "0.1.0"
+description = "EveryFan - explainable, personalised match intelligence from synthetic football events"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"

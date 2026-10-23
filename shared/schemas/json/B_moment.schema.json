@@ -1,0 +1,114 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "moment_id": {
+      "pattern": "^mom_\\d{3,}$",
+      "title": "Moment Id",
+      "type": "string"
+    },
+    "match_id": {
+      "title": "Match Id",
+      "type": "string"
+    },
+    "game_clock_s": {
+      "maximum": 5400,
+      "minimum": 0,
+      "title": "Game Clock S",
+      "type": "integer"
+    },
+    "type": {
+      "enum": [
+        "goal",
+        "big_chance",
+        "momentum_shift",
+        "pressing_shift",
+        "control_to_chaos",
+        "rhythm_change",
+        "killer_pass",
+        "player_milestone",
+        "red_card"
+      ],
+      "title": "Type",
+      "type": "string"
+    },
+    "importance": {
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Importance",
+      "type": "number"
+    },
+    "team_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Team Id"
+    },
+    "player_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Player Id"
+    },
+    "evidence_event_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Evidence Event Ids",
+      "type": "array"
+    },
+    "verified_facts": {
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "number"
+          },
+          {
+            "type": "string"
+          },
+          {
+            "type": "boolean"
+          }
+        ]
+      },
+      "title": "Verified Facts",
+      "type": "object"
+    },
+    "rule_id": {
+      "title": "Rule Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "moment_id",
+    "match_id",
+    "game_clock_s",
+    "type",
+    "importance",
+    "evidence_event_ids",
+    "verified_facts",
+    "rule_id"
+  ],
+  "title": "Moment",
+  "type": "object"
+}

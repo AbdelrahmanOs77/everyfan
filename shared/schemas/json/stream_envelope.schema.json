@@ -1,0 +1,853 @@
+{
+  "$defs": {
+    "BallPosition": {
+      "additionalProperties": false,
+      "properties": {
+        "x_m": {
+          "title": "X M",
+          "type": "number"
+        },
+        "y_m": {
+          "title": "Y M",
+          "type": "number"
+        }
+      },
+      "required": [
+        "x_m",
+        "y_m"
+      ],
+      "title": "BallPosition",
+      "type": "object"
+    },
+    "ControlEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "match_id": {
+          "title": "Match Id",
+          "type": "string"
+        },
+        "run_id": {
+          "description": "Unique per replay run; consumers reset state on a new run_id",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "game_time_s": {
+          "description": "Precise game time used for ordering and pacing",
+          "minimum": 0.0,
+          "title": "Game Time S",
+          "type": "number"
+        },
+        "kind": {
+          "const": "control",
+          "default": "control",
+          "title": "Kind",
+          "type": "string"
+        },
+        "payload": {
+          "$ref": "#/$defs/ControlMessage"
+        }
+      },
+      "required": [
+        "match_id",
+        "run_id",
+        "game_time_s",
+        "payload"
+      ],
+      "title": "ControlEnvelope",
+      "type": "object"
+    },
+    "ControlMessage": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "enum": [
+            "run_started",
+            "paused",
+            "resumed",
+            "speed_changed",
+            "run_finished",
+            "seeked"
+          ],
+          "title": "Action",
+          "type": "string"
+        },
+        "speed": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Speed"
+        },
+        "detail": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Detail"
+        }
+      },
+      "required": [
+        "action"
+      ],
+      "title": "ControlMessage",
+      "type": "object"
+    },
+    "EventEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "match_id": {
+          "title": "Match Id",
+          "type": "string"
+        },
+        "run_id": {
+          "description": "Unique per replay run; consumers reset state on a new run_id",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "game_time_s": {
+          "description": "Precise game time used for ordering and pacing",
+          "minimum": 0.0,
+          "title": "Game Time S",
+          "type": "number"
+        },
+        "kind": {
+          "const": "event",
+          "default": "event",
+          "title": "Kind",
+          "type": "string"
+        },
+        "payload": {
+          "$ref": "#/$defs/SyntheticEvent"
+        }
+      },
+      "required": [
+        "match_id",
+        "run_id",
+        "game_time_s",
+        "payload"
+      ],
+      "title": "EventEnvelope",
+      "type": "object"
+    },
+    "MatchMetadata": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "match_id": {
+          "title": "Match Id",
+          "type": "string"
+        },
+        "scenario_id": {
+          "title": "Scenario Id",
+          "type": "string"
+        },
+        "seed": {
+          "title": "Seed",
+          "type": "integer"
+        },
+        "competition": {
+          "title": "Competition",
+          "type": "string"
+        },
+        "venue": {
+          "title": "Venue",
+          "type": "string"
+        },
+        "pitch_length_m": {
+          "default": 105.0,
+          "title": "Pitch Length M",
+          "type": "number"
+        },
+        "pitch_width_m": {
+          "default": 68.0,
+          "title": "Pitch Width M",
+          "type": "number"
+        },
+        "period_starts_s": {
+          "default": [
+            0,
+            2700
+          ],
+          "items": {
+            "type": "integer"
+          },
+          "title": "Period Starts S",
+          "type": "array"
+        },
+        "match_duration_s": {
+          "default": 5400,
+          "title": "Match Duration S",
+          "type": "integer"
+        },
+        "home": {
+          "$ref": "#/$defs/TeamInfo"
+        },
+        "away": {
+          "$ref": "#/$defs/TeamInfo"
+        },
+        "synthetic": {
+          "const": true,
+          "default": true,
+          "title": "Synthetic",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "match_id",
+        "scenario_id",
+        "seed",
+        "competition",
+        "venue",
+        "home",
+        "away"
+      ],
+      "title": "MatchMetadata",
+      "type": "object"
+    },
+    "MetadataEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "match_id": {
+          "title": "Match Id",
+          "type": "string"
+        },
+        "run_id": {
+          "description": "Unique per replay run; consumers reset state on a new run_id",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "game_time_s": {
+          "description": "Precise game time used for ordering and pacing",
+          "minimum": 0.0,
+          "title": "Game Time S",
+          "type": "number"
+        },
+        "kind": {
+          "const": "metadata",
+          "default": "metadata",
+          "title": "Kind",
+          "type": "string"
+        },
+        "payload": {
+          "$ref": "#/$defs/MatchMetadata"
+        }
+      },
+      "required": [
+        "match_id",
+        "run_id",
+        "game_time_s",
+        "payload"
+      ],
+      "title": "MetadataEnvelope",
+      "type": "object"
+    },
+    "PlayerInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "player_id": {
+          "examples": [
+            "nil_07"
+          ],
+          "title": "Player Id",
+          "type": "string"
+        },
+        "team_id": {
+          "title": "Team Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "short_name": {
+          "title": "Short Name",
+          "type": "string"
+        },
+        "name_ar": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Name Ar"
+        },
+        "shirt_number": {
+          "maximum": 99,
+          "minimum": 1,
+          "title": "Shirt Number",
+          "type": "integer"
+        },
+        "position": {
+          "enum": [
+            "GK",
+            "RB",
+            "CB",
+            "LB",
+            "DM",
+            "CM",
+            "AM",
+            "RW",
+            "LW",
+            "ST"
+          ],
+          "title": "Position",
+          "type": "string"
+        },
+        "starter": {
+          "title": "Starter",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "player_id",
+        "team_id",
+        "name",
+        "short_name",
+        "shirt_number",
+        "position",
+        "starter"
+      ],
+      "title": "PlayerInfo",
+      "type": "object"
+    },
+    "PlayerPosition": {
+      "additionalProperties": false,
+      "properties": {
+        "player_id": {
+          "title": "Player Id",
+          "type": "string"
+        },
+        "team_id": {
+          "title": "Team Id",
+          "type": "string"
+        },
+        "x_m": {
+          "maximum": 105.0,
+          "minimum": 0.0,
+          "title": "X M",
+          "type": "number"
+        },
+        "y_m": {
+          "maximum": 68.0,
+          "minimum": 0.0,
+          "title": "Y M",
+          "type": "number"
+        }
+      },
+      "required": [
+        "player_id",
+        "team_id",
+        "x_m",
+        "y_m"
+      ],
+      "title": "PlayerPosition",
+      "type": "object"
+    },
+    "SyntheticEvent": {
+      "additionalProperties": false,
+      "description": "Contract A. Immutable. `seq` is the total order within a match.",
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "event_id": {
+          "examples": [
+            "evt_00042"
+          ],
+          "pattern": "^evt_\\d{5}$",
+          "title": "Event Id",
+          "type": "string"
+        },
+        "match_id": {
+          "title": "Match Id",
+          "type": "string"
+        },
+        "seq": {
+          "minimum": 1,
+          "title": "Seq",
+          "type": "integer"
+        },
+        "game_clock_s": {
+          "maximum": 5400,
+          "minimum": 0,
+          "title": "Game Clock S",
+          "type": "integer"
+        },
+        "game_time_s": {
+          "description": "Precise time; game_clock_s = floor(game_time_s)",
+          "maximum": 5400,
+          "minimum": 0.0,
+          "title": "Game Time S",
+          "type": "number"
+        },
+        "period": {
+          "enum": [
+            1,
+            2
+          ],
+          "title": "Period",
+          "type": "integer"
+        },
+        "type": {
+          "enum": [
+            "period_start",
+            "period_end",
+            "kickoff",
+            "pass",
+            "carry",
+            "recovery",
+            "tackle",
+            "interception",
+            "duel",
+            "pressure",
+            "shot",
+            "save",
+            "goal",
+            "foul",
+            "card",
+            "substitution",
+            "corner",
+            "free_kick",
+            "throw_in",
+            "goal_kick",
+            "possession_change"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "team_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Team Id"
+        },
+        "player_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Player Id"
+        },
+        "receiver_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Receiver Id"
+        },
+        "start_x_m": {
+          "anyOf": [
+            {
+              "maximum": 105.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Start X M"
+        },
+        "start_y_m": {
+          "anyOf": [
+            {
+              "maximum": 68.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Start Y M"
+        },
+        "end_x_m": {
+          "anyOf": [
+            {
+              "maximum": 105.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "End X M"
+        },
+        "end_y_m": {
+          "anyOf": [
+            {
+              "maximum": 68.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "End Y M"
+        },
+        "duration_s": {
+          "anyOf": [
+            {
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Duration S"
+        },
+        "pressure_level": {
+          "anyOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pressure Level"
+        },
+        "outcome": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Outcome"
+        },
+        "ball_path": {
+          "anyOf": [
+            {
+              "items": {
+                "maxItems": 3,
+                "minItems": 3,
+                "prefixItems": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ],
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ball Path"
+        },
+        "related_event_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Related Event Id"
+        },
+        "qualifiers": {
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "boolean"
+              }
+            ]
+          },
+          "title": "Qualifiers",
+          "type": "object"
+        }
+      },
+      "required": [
+        "event_id",
+        "match_id",
+        "seq",
+        "game_clock_s",
+        "game_time_s",
+        "period",
+        "type"
+      ],
+      "title": "SyntheticEvent",
+      "type": "object"
+    },
+    "TeamInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "team_id": {
+          "examples": [
+            "nile_fc"
+          ],
+          "title": "Team Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "short_name": {
+          "maxLength": 4,
+          "title": "Short Name",
+          "type": "string"
+        },
+        "name_ar": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Name Ar"
+        },
+        "side": {
+          "enum": [
+            "home",
+            "away"
+          ],
+          "title": "Side",
+          "type": "string"
+        },
+        "formation": {
+          "examples": [
+            "4-3-3"
+          ],
+          "title": "Formation",
+          "type": "string"
+        },
+        "primary_color": {
+          "pattern": "^#[0-9a-fA-F]{6}$",
+          "title": "Primary Color",
+          "type": "string"
+        },
+        "secondary_color": {
+          "pattern": "^#[0-9a-fA-F]{6}$",
+          "title": "Secondary Color",
+          "type": "string"
+        },
+        "players": {
+          "items": {
+            "$ref": "#/$defs/PlayerInfo"
+          },
+          "title": "Players",
+          "type": "array"
+        }
+      },
+      "required": [
+        "team_id",
+        "name",
+        "short_name",
+        "side",
+        "formation",
+        "primary_color",
+        "secondary_color",
+        "players"
+      ],
+      "title": "TeamInfo",
+      "type": "object"
+    },
+    "TrackingEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "match_id": {
+          "title": "Match Id",
+          "type": "string"
+        },
+        "run_id": {
+          "description": "Unique per replay run; consumers reset state on a new run_id",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "game_time_s": {
+          "description": "Precise game time used for ordering and pacing",
+          "minimum": 0.0,
+          "title": "Game Time S",
+          "type": "number"
+        },
+        "kind": {
+          "const": "tracking",
+          "default": "tracking",
+          "title": "Kind",
+          "type": "string"
+        },
+        "payload": {
+          "$ref": "#/$defs/TrackingFrame"
+        }
+      },
+      "required": [
+        "match_id",
+        "run_id",
+        "game_time_s",
+        "payload"
+      ],
+      "title": "TrackingEnvelope",
+      "type": "object"
+    },
+    "TrackingFrame": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "match_id": {
+          "title": "Match Id",
+          "type": "string"
+        },
+        "frame": {
+          "minimum": 0,
+          "title": "Frame",
+          "type": "integer"
+        },
+        "game_clock_s": {
+          "maximum": 5400,
+          "minimum": 0.0,
+          "title": "Game Clock S",
+          "type": "number"
+        },
+        "period": {
+          "enum": [
+            1,
+            2
+          ],
+          "title": "Period",
+          "type": "integer"
+        },
+        "ball": {
+          "$ref": "#/$defs/BallPosition"
+        },
+        "players": {
+          "items": {
+            "$ref": "#/$defs/PlayerPosition"
+          },
+          "title": "Players",
+          "type": "array"
+        }
+      },
+      "required": [
+        "match_id",
+        "frame",
+        "game_clock_s",
+        "period",
+        "ball",
+        "players"
+      ],
+      "title": "TrackingFrame",
+      "type": "object"
+    }
+  },
+  "discriminator": {
+    "mapping": {
+      "control": "#/$defs/ControlEnvelope",
+      "event": "#/$defs/EventEnvelope",
+      "metadata": "#/$defs/MetadataEnvelope",
+      "tracking": "#/$defs/TrackingEnvelope"
+    },
+    "propertyName": "kind"
+  },
+  "oneOf": [
+    {
+      "$ref": "#/$defs/MetadataEnvelope"
+    },
+    {
+      "$ref": "#/$defs/EventEnvelope"
+    },
+    {
+      "$ref": "#/$defs/TrackingEnvelope"
+    },
+    {
+      "$ref": "#/$defs/ControlEnvelope"
+    }
+  ]
+}

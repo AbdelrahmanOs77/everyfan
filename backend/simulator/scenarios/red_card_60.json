@@ -1,0 +1,17 @@
+{
+  "scenario_id": "red_card_60",
+  "match_id": "match_003",
+  "title": "Nile FC 1-1 Delta United (red card at 60')",
+  "description": "Nile lead through a first-half goal, lose centre-back Tarek Mansour to a red card at 60' and Delta take control and equalise.",
+  "seed": 60,
+  "home": {"team_id": "nile_fc", "strength": 0.55, "press_intensity": 0.6, "tempo": 1.0},
+  "away": {"team_id": "delta_utd", "strength": 0.5, "press_intensity": 0.5, "tempo": 1.0},
+  "phases": [
+    {"from_minute": 60, "to_minute": 90, "team_id": "delta_utd", "strength_delta": 0.08, "press_intensity": 0.75, "tempo": 1.15, "label": "Delta press the extra man"}
+  ],
+  "forced_events": [
+    {"minute": 28, "type": "goal", "team_id": "nile_fc", "player_id": "nil_10"},
+    {"minute": 60, "type": "red_card", "team_id": "nile_fc", "player_id": "nil_04"},
+    {"minute": 74, "type": "goal", "team_id": "delta_utd", "player_id": "del_10"}
+  ]
+}

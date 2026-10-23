@@ -1,0 +1,244 @@
+{
+  "$defs": {
+    "ForcedEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "minute": {
+          "maximum": 88.5,
+          "minimum": 1,
+          "title": "Minute",
+          "type": "number"
+        },
+        "type": {
+          "enum": [
+            "goal",
+            "red_card",
+            "yellow_card",
+            "big_chance"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "team_id": {
+          "title": "Team Id",
+          "type": "string"
+        },
+        "player_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Player Id"
+        },
+        "shot_speed_kmh": {
+          "anyOf": [
+            {
+              "maximum": 125,
+              "minimum": 40,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Shot Speed Kmh"
+        }
+      },
+      "required": [
+        "minute",
+        "type",
+        "team_id"
+      ],
+      "title": "ForcedEvent",
+      "type": "object"
+    },
+    "Phase": {
+      "additionalProperties": false,
+      "description": "A window where one team's parameters change (momentum swings, press spells).",
+      "properties": {
+        "from_minute": {
+          "maximum": 90,
+          "minimum": 0,
+          "title": "From Minute",
+          "type": "number"
+        },
+        "to_minute": {
+          "maximum": 90,
+          "minimum": 0,
+          "title": "To Minute",
+          "type": "number"
+        },
+        "team_id": {
+          "title": "Team Id",
+          "type": "string"
+        },
+        "strength_delta": {
+          "default": 0.0,
+          "maximum": 0.5,
+          "minimum": -0.5,
+          "title": "Strength Delta",
+          "type": "number"
+        },
+        "press_intensity": {
+          "anyOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Press Intensity"
+        },
+        "tempo": {
+          "anyOf": [
+            {
+              "maximum": 2.0,
+              "minimum": 0.5,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tempo"
+        },
+        "label": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Label"
+        }
+      },
+      "required": [
+        "from_minute",
+        "to_minute",
+        "team_id"
+      ],
+      "title": "Phase",
+      "type": "object"
+    },
+    "TeamParams": {
+      "additionalProperties": false,
+      "properties": {
+        "team_id": {
+          "title": "Team Id",
+          "type": "string"
+        },
+        "strength": {
+          "default": 0.5,
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Strength",
+          "type": "number"
+        },
+        "press_intensity": {
+          "default": 0.5,
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Press Intensity",
+          "type": "number"
+        },
+        "tempo": {
+          "default": 1.0,
+          "maximum": 2.0,
+          "minimum": 0.5,
+          "title": "Tempo",
+          "type": "number"
+        }
+      },
+      "required": [
+        "team_id"
+      ],
+      "title": "TeamParams",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "scenario_id": {
+      "pattern": "^[a-z0-9_]+$",
+      "title": "Scenario Id",
+      "type": "string"
+    },
+    "match_id": {
+      "title": "Match Id",
+      "type": "string"
+    },
+    "title": {
+      "title": "Title",
+      "type": "string"
+    },
+    "description": {
+      "title": "Description",
+      "type": "string"
+    },
+    "seed": {
+      "minimum": 0,
+      "title": "Seed",
+      "type": "integer"
+    },
+    "home": {
+      "$ref": "#/$defs/TeamParams"
+    },
+    "away": {
+      "$ref": "#/$defs/TeamParams"
+    },
+    "phases": {
+      "items": {
+        "$ref": "#/$defs/Phase"
+      },
+      "title": "Phases",
+      "type": "array"
+    },
+    "forced_events": {
+      "items": {
+        "$ref": "#/$defs/ForcedEvent"
+      },
+      "title": "Forced Events",
+      "type": "array"
+    },
+    "allow_organic_goals": {
+      "default": false,
+      "title": "Allow Organic Goals",
+      "type": "boolean"
+    },
+    "substitutions": {
+      "default": true,
+      "title": "Substitutions",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "scenario_id",
+    "match_id",
+    "title",
+    "description",
+    "seed",
+    "home",
+    "away"
+  ],
+  "title": "ScenarioSpec",
+  "type": "object"
+}
