@@ -1,0 +1,100 @@
+# EveryFan match intelligence: every formula weight and threshold (Owner B).
+# Published in docs/OWNER_B.md so judges can check every number on screen.
+# Calibrated on the demo match (match_001): Nile PPDA 5.3 / 1.7 / 2.2 and possession 38% / 70% / 45%
+# in the 18-36', 54-67' and 80-90' windows reproduce the measured table in docs/OWNER_A.md exactly.
+
+version: analytics_v1
+
+pitch:
+  length_m: 105.0
+  width_m: 68.0
+  box_depth_m: 16.5          # penalty area depth
+  box_half_width_m: 20.16    # penalty area is 40.32 m wide, centred on y = 34
+  final_third_m: 35.0        # attacking third = last 35 m before the opponent's goal
+
+rolling_window_s: 300        # "last 5 minutes" for every rolling metric
+
+metrics:
+  pass_difficulty:           # 0-1 heuristic, not xPass
+    w_distance: 0.35
+    distance_norm_m: 40
+    w_pressure: 0.35
+    w_forward: 0.20
+    forward_norm_m: 30
+    w_final_third: 0.10
+  player_speed:
+    frame_dt_s: 0.5          # tracking is 2 Hz
+    smoothing_frames: 3      # moving average of instantaneous speeds
+  possession:
+    # Time is credited to the team in possession since the last possession_change / kickoff.
+    method: time_since_possession_change
+  control_index:             # 0-100, per team
+    w_pass_accuracy: 0.4
+    w_passes_per_possession: 0.3
+    passes_per_possession_norm: 8
+    w_possession: 0.3
+  chaos_index:               # 0-100, whole match
+    w_turnovers: 0.4
+    turnovers_per_min_norm: 6        # plan started at 3; 3.8/min is this simulator's average, so 3 saturated
+    w_short_possessions: 0.4
+    short_possession_max_passes: 2
+    w_duels_fouls: 0.2
+    duels_fouls_per_min_norm: 2
+  rhythm:
+    # label from passes per minute (both teams) in the rolling window
+    slow_below_passes_per_min: 9.5
+    frantic_above_passes_per_min: 15.0
+  ppda:                      # opponent passes in their own 60% / our tackles + interceptions + fouls there
+    zone_share: 0.6
+    defensive_actions: [tackle, interception, foul]
+  momentum:
+    decay_s: 120             # weight e^(-dt / 120 s)
+    weights:
+      shot: 3
+      box_entry: 2
+      final_third_pass: 1
+      corner: 1
+
+badges:
+  sprint_kmh: 30             # smoothed top speed above 30 km/h -> "Sprint"
+  rocket_kmh: 100            # shot above 100 km/h -> "Rocket"
+  distance_step_km: 2        # every 2 km covered -> distance badge
+  killer_pass_difficulty: 0.75
+
+moments:
+  cooldown_s: 90             # same moment type at most once per 90 match-seconds (goals and red cards exempt)
+  min_importance_for_agents: 0.5   # below this, moments are template-only player tags
+  min_clock_s: 300           # rolling-window rules wait for a full window
+  goal:
+    importance: 1.0
+  red_card:
+    importance: 0.9
+  big_chance:
+    # Unblocked shot from inside the box, close range, under low pressure; or an on-target rocket.
+    # Plan started at pressure < 0.4; the scripted 86:07 chance is a saved 12 m shot under 0.48.
+    importance: 0.8
+    max_pressure_in_box: 0.5
+    max_distance_m: 13
+    on_target_speed_kmh: 100
+  momentum_shift:
+    importance: 0.7
+    min_gap: 8.0             # plan started at 3; one shot + one box entry is already 5 on this scale
+  pressing_shift:
+    importance: 0.7
+    ratio: 0.6               # PPDA last 5 min < 0.6 x match PPDA
+    rearm_ratio: 0.8         # must recover above 0.8 x match PPDA before it can fire again
+    min_clock_s: 900         # match PPDA needs a baseline first
+    min_defensive_actions: 5
+    hold_s: 60               # condition must hold for a minute (filters one-off blips)
+  control_to_chaos:
+    importance: 0.6
+    threshold: 65            # plan started at 60; this simulator averages ~55
+    rearm_below: 50
+  rhythm_change:
+    importance: 0.5
+    hold_s: 120              # new label must hold for 2 minutes
+  killer_pass:
+    importance: 0.6
+    shot_within_s: 10
+  player_milestone:
+    importance: 0.4

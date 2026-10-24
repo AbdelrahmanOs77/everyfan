@@ -4,14 +4,1256 @@
  "scenario_id": "late_comeback",
  "fingerprint": "3f059ac068155ae42cf8b2cba85d3d692d7bfa6d51f3d6139b3cd31d2f7992b9",
  "plugins": [
-  "backend.api.template_plugin:register"
+  "backend.api.template_plugin:register",
+  "backend.analytics.plugin:register"
  ],
- "created_at": "2026-10-23T17:40:53Z",
+ "created_at": "2026-10-23T23:41:00Z",
  "counts": {
-  "moment": 4,
+  "moment": 196,
   "overlay": 24
  },
  "items": [
+  {
+   "type": "moment",
+   "game_time_s": 3.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5001",
+    "match_id": "match_002",
+    "game_clock_s": 3,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_07",
+    "evidence_event_ids": [
+     "evt_00003"
+    ],
+    "verified_facts": {
+     "badge": "sprint",
+     "player_id": "nil_07",
+     "minute": 1,
+     "frame": 6,
+     "top_speed_kmh": 32.6
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5002",
+    "match_id": "match_002",
+    "game_clock_s": 3,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_09",
+    "evidence_event_ids": [
+     "evt_00003"
+    ],
+    "verified_facts": {
+     "badge": "sprint",
+     "player_id": "nil_09",
+     "minute": 1,
+     "frame": 6,
+     "top_speed_kmh": 31.6
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5003",
+    "match_id": "match_002",
+    "game_clock_s": 3,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_11",
+    "evidence_event_ids": [
+     "evt_00003"
+    ],
+    "verified_facts": {
+     "badge": "sprint",
+     "player_id": "nil_11",
+     "minute": 1,
+     "frame": 6,
+     "top_speed_kmh": 32.4
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 34.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5004",
+    "match_id": "match_002",
+    "game_clock_s": 34,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_07",
+    "evidence_event_ids": [
+     "evt_00018"
+    ],
+    "verified_facts": {
+     "badge": "sprint",
+     "player_id": "del_07",
+     "minute": 1,
+     "frame": 69,
+     "top_speed_kmh": 30.2
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 38.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5005",
+    "match_id": "match_002",
+    "game_clock_s": 38,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_09",
+    "evidence_event_ids": [
+     "evt_00022"
+    ],
+    "verified_facts": {
+     "badge": "sprint",
+     "player_id": "del_09",
+     "minute": 1,
+     "frame": 76,
+     "top_speed_kmh": 30.2
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 38.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5006",
+    "match_id": "match_002",
+    "game_clock_s": 38,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_11",
+    "evidence_event_ids": [
+     "evt_00022"
+    ],
+    "verified_facts": {
+     "badge": "sprint",
+     "player_id": "del_11",
+     "minute": 1,
+     "frame": 76,
+     "top_speed_kmh": 31.9
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 38.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5007",
+    "match_id": "match_002",
+    "game_clock_s": 38,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_03",
+    "evidence_event_ids": [
+     "evt_00022"
+    ],
+    "verified_facts": {
+     "badge": "sprint",
+     "player_id": "nil_03",
+     "minute": 1,
+     "frame": 76,
+     "top_speed_kmh": 31.5
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 38.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5008",
+    "match_id": "match_002",
+    "game_clock_s": 38,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_04",
+    "evidence_event_ids": [
+     "evt_00022"
+    ],
+    "verified_facts": {
+     "badge": "sprint",
+     "player_id": "nil_04",
+     "minute": 1,
+     "frame": 76,
+     "top_speed_kmh": 30.1
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 38.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5009",
+    "match_id": "match_002",
+    "game_clock_s": 38,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_05",
+    "evidence_event_ids": [
+     "evt_00022"
+    ],
+    "verified_facts": {
+     "badge": "sprint",
+     "player_id": "nil_05",
+     "minute": 1,
+     "frame": 76,
+     "top_speed_kmh": 30.6
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 38.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5010",
+    "match_id": "match_002",
+    "game_clock_s": 38,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_10",
+    "evidence_event_ids": [
+     "evt_00022"
+    ],
+    "verified_facts": {
+     "badge": "sprint",
+     "player_id": "nil_10",
+     "minute": 1,
+     "frame": 76,
+     "top_speed_kmh": 31.0
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 38.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5011",
+    "match_id": "match_002",
+    "game_clock_s": 38,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_02",
+    "evidence_event_ids": [
+     "evt_00022"
+    ],
+    "verified_facts": {
+     "badge": "sprint",
+     "player_id": "del_02",
+     "minute": 1,
+     "frame": 77,
+     "top_speed_kmh": 31.0
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 38.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5012",
+    "match_id": "match_002",
+    "game_clock_s": 38,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_03",
+    "evidence_event_ids": [
+     "evt_00022"
+    ],
+    "verified_facts": {
+     "badge": "sprint",
+     "player_id": "del_03",
+     "minute": 1,
+     "frame": 77,
+     "top_speed_kmh": 32.2
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 38.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5013",
+    "match_id": "match_002",
+    "game_clock_s": 38,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_05",
+    "evidence_event_ids": [
+     "evt_00008"
+    ],
+    "verified_facts": {
+     "badge": "sprint",
+     "player_id": "del_05",
+     "minute": 1,
+     "frame": 77,
+     "top_speed_kmh": 31.0
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 38.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5014",
+    "match_id": "match_002",
+    "game_clock_s": 38,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_10",
+    "evidence_event_ids": [
+     "evt_00022"
+    ],
+    "verified_facts": {
+     "badge": "sprint",
+     "player_id": "del_10",
+     "minute": 1,
+     "frame": 77,
+     "top_speed_kmh": 31.1
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 38.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5015",
+    "match_id": "match_002",
+    "game_clock_s": 38,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_02",
+    "evidence_event_ids": [
+     "evt_00022"
+    ],
+    "verified_facts": {
+     "badge": "sprint",
+     "player_id": "nil_02",
+     "minute": 1,
+     "frame": 77,
+     "top_speed_kmh": 32.5
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 38.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_001",
+    "match_id": "match_002",
+    "game_clock_s": 38,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_08",
+    "evidence_event_ids": [
+     "evt_00024"
+    ],
+    "verified_facts": {
+     "badge": "killer_pass",
+     "player_id": "del_08",
+     "minute": 1,
+     "pass_difficulty": 0.87,
+     "pass_distance_m": 49.5
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 39.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5016",
+    "match_id": "match_002",
+    "game_clock_s": 39,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_06",
+    "evidence_event_ids": [
+     "evt_00014"
+    ],
+    "verified_facts": {
+     "badge": "sprint",
+     "player_id": "del_06",
+     "minute": 1,
+     "frame": 78,
+     "top_speed_kmh": 30.2
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 39.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5017",
+    "match_id": "match_002",
+    "game_clock_s": 39,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_08",
+    "evidence_event_ids": [
+     "evt_00024"
+    ],
+    "verified_facts": {
+     "badge": "sprint",
+     "player_id": "del_08",
+     "minute": 1,
+     "frame": 78,
+     "top_speed_kmh": 30.6
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 39.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5018",
+    "match_id": "match_002",
+    "game_clock_s": 39,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_04",
+    "evidence_event_ids": [
+     "evt_00022"
+    ],
+    "verified_facts": {
+     "badge": "sprint",
+     "player_id": "del_04",
+     "minute": 1,
+     "frame": 79,
+     "top_speed_kmh": 30.8
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 39.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5019",
+    "match_id": "match_002",
+    "game_clock_s": 39,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_08",
+    "evidence_event_ids": [
+     "evt_00004"
+    ],
+    "verified_facts": {
+     "badge": "sprint",
+     "player_id": "nil_08",
+     "minute": 1,
+     "frame": 79,
+     "top_speed_kmh": 30.9
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 137.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_002",
+    "match_id": "match_002",
+    "game_clock_s": 137,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_10",
+    "evidence_event_ids": [
+     "evt_00072"
+    ],
+    "verified_facts": {
+     "badge": "killer_pass",
+     "player_id": "nil_10",
+     "minute": 3,
+     "pass_difficulty": 0.75,
+     "pass_distance_m": 35.5
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 612.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_003",
+    "match_id": "match_002",
+    "game_clock_s": 612,
+    "type": "big_chance",
+    "importance": 0.8,
+    "team_id": "delta_utd",
+    "player_id": "del_08",
+    "evidence_event_ids": [
+     "evt_00269",
+     "evt_00270"
+    ],
+    "verified_facts": {
+     "shooter_id": "del_08",
+     "minute": 11,
+     "shot_speed_kmh": 55,
+     "shot_distance_m": 9,
+     "pressure": 0.4,
+     "outcome": "saved",
+     "in_box": true
+    },
+    "rule_id": "BIG_CHANCE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 613.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5020",
+    "match_id": "match_002",
+    "game_clock_s": 613,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_06",
+    "evidence_event_ids": [
+     "evt_00261"
+    ],
+    "verified_facts": {
+     "badge": "sprint",
+     "player_id": "nil_06",
+     "minute": 11,
+     "frame": 1227,
+     "top_speed_kmh": 30.4
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 626.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_004",
+    "match_id": "match_002",
+    "game_clock_s": 626,
+    "type": "momentum_shift",
+    "importance": 0.7,
+    "team_id": "delta_utd",
+    "evidence_event_ids": [
+     "evt_00267",
+     "evt_00268",
+     "evt_00269",
+     "evt_00270",
+     "evt_00280"
+    ],
+    "verified_facts": {
+     "momentum": 14.1,
+     "momentum_opponent": 4.9,
+     "momentum_gap": 9.2,
+     "shots_last_5": 3,
+     "shots_last_5_opponent": 1,
+     "possession_pct_last_5": 40.8,
+     "minute": 11
+    },
+    "rule_id": "MOMENTUM_SHIFT_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 791.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5021",
+    "match_id": "match_002",
+    "game_clock_s": 791,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_10",
+    "evidence_event_ids": [
+     "evt_00331"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_10",
+     "minute": 14,
+     "frame": 1583,
+     "distance_km": 2
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 800.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5022",
+    "match_id": "match_002",
+    "game_clock_s": 800,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_11",
+    "evidence_event_ids": [
+     "evt_00345"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_11",
+     "minute": 14,
+     "frame": 1600,
+     "distance_km": 2
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 808.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5023",
+    "match_id": "match_002",
+    "game_clock_s": 808,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_07",
+    "evidence_event_ids": [
+     "evt_00298"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_07",
+     "minute": 14,
+     "frame": 1617,
+     "distance_km": 2
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 836.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5024",
+    "match_id": "match_002",
+    "game_clock_s": 836,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_08",
+    "evidence_event_ids": [
+     "evt_00378"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_08",
+     "minute": 14,
+     "frame": 1672,
+     "distance_km": 2
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 845.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5025",
+    "match_id": "match_002",
+    "game_clock_s": 845,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_06",
+    "evidence_event_ids": [
+     "evt_00389"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_06",
+     "minute": 15,
+     "frame": 1690,
+     "distance_km": 2
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 856.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5026",
+    "match_id": "match_002",
+    "game_clock_s": 856,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_03",
+    "evidence_event_ids": [
+     "evt_00310"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_03",
+     "minute": 15,
+     "frame": 1713,
+     "distance_km": 2
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 858.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5027",
+    "match_id": "match_002",
+    "game_clock_s": 858,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_02",
+    "evidence_event_ids": [
+     "evt_00248"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_02",
+     "minute": 15,
+     "frame": 1716,
+     "distance_km": 2
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 878.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_005",
+    "match_id": "match_002",
+    "game_clock_s": 878,
+    "type": "momentum_shift",
+    "importance": 0.7,
+    "team_id": "nile_fc",
+    "evidence_event_ids": [
+     "evt_00383",
+     "evt_00386",
+     "evt_00387",
+     "evt_00395",
+     "evt_00396"
+    ],
+    "verified_facts": {
+     "momentum": 11.7,
+     "momentum_opponent": 3.5,
+     "momentum_gap": 8.2,
+     "shots_last_5": 0,
+     "shots_last_5_opponent": 3,
+     "possession_pct_last_5": 56.7,
+     "minute": 15
+    },
+    "rule_id": "MOMENTUM_SHIFT_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 879.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5028",
+    "match_id": "match_002",
+    "game_clock_s": 879,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_05",
+    "evidence_event_ids": [
+     "evt_00362"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_05",
+     "minute": 15,
+     "frame": 1758,
+     "distance_km": 2
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 881.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5029",
+    "match_id": "match_002",
+    "game_clock_s": 881,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_02",
+    "evidence_event_ids": [
+     "evt_00339"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_02",
+     "minute": 15,
+     "frame": 1763,
+     "distance_km": 2
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 881.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5030",
+    "match_id": "match_002",
+    "game_clock_s": 881,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_03",
+    "evidence_event_ids": [
+     "evt_00395"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_03",
+     "minute": 15,
+     "frame": 1763,
+     "distance_km": 2
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 883.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5031",
+    "match_id": "match_002",
+    "game_clock_s": 883,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_08",
+    "evidence_event_ids": [
+     "evt_00364"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_08",
+     "minute": 15,
+     "frame": 1767,
+     "distance_km": 2
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 885.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5032",
+    "match_id": "match_002",
+    "game_clock_s": 885,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_10",
+    "evidence_event_ids": [
+     "evt_00386"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_10",
+     "minute": 15,
+     "frame": 1770,
+     "distance_km": 2
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 885.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5033",
+    "match_id": "match_002",
+    "game_clock_s": 885,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_11",
+    "evidence_event_ids": [
+     "evt_00387"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_11",
+     "minute": 15,
+     "frame": 1770,
+     "distance_km": 2
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 888.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5034",
+    "match_id": "match_002",
+    "game_clock_s": 888,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_09",
+    "evidence_event_ids": [
+     "evt_00353"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_09",
+     "minute": 15,
+     "frame": 1777,
+     "distance_km": 2
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 890.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5035",
+    "match_id": "match_002",
+    "game_clock_s": 890,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_04",
+    "evidence_event_ids": [
+     "evt_00361"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_04",
+     "minute": 15,
+     "frame": 1780,
+     "distance_km": 2
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 890.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5036",
+    "match_id": "match_002",
+    "game_clock_s": 890,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_06",
+    "evidence_event_ids": [
+     "evt_00390"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_06",
+     "minute": 15,
+     "frame": 1781,
+     "distance_km": 2
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 898.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5037",
+    "match_id": "match_002",
+    "game_clock_s": 898,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_09",
+    "evidence_event_ids": [
+     "evt_00405"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_09",
+     "minute": 15,
+     "frame": 1797,
+     "distance_km": 2
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 904.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5038",
+    "match_id": "match_002",
+    "game_clock_s": 904,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_05",
+    "evidence_event_ids": [
+     "evt_00196"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_05",
+     "minute": 16,
+     "frame": 1809,
+     "distance_km": 2
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 904.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5039",
+    "match_id": "match_002",
+    "game_clock_s": 904,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_07",
+    "evidence_event_ids": [
+     "evt_00380"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_07",
+     "minute": 16,
+     "frame": 1809,
+     "distance_km": 2
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 928.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5040",
+    "match_id": "match_002",
+    "game_clock_s": 928,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_04",
+    "evidence_event_ids": [
+     "evt_00375"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_04",
+     "minute": 16,
+     "frame": 1856,
+     "distance_km": 2
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 941.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_006",
+    "match_id": "match_002",
+    "game_clock_s": 941,
+    "type": "big_chance",
+    "importance": 0.8,
+    "team_id": "nile_fc",
+    "player_id": "nil_10",
+    "evidence_event_ids": [
+     "evt_00429",
+     "evt_00432"
+    ],
+    "verified_facts": {
+     "shooter_id": "nil_10",
+     "minute": 16,
+     "shot_speed_kmh": 47,
+     "shot_distance_m": 8,
+     "pressure": 0.5,
+     "outcome": "off_target",
+     "in_box": true
+    },
+    "rule_id": "BIG_CHANCE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 1011.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_007",
+    "match_id": "match_002",
+    "game_clock_s": 1011,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_01",
+    "evidence_event_ids": [
+     "evt_00445"
+    ],
+    "verified_facts": {
+     "badge": "killer_pass",
+     "player_id": "del_01",
+     "minute": 17,
+     "pass_difficulty": 0.77,
+     "pass_distance_m": 60.6
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 1055.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_008",
+    "match_id": "match_002",
+    "game_clock_s": 1055,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_06",
+    "evidence_event_ids": [
+     "evt_00459"
+    ],
+    "verified_facts": {
+     "badge": "killer_pass",
+     "player_id": "nil_06",
+     "minute": 18,
+     "pass_difficulty": 0.76,
+     "pass_distance_m": 38.2
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 1307.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_009",
+    "match_id": "match_002",
+    "game_clock_s": 1307,
+    "type": "rhythm_change",
+    "importance": 0.5,
+    "evidence_event_ids": [
+     "evt_00557",
+     "evt_00559",
+     "evt_00561"
+    ],
+    "verified_facts": {
+     "rhythm_from": "balanced",
+     "rhythm_to": "slow_build_up",
+     "passes_per_min_last_5": 9.4,
+     "median_pass_gap_s": 3.1,
+     "minute": 22
+    },
+    "rule_id": "RHYTHM_CHANGE_V1"
+   }
+  },
   {
    "type": "moment",
    "game_time_s": 1328.0,
@@ -39,6 +1281,38 @@
      "assist_id": "nil_11"
     },
     "rule_id": "GOAL_TEMPLATE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 1328.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_010",
+    "match_id": "match_002",
+    "game_clock_s": 1328,
+    "type": "goal",
+    "importance": 1.0,
+    "team_id": "nile_fc",
+    "player_id": "nil_07",
+    "evidence_event_ids": [
+     "evt_00572",
+     "evt_00573",
+     "evt_00574",
+     "evt_00575",
+     "evt_00576"
+    ],
+    "verified_facts": {
+     "scorer_id": "nil_07",
+     "minute": 23,
+     "home_score": 1,
+     "away_score": 0,
+     "passes_in_move": 3,
+     "assist_id": "nil_11",
+     "shot_speed_kmh": 79,
+     "shot_distance_m": 9
+    },
+    "rule_id": "GOAL_V1"
    }
   },
   {
@@ -223,6 +1497,1323 @@
   },
   {
    "type": "moment",
+   "game_time_s": 1454.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_011",
+    "match_id": "match_002",
+    "game_clock_s": 1454,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_11",
+    "evidence_event_ids": [
+     "evt_00611"
+    ],
+    "verified_facts": {
+     "badge": "killer_pass",
+     "player_id": "nil_11",
+     "minute": 25,
+     "pass_difficulty": 0.76,
+     "pass_distance_m": 32.8
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 1652.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5041",
+    "match_id": "match_002",
+    "game_clock_s": 1652,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_10",
+    "evidence_event_ids": [
+     "evt_00677"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_10",
+     "minute": 28,
+     "frame": 3304,
+     "distance_km": 4
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 1659.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5042",
+    "match_id": "match_002",
+    "game_clock_s": 1659,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_11",
+    "evidence_event_ids": [
+     "evt_00449"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_11",
+     "minute": 28,
+     "frame": 3318,
+     "distance_km": 4
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 1666.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5043",
+    "match_id": "match_002",
+    "game_clock_s": 1666,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_07",
+    "evidence_event_ids": [
+     "evt_00626"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_07",
+     "minute": 28,
+     "frame": 3333,
+     "distance_km": 4
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 1698.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_012",
+    "match_id": "match_002",
+    "game_clock_s": 1698,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_04",
+    "evidence_event_ids": [
+     "evt_00710"
+    ],
+    "verified_facts": {
+     "badge": "killer_pass",
+     "player_id": "nil_04",
+     "minute": 29,
+     "pass_difficulty": 0.76,
+     "pass_distance_m": 33.8
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 1701.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5044",
+    "match_id": "match_002",
+    "game_clock_s": 1701,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_08",
+    "evidence_event_ids": [
+     "evt_00674"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_08",
+     "minute": 29,
+     "frame": 3402,
+     "distance_km": 4
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 1737.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5045",
+    "match_id": "match_002",
+    "game_clock_s": 1737,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_03",
+    "evidence_event_ids": [
+     "evt_00702"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_03",
+     "minute": 29,
+     "frame": 3475,
+     "distance_km": 4
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 1739.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5046",
+    "match_id": "match_002",
+    "game_clock_s": 1739,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_02",
+    "evidence_event_ids": [
+     "evt_00659"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_02",
+     "minute": 29,
+     "frame": 3479,
+     "distance_km": 4
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 1757.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_013",
+    "match_id": "match_002",
+    "game_clock_s": 1757,
+    "type": "rhythm_change",
+    "importance": 0.5,
+    "evidence_event_ids": [
+     "evt_00740",
+     "evt_00741",
+     "evt_00742"
+    ],
+    "verified_facts": {
+     "rhythm_from": "slow_build_up",
+     "rhythm_to": "balanced",
+     "passes_per_min_last_5": 11.0,
+     "median_pass_gap_s": 3.4,
+     "minute": 30
+    },
+    "rule_id": "RHYTHM_CHANGE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 1760.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5047",
+    "match_id": "match_002",
+    "game_clock_s": 1760,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_03",
+    "evidence_event_ids": [
+     "evt_00610"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_03",
+     "minute": 30,
+     "frame": 3521,
+     "distance_km": 4
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 1762.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5048",
+    "match_id": "match_002",
+    "game_clock_s": 1762,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_06",
+    "evidence_event_ids": [
+     "evt_00701"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_06",
+     "minute": 30,
+     "frame": 3525,
+     "distance_km": 4
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 1764.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5049",
+    "match_id": "match_002",
+    "game_clock_s": 1764,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_10",
+    "evidence_event_ids": [
+     "evt_00732"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_10",
+     "minute": 30,
+     "frame": 3529,
+     "distance_km": 4
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 1767.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5050",
+    "match_id": "match_002",
+    "game_clock_s": 1767,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_05",
+    "evidence_event_ids": [
+     "evt_00686"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_05",
+     "minute": 30,
+     "frame": 3534,
+     "distance_km": 4
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 1788.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5051",
+    "match_id": "match_002",
+    "game_clock_s": 1788,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_02",
+    "evidence_event_ids": [
+     "evt_00630"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_02",
+     "minute": 30,
+     "frame": 3576,
+     "distance_km": 4
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 1791.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5052",
+    "match_id": "match_002",
+    "game_clock_s": 1791,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_06",
+    "evidence_event_ids": [
+     "evt_00743"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_06",
+     "minute": 30,
+     "frame": 3583,
+     "distance_km": 4
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 1796.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5053",
+    "match_id": "match_002",
+    "game_clock_s": 1796,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_08",
+    "evidence_event_ids": [
+     "evt_00746"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_08",
+     "minute": 30,
+     "frame": 3592,
+     "distance_km": 4
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 1798.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5054",
+    "match_id": "match_002",
+    "game_clock_s": 1798,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_09",
+    "evidence_event_ids": [
+     "evt_00695"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_09",
+     "minute": 30,
+     "frame": 3596,
+     "distance_km": 4
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 1799.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5055",
+    "match_id": "match_002",
+    "game_clock_s": 1799,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_11",
+    "evidence_event_ids": [
+     "evt_00727"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_11",
+     "minute": 30,
+     "frame": 3598,
+     "distance_km": 4
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 1810.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_014",
+    "match_id": "match_002",
+    "game_clock_s": 1810,
+    "type": "control_to_chaos",
+    "importance": 0.6,
+    "evidence_event_ids": [
+     "evt_00749",
+     "evt_00754",
+     "evt_00758",
+     "evt_00763",
+     "evt_00768"
+    ],
+    "verified_facts": {
+     "chaos_index_last_5": 65.7,
+     "turnovers_per_min_last_5": 5.2,
+     "short_possession_pct_last_5": 57.7,
+     "duels_fouls_last_5": 4,
+     "minute": 31
+    },
+    "rule_id": "CONTROL_TO_CHAOS_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 1821.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5056",
+    "match_id": "match_002",
+    "game_clock_s": 1821,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_04",
+    "evidence_event_ids": [
+     "evt_00710"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_04",
+     "minute": 31,
+     "frame": 3643,
+     "distance_km": 4
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 1845.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5057",
+    "match_id": "match_002",
+    "game_clock_s": 1845,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_05",
+    "evidence_event_ids": [
+     "evt_00776"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_05",
+     "minute": 31,
+     "frame": 3691,
+     "distance_km": 4
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 1860.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5058",
+    "match_id": "match_002",
+    "game_clock_s": 1860,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_07",
+    "evidence_event_ids": [
+     "evt_00774"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_07",
+     "minute": 32,
+     "frame": 3721,
+     "distance_km": 4
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 1873.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5059",
+    "match_id": "match_002",
+    "game_clock_s": 1873,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_09",
+    "evidence_event_ids": [
+     "evt_00737"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_09",
+     "minute": 32,
+     "frame": 3747,
+     "distance_km": 4
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 1928.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5060",
+    "match_id": "match_002",
+    "game_clock_s": 1928,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_04",
+    "evidence_event_ids": [
+     "evt_00752"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_04",
+     "minute": 33,
+     "frame": 3856,
+     "distance_km": 4
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 2082.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_015",
+    "match_id": "match_002",
+    "game_clock_s": 2082,
+    "type": "big_chance",
+    "importance": 0.8,
+    "team_id": "nile_fc",
+    "player_id": "nil_09",
+    "evidence_event_ids": [
+     "evt_00913",
+     "evt_00915"
+    ],
+    "verified_facts": {
+     "shooter_id": "nil_09",
+     "minute": 35,
+     "shot_speed_kmh": 87,
+     "shot_distance_m": 10,
+     "pressure": 0.44,
+     "outcome": "saved",
+     "in_box": true
+    },
+    "rule_id": "BIG_CHANCE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 2194.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_016",
+    "match_id": "match_002",
+    "game_clock_s": 2194,
+    "type": "big_chance",
+    "importance": 0.8,
+    "team_id": "nile_fc",
+    "player_id": "nil_09",
+    "evidence_event_ids": [
+     "evt_00965",
+     "evt_00967"
+    ],
+    "verified_facts": {
+     "shooter_id": "nil_09",
+     "minute": 37,
+     "shot_speed_kmh": 71,
+     "shot_distance_m": 6,
+     "pressure": 0.44,
+     "outcome": "off_target",
+     "in_box": true
+    },
+    "rule_id": "BIG_CHANCE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 2227.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_017",
+    "match_id": "match_002",
+    "game_clock_s": 2227,
+    "type": "pressing_shift",
+    "importance": 0.7,
+    "team_id": "delta_utd",
+    "evidence_event_ids": [
+     "evt_00863",
+     "evt_00865",
+     "evt_00891",
+     "evt_00898",
+     "evt_00940"
+    ],
+    "verified_facts": {
+     "ppda_last_5": 1.3,
+     "ppda_match": 4.2,
+     "regains_in_zone_last_5": 6,
+     "opponent_passes_in_zone_last_5": 8,
+     "possession_pct_last_5": 27.8,
+     "minute": 38
+    },
+    "rule_id": "PRESS_SHIFT_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 2398.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5061",
+    "match_id": "match_002",
+    "game_clock_s": 2398,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_10",
+    "evidence_event_ids": [
+     "evt_01045"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_10",
+     "minute": 40,
+     "frame": 4797,
+     "distance_km": 6
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 2399.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5062",
+    "match_id": "match_002",
+    "game_clock_s": 2399,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_11",
+    "evidence_event_ids": [
+     "evt_01044"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_11",
+     "minute": 40,
+     "frame": 4798,
+     "distance_km": 6
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 2402.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5063",
+    "match_id": "match_002",
+    "game_clock_s": 2402,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_07",
+    "evidence_event_ids": [
+     "evt_01058"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_07",
+     "minute": 41,
+     "frame": 4805,
+     "distance_km": 6
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 2468.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_018",
+    "match_id": "match_002",
+    "game_clock_s": 2468,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_05",
+    "evidence_event_ids": [
+     "evt_01090"
+    ],
+    "verified_facts": {
+     "badge": "killer_pass",
+     "player_id": "del_05",
+     "minute": 42,
+     "pass_difficulty": 0.81,
+     "pass_distance_m": 36.7
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 2472.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5064",
+    "match_id": "match_002",
+    "game_clock_s": 2472,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_08",
+    "evidence_event_ids": [
+     "evt_01026"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_08",
+     "minute": 42,
+     "frame": 4945,
+     "distance_km": 6
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 2489.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5065",
+    "match_id": "match_002",
+    "game_clock_s": 2489,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_03",
+    "evidence_event_ids": [
+     "evt_01012"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_03",
+     "minute": 42,
+     "frame": 4979,
+     "distance_km": 6
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 2520.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5066",
+    "match_id": "match_002",
+    "game_clock_s": 2520,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_02",
+    "evidence_event_ids": [
+     "evt_01034"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_02",
+     "minute": 43,
+     "frame": 5040,
+     "distance_km": 6
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 2558.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5067",
+    "match_id": "match_002",
+    "game_clock_s": 2558,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_10",
+    "evidence_event_ids": [
+     "evt_01127"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_10",
+     "minute": 43,
+     "frame": 5117,
+     "distance_km": 6
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 2625.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5068",
+    "match_id": "match_002",
+    "game_clock_s": 2625,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_05",
+    "evidence_event_ids": [
+     "evt_01051"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_05",
+     "minute": 44,
+     "frame": 5251,
+     "distance_km": 6
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 2631.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5069",
+    "match_id": "match_002",
+    "game_clock_s": 2631,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_06",
+    "evidence_event_ids": [
+     "evt_01146"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_06",
+     "minute": 44,
+     "frame": 5263,
+     "distance_km": 6
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 2636.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5070",
+    "match_id": "match_002",
+    "game_clock_s": 2636,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_03",
+    "evidence_event_ids": [
+     "evt_01123"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_03",
+     "minute": 44,
+     "frame": 5273,
+     "distance_km": 6
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 2640.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5071",
+    "match_id": "match_002",
+    "game_clock_s": 2640,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_06",
+    "evidence_event_ids": [
+     "evt_01060"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_06",
+     "minute": 45,
+     "frame": 5280,
+     "distance_km": 6
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 2647.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5072",
+    "match_id": "match_002",
+    "game_clock_s": 2647,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_02",
+    "evidence_event_ids": [
+     "evt_01096"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_02",
+     "minute": 45,
+     "frame": 5294,
+     "distance_km": 6
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 2648.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5073",
+    "match_id": "match_002",
+    "game_clock_s": 2648,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_11",
+    "evidence_event_ids": [
+     "evt_01070"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_11",
+     "minute": 45,
+     "frame": 5296,
+     "distance_km": 6
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 2654.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5074",
+    "match_id": "match_002",
+    "game_clock_s": 2654,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_08",
+    "evidence_event_ids": [
+     "evt_01160"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_08",
+     "minute": 45,
+     "frame": 5308,
+     "distance_km": 6
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 2664.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5075",
+    "match_id": "match_002",
+    "game_clock_s": 2664,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_09",
+    "evidence_event_ids": [
+     "evt_01054"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_09",
+     "minute": 45,
+     "frame": 5329,
+     "distance_km": 6
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 2668.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_019",
+    "match_id": "match_002",
+    "game_clock_s": 2668,
+    "type": "control_to_chaos",
+    "importance": 0.6,
+    "evidence_event_ids": [
+     "evt_01157",
+     "evt_01162",
+     "evt_01166",
+     "evt_01172",
+     "evt_01177"
+    ],
+    "verified_facts": {
+     "chaos_index_last_5": 66.4,
+     "turnovers_per_min_last_5": 3.8,
+     "short_possession_pct_last_5": 52.6,
+     "duels_fouls_last_5": 10,
+     "minute": 45
+    },
+    "rule_id": "CONTROL_TO_CHAOS_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 2672.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5076",
+    "match_id": "match_002",
+    "game_clock_s": 2672,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_04",
+    "evidence_event_ids": [
+     "evt_01151"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_04",
+     "minute": 45,
+     "frame": 5345,
+     "distance_km": 6
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 2677.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5077",
+    "match_id": "match_002",
+    "game_clock_s": 2677,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_05",
+    "evidence_event_ids": [
+     "evt_01145"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_05",
+     "minute": 45,
+     "frame": 5355,
+     "distance_km": 6
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 2701.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5078",
+    "match_id": "match_002",
+    "game_clock_s": 2701,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_07",
+    "evidence_event_ids": [
+     "evt_01187"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_07",
+     "minute": 46,
+     "frame": 5403,
+     "distance_km": 6
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 2712.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_020",
+    "match_id": "match_002",
+    "game_clock_s": 2712,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_05",
+    "evidence_event_ids": [
+     "evt_01208"
+    ],
+    "verified_facts": {
+     "badge": "killer_pass",
+     "player_id": "del_05",
+     "minute": 46,
+     "pass_difficulty": 0.81,
+     "pass_distance_m": 44.5
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 2714.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5079",
+    "match_id": "match_002",
+    "game_clock_s": 2714,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_09",
+    "evidence_event_ids": [
+     "evt_01205"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_09",
+     "minute": 46,
+     "frame": 5429,
+     "distance_km": 6
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 2747.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5080",
+    "match_id": "match_002",
+    "game_clock_s": 2747,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_04",
+    "evidence_event_ids": [
+     "evt_01221"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_04",
+     "minute": 46,
+     "frame": 5494,
+     "distance_km": 6
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 2985.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_021",
+    "match_id": "match_002",
+    "game_clock_s": 2985,
+    "type": "rhythm_change",
+    "importance": 0.5,
+    "evidence_event_ids": [
+     "evt_01343",
+     "evt_01345",
+     "evt_01346"
+    ],
+    "verified_facts": {
+     "rhythm_from": "balanced",
+     "rhythm_to": "frantic",
+     "passes_per_min_last_5": 15.8,
+     "median_pass_gap_s": 2.9,
+     "minute": 50
+    },
+    "rule_id": "RHYTHM_CHANGE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3048.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_022",
+    "match_id": "match_002",
+    "game_clock_s": 3048,
+    "type": "big_chance",
+    "importance": 0.8,
+    "team_id": "nile_fc",
+    "player_id": "nil_09",
+    "evidence_event_ids": [
+     "evt_01376",
+     "evt_01377"
+    ],
+    "verified_facts": {
+     "shooter_id": "nil_09",
+     "minute": 51,
+     "shot_speed_kmh": 57,
+     "shot_distance_m": 10,
+     "pressure": 0.35,
+     "outcome": "off_target",
+     "in_box": true
+    },
+    "rule_id": "BIG_CHANCE_V1"
+   }
+  },
+  {
+   "type": "moment",
    "game_time_s": 3083.0,
    "data": {
     "schema_version": "1.0",
@@ -247,6 +2838,35 @@
      "shot_distance_m": 11
     },
     "rule_id": "GOAL_TEMPLATE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3083.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_023",
+    "match_id": "match_002",
+    "game_clock_s": 3083,
+    "type": "goal",
+    "importance": 1.0,
+    "team_id": "nile_fc",
+    "player_id": "nil_09",
+    "evidence_event_ids": [
+     "evt_01382",
+     "evt_01383",
+     "evt_01384"
+    ],
+    "verified_facts": {
+     "scorer_id": "nil_09",
+     "minute": 52,
+     "home_score": 2,
+     "away_score": 0,
+     "passes_in_move": 0,
+     "shot_speed_kmh": 91,
+     "shot_distance_m": 11
+    },
+    "rule_id": "GOAL_V1"
    }
   },
   {
@@ -431,6 +3051,1550 @@
   },
   {
    "type": "moment",
+   "game_time_s": 3138.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5081",
+    "match_id": "match_002",
+    "game_clock_s": 3138,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_10",
+    "evidence_event_ids": [
+     "evt_01363"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_10",
+     "minute": 53,
+     "frame": 6277,
+     "distance_km": 8
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3145.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5082",
+    "match_id": "match_002",
+    "game_clock_s": 3145,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_07",
+    "evidence_event_ids": [
+     "evt_01367"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_07",
+     "minute": 53,
+     "frame": 6290,
+     "distance_km": 8
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3169.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5083",
+    "match_id": "match_002",
+    "game_clock_s": 3169,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_11",
+    "evidence_event_ids": [
+     "evt_01312"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_11",
+     "minute": 53,
+     "frame": 6338,
+     "distance_km": 8
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3251.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5084",
+    "match_id": "match_002",
+    "game_clock_s": 3251,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_08",
+    "evidence_event_ids": [
+     "evt_01433"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_08",
+     "minute": 55,
+     "frame": 6502,
+     "distance_km": 8
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3290.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5085",
+    "match_id": "match_002",
+    "game_clock_s": 3290,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_02",
+    "evidence_event_ids": [
+     "evt_01443"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_02",
+     "minute": 55,
+     "frame": 6580,
+     "distance_km": 8
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3323.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5086",
+    "match_id": "match_002",
+    "game_clock_s": 3323,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_03",
+    "evidence_event_ids": [
+     "evt_01375"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_03",
+     "minute": 56,
+     "frame": 6646,
+     "distance_km": 8
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3334.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_024",
+    "match_id": "match_002",
+    "game_clock_s": 3334,
+    "type": "rhythm_change",
+    "importance": 0.5,
+    "evidence_event_ids": [
+     "evt_01462",
+     "evt_01463",
+     "evt_01464"
+    ],
+    "verified_facts": {
+     "rhythm_from": "frantic",
+     "rhythm_to": "slow_build_up",
+     "passes_per_min_last_5": 8.2,
+     "median_pass_gap_s": 3.0,
+     "minute": 56
+    },
+    "rule_id": "RHYTHM_CHANGE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3406.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5087",
+    "match_id": "match_002",
+    "game_clock_s": 3406,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_10",
+    "evidence_event_ids": [
+     "evt_01473"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_10",
+     "minute": 57,
+     "frame": 6813,
+     "distance_km": 8
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3411.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5088",
+    "match_id": "match_002",
+    "game_clock_s": 3411,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_05",
+    "evidence_event_ids": [
+     "evt_01420"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_05",
+     "minute": 57,
+     "frame": 6822,
+     "distance_km": 8
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3427.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_025",
+    "match_id": "match_002",
+    "game_clock_s": 3427,
+    "type": "control_to_chaos",
+    "importance": 0.6,
+    "evidence_event_ids": [
+     "evt_01511",
+     "evt_01514",
+     "evt_01518",
+     "evt_01524",
+     "evt_01528"
+    ],
+    "verified_facts": {
+     "chaos_index_last_5": 65.5,
+     "turnovers_per_min_last_5": 4.2,
+     "short_possession_pct_last_5": 63.6,
+     "duels_fouls_last_5": 6,
+     "minute": 58
+    },
+    "rule_id": "CONTROL_TO_CHAOS_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3427.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5089",
+    "match_id": "match_002",
+    "game_clock_s": 3427,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_06",
+    "evidence_event_ids": [
+     "evt_01520"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_06",
+     "minute": 58,
+     "frame": 6855,
+     "distance_km": 8
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3432.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5090",
+    "match_id": "match_002",
+    "game_clock_s": 3432,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_02",
+    "evidence_event_ids": [
+     "evt_01525"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_02",
+     "minute": 58,
+     "frame": 6865,
+     "distance_km": 8
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3436.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5091",
+    "match_id": "match_002",
+    "game_clock_s": 3436,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_03",
+    "evidence_event_ids": [
+     "evt_01368"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_03",
+     "minute": 58,
+     "frame": 6873,
+     "distance_km": 8
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3441.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5092",
+    "match_id": "match_002",
+    "game_clock_s": 3441,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_08",
+    "evidence_event_ids": [
+     "evt_01535"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_08",
+     "minute": 58,
+     "frame": 6882,
+     "distance_km": 8
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3448.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5093",
+    "match_id": "match_002",
+    "game_clock_s": 3448,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_06",
+    "evidence_event_ids": [
+     "evt_01404"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_06",
+     "minute": 58,
+     "frame": 6897,
+     "distance_km": 8
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3448.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5094",
+    "match_id": "match_002",
+    "game_clock_s": 3448,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_11",
+    "evidence_event_ids": [
+     "evt_01515"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_11",
+     "minute": 58,
+     "frame": 6897,
+     "distance_km": 8
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3461.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_026",
+    "match_id": "match_002",
+    "game_clock_s": 3461,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_03",
+    "evidence_event_ids": [
+     "evt_01541"
+    ],
+    "verified_facts": {
+     "badge": "killer_pass",
+     "player_id": "del_03",
+     "minute": 58,
+     "pass_difficulty": 0.76,
+     "pass_distance_m": 56.3
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3463.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5095",
+    "match_id": "match_002",
+    "game_clock_s": 3463,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_09",
+    "evidence_event_ids": [
+     "evt_01394"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_09",
+     "minute": 58,
+     "frame": 6927,
+     "distance_km": 8
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3492.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_027",
+    "match_id": "match_002",
+    "game_clock_s": 3492,
+    "type": "rhythm_change",
+    "importance": 0.5,
+    "evidence_event_ids": [
+     "evt_01549",
+     "evt_01552",
+     "evt_01553"
+    ],
+    "verified_facts": {
+     "rhythm_from": "slow_build_up",
+     "rhythm_to": "balanced",
+     "passes_per_min_last_5": 11.8,
+     "median_pass_gap_s": 2.8,
+     "minute": 59
+    },
+    "rule_id": "RHYTHM_CHANGE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3499.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5096",
+    "match_id": "match_002",
+    "game_clock_s": 3499,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_04",
+    "evidence_event_ids": [
+     "evt_01548"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_04",
+     "minute": 59,
+     "frame": 6998,
+     "distance_km": 8
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3500.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_028",
+    "match_id": "match_002",
+    "game_clock_s": 3500,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_06",
+    "evidence_event_ids": [
+     "evt_01561"
+    ],
+    "verified_facts": {
+     "badge": "killer_pass",
+     "player_id": "nil_06",
+     "minute": 59,
+     "pass_difficulty": 0.79,
+     "pass_distance_m": 34.0
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3503.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_029",
+    "match_id": "match_002",
+    "game_clock_s": 3503,
+    "type": "killer_pass",
+    "importance": 0.6,
+    "team_id": "nile_fc",
+    "player_id": "nil_06",
+    "evidence_event_ids": [
+     "evt_01561",
+     "evt_01562"
+    ],
+    "verified_facts": {
+     "passer_id": "nil_06",
+     "shooter_id": "nil_09",
+     "minute": 59,
+     "pass_difficulty": 0.79,
+     "pass_distance_m": 34.0,
+     "seconds_to_shot": 3.2,
+     "shot_outcome": "off_target"
+    },
+    "rule_id": "KILLER_PASS_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3548.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5097",
+    "match_id": "match_002",
+    "game_clock_s": 3548,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_05",
+    "evidence_event_ids": [
+     "evt_01496"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_05",
+     "minute": 60,
+     "frame": 7097,
+     "distance_km": 8
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3562.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5098",
+    "match_id": "match_002",
+    "game_clock_s": 3562,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_07",
+    "evidence_event_ids": [
+     "evt_01452"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_07",
+     "minute": 60,
+     "frame": 7125,
+     "distance_km": 8
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3656.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5099",
+    "match_id": "match_002",
+    "game_clock_s": 3656,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_09",
+    "evidence_event_ids": [
+     "evt_01562"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_09",
+     "minute": 61,
+     "frame": 7312,
+     "distance_km": 8
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3733.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5100",
+    "match_id": "match_002",
+    "game_clock_s": 3733,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_01",
+    "evidence_event_ids": [
+     "evt_01128"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_01",
+     "minute": 63,
+     "frame": 7466,
+     "distance_km": 2
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3762.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5101",
+    "match_id": "match_002",
+    "game_clock_s": 3762,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_04",
+    "evidence_event_ids": [
+     "evt_01646"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_04",
+     "minute": 63,
+     "frame": 7524,
+     "distance_km": 8
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3764.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_030",
+    "match_id": "match_002",
+    "game_clock_s": 3764,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_10",
+    "evidence_event_ids": [
+     "evt_01652"
+    ],
+    "verified_facts": {
+     "badge": "killer_pass",
+     "player_id": "nil_10",
+     "minute": 63,
+     "pass_difficulty": 0.79,
+     "pass_distance_m": 45.3
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3793.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5102",
+    "match_id": "match_002",
+    "game_clock_s": 3793,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_14",
+    "evidence_event_ids": [
+     "evt_01660"
+    ],
+    "verified_facts": {
+     "badge": "sprint",
+     "player_id": "nil_14",
+     "minute": 64,
+     "frame": 7587,
+     "top_speed_kmh": 30.3
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3835.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_031",
+    "match_id": "match_002",
+    "game_clock_s": 3835,
+    "type": "rhythm_change",
+    "importance": 0.5,
+    "evidence_event_ids": [
+     "evt_01668",
+     "evt_01669",
+     "evt_01670"
+    ],
+    "verified_facts": {
+     "rhythm_from": "balanced",
+     "rhythm_to": "slow_build_up",
+     "passes_per_min_last_5": 8.2,
+     "median_pass_gap_s": 3.4,
+     "minute": 64
+    },
+    "rule_id": "RHYTHM_CHANGE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3874.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_032",
+    "match_id": "match_002",
+    "game_clock_s": 3874,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_06",
+    "evidence_event_ids": [
+     "evt_01705"
+    ],
+    "verified_facts": {
+     "badge": "killer_pass",
+     "player_id": "nil_06",
+     "minute": 65,
+     "pass_difficulty": 0.81,
+     "pass_distance_m": 37.1
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3890.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_033",
+    "match_id": "match_002",
+    "game_clock_s": 3890,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_02",
+    "evidence_event_ids": [
+     "evt_01714"
+    ],
+    "verified_facts": {
+     "badge": "killer_pass",
+     "player_id": "del_02",
+     "minute": 65,
+     "pass_difficulty": 0.77,
+     "pass_distance_m": 58.3
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3912.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5103",
+    "match_id": "match_002",
+    "game_clock_s": 3912,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_14",
+    "evidence_event_ids": [
+     "evt_01734"
+    ],
+    "verified_facts": {
+     "badge": "sprint",
+     "player_id": "del_14",
+     "minute": 66,
+     "frame": 7825,
+     "top_speed_kmh": 30.5
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3942.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5104",
+    "match_id": "match_002",
+    "game_clock_s": 3942,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_01",
+    "evidence_event_ids": [
+     "evt_01694"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_01",
+     "minute": 66,
+     "frame": 7885,
+     "distance_km": 2
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 3995.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_034",
+    "match_id": "match_002",
+    "game_clock_s": 3995,
+    "type": "rhythm_change",
+    "importance": 0.5,
+    "evidence_event_ids": [
+     "evt_01767",
+     "evt_01768",
+     "evt_01769"
+    ],
+    "verified_facts": {
+     "rhythm_from": "slow_build_up",
+     "rhythm_to": "balanced",
+     "passes_per_min_last_5": 13.6,
+     "median_pass_gap_s": 3.1,
+     "minute": 67
+    },
+    "rule_id": "RHYTHM_CHANGE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 4005.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5105",
+    "match_id": "match_002",
+    "game_clock_s": 4005,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_07",
+    "evidence_event_ids": [
+     "evt_01743"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_07",
+     "minute": 67,
+     "frame": 8010,
+     "distance_km": 10
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 4028.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5106",
+    "match_id": "match_002",
+    "game_clock_s": 4028,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_11",
+    "evidence_event_ids": [
+     "evt_01736"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_11",
+     "minute": 68,
+     "frame": 8057,
+     "distance_km": 10
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 4109.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5107",
+    "match_id": "match_002",
+    "game_clock_s": 4109,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_08",
+    "evidence_event_ids": [
+     "evt_01795"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_08",
+     "minute": 69,
+     "frame": 8218,
+     "distance_km": 10
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 4155.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_035",
+    "match_id": "match_002",
+    "game_clock_s": 4155,
+    "type": "big_chance",
+    "importance": 0.8,
+    "team_id": "nile_fc",
+    "player_id": "nil_09",
+    "evidence_event_ids": [
+     "evt_01848",
+     "evt_01851"
+    ],
+    "verified_facts": {
+     "shooter_id": "nil_09",
+     "minute": 70,
+     "shot_speed_kmh": 63,
+     "shot_distance_m": 6,
+     "pressure": 0.45,
+     "outcome": "off_target",
+     "in_box": true
+    },
+    "rule_id": "BIG_CHANCE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 4213.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5108",
+    "match_id": "match_002",
+    "game_clock_s": 4213,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_02",
+    "evidence_event_ids": [
+     "evt_01846"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_02",
+     "minute": 71,
+     "frame": 8427,
+     "distance_km": 10
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 4233.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5109",
+    "match_id": "match_002",
+    "game_clock_s": 4233,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_16",
+    "evidence_event_ids": [
+     "evt_01865"
+    ],
+    "verified_facts": {
+     "badge": "sprint",
+     "player_id": "del_16",
+     "minute": 71,
+     "frame": 8467,
+     "top_speed_kmh": 30.5
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 4245.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5110",
+    "match_id": "match_002",
+    "game_clock_s": 4245,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_03",
+    "evidence_event_ids": [
+     "evt_01859"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_03",
+     "minute": 71,
+     "frame": 8491,
+     "distance_km": 10
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 4257.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_036",
+    "match_id": "match_002",
+    "game_clock_s": 4257,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_08",
+    "evidence_event_ids": [
+     "evt_01877"
+    ],
+    "verified_facts": {
+     "badge": "killer_pass",
+     "player_id": "nil_08",
+     "minute": 71,
+     "pass_difficulty": 0.87,
+     "pass_distance_m": 42.0
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 4313.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5111",
+    "match_id": "match_002",
+    "game_clock_s": 4313,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_05",
+    "evidence_event_ids": [
+     "evt_01904"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_05",
+     "minute": 72,
+     "frame": 8627,
+     "distance_km": 10
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 4323.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5112",
+    "match_id": "match_002",
+    "game_clock_s": 4323,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_06",
+    "evidence_event_ids": [
+     "evt_01884"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_06",
+     "minute": 73,
+     "frame": 8646,
+     "distance_km": 10
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 4357.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_037",
+    "match_id": "match_002",
+    "game_clock_s": 4357,
+    "type": "momentum_shift",
+    "importance": 0.7,
+    "team_id": "delta_utd",
+    "evidence_event_ids": [
+     "evt_01915",
+     "evt_01916",
+     "evt_01918",
+     "evt_01924",
+     "evt_01925"
+    ],
+    "verified_facts": {
+     "momentum": 16.0,
+     "momentum_opponent": 5.2,
+     "momentum_gap": 10.8,
+     "shots_last_5": 2,
+     "shots_last_5_opponent": 2,
+     "possession_pct_last_5": 52.8,
+     "minute": 73
+    },
+    "rule_id": "MOMENTUM_SHIFT_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 4359.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5113",
+    "match_id": "match_002",
+    "game_clock_s": 4359,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_02",
+    "evidence_event_ids": [
+     "evt_01921"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_02",
+     "minute": 73,
+     "frame": 8718,
+     "distance_km": 10
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 4376.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_038",
+    "match_id": "match_002",
+    "game_clock_s": 4376,
+    "type": "pressing_shift",
+    "importance": 0.7,
+    "team_id": "delta_utd",
+    "evidence_event_ids": [
+     "evt_01879",
+     "evt_01891",
+     "evt_01893",
+     "evt_01913",
+     "evt_01922"
+    ],
+    "verified_facts": {
+     "ppda_last_5": 1.8,
+     "ppda_match": 4.0,
+     "regains_in_zone_last_5": 6,
+     "opponent_passes_in_zone_last_5": 11,
+     "possession_pct_last_5": 58.0,
+     "minute": 73
+    },
+    "rule_id": "PRESS_SHIFT_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 4377.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5114",
+    "match_id": "match_002",
+    "game_clock_s": 4377,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_08",
+    "evidence_event_ids": [
+     "evt_01877"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_08",
+     "minute": 73,
+     "frame": 8755,
+     "distance_km": 10
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 4380.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5115",
+    "match_id": "match_002",
+    "game_clock_s": 4380,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_11",
+    "evidence_event_ids": [
+     "evt_01847"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_11",
+     "minute": 74,
+     "frame": 8760,
+     "distance_km": 10
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 4387.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5116",
+    "match_id": "match_002",
+    "game_clock_s": 4387,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_03",
+    "evidence_event_ids": [
+     "evt_01909"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_03",
+     "minute": 74,
+     "frame": 8775,
+     "distance_km": 10
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 4393.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5117",
+    "match_id": "match_002",
+    "game_clock_s": 4393,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_17",
+    "evidence_event_ids": [
+     "evt_01935"
+    ],
+    "verified_facts": {
+     "badge": "sprint",
+     "player_id": "nil_17",
+     "minute": 74,
+     "frame": 8787,
+     "top_speed_kmh": 32.3
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 4434.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5118",
+    "match_id": "match_002",
+    "game_clock_s": 4434,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_06",
+    "evidence_event_ids": [
+     "evt_01931"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_06",
+     "minute": 74,
+     "frame": 8869,
+     "distance_km": 10
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 4462.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_039",
+    "match_id": "match_002",
+    "game_clock_s": 4462,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_01",
+    "evidence_event_ids": [
+     "evt_01962"
+    ],
+    "verified_facts": {
+     "badge": "killer_pass",
+     "player_id": "nil_01",
+     "minute": 75,
+     "pass_difficulty": 0.82,
+     "pass_distance_m": 53.5
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 4479.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5119",
+    "match_id": "match_002",
+    "game_clock_s": 4479,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_04",
+    "evidence_event_ids": [
+     "evt_01912"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_04",
+     "minute": 75,
+     "frame": 8958,
+     "distance_km": 10
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 4481.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5120",
+    "match_id": "match_002",
+    "game_clock_s": 4481,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_09",
+    "evidence_event_ids": [
+     "evt_01949"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_09",
+     "minute": 75,
+     "frame": 8962,
+     "distance_km": 10
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 4515.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5121",
+    "match_id": "match_002",
+    "game_clock_s": 4515,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_07",
+    "evidence_event_ids": [
+     "evt_01982"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_07",
+     "minute": 76,
+     "frame": 9031,
+     "distance_km": 10
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 4547.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5122",
+    "match_id": "match_002",
+    "game_clock_s": 4547,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_05",
+    "evidence_event_ids": [
+     "evt_01983"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_05",
+     "minute": 76,
+     "frame": 9094,
+     "distance_km": 10
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 4551.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5123",
+    "match_id": "match_002",
+    "game_clock_s": 4551,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_09",
+    "evidence_event_ids": [
+     "evt_01990"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_09",
+     "minute": 76,
+     "frame": 9102,
+     "distance_km": 10
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 4576.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5124",
+    "match_id": "match_002",
+    "game_clock_s": 4576,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_14",
+    "evidence_event_ids": [
+     "evt_02034"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_14",
+     "minute": 77,
+     "frame": 9153,
+     "distance_km": 2
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 4578.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_040",
+    "match_id": "match_002",
+    "game_clock_s": 4578,
+    "type": "control_to_chaos",
+    "importance": 0.6,
+    "evidence_event_ids": [
+     "evt_02028",
+     "evt_02031",
+     "evt_02039",
+     "evt_02043",
+     "evt_02046"
+    ],
+    "verified_facts": {
+     "chaos_index_last_5": 65.7,
+     "turnovers_per_min_last_5": 5.2,
+     "short_possession_pct_last_5": 57.7,
+     "duels_fouls_last_5": 4,
+     "minute": 77
+    },
+    "rule_id": "CONTROL_TO_CHAOS_V1"
+   }
+  },
+  {
+   "type": "moment",
    "game_time_s": 4624.0,
    "data": {
     "schema_version": "1.0",
@@ -455,6 +4619,37 @@
      "shot_distance_m": 8
     },
     "rule_id": "GOAL_TEMPLATE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 4624.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_041",
+    "match_id": "match_002",
+    "game_clock_s": 4624,
+    "type": "goal",
+    "importance": 1.0,
+    "team_id": "delta_utd",
+    "player_id": "del_09",
+    "evidence_event_ids": [
+     "evt_02064",
+     "evt_02065",
+     "evt_02066",
+     "evt_02067",
+     "evt_02068"
+    ],
+    "verified_facts": {
+     "scorer_id": "del_09",
+     "minute": 78,
+     "home_score": 2,
+     "away_score": 1,
+     "passes_in_move": 5,
+     "shot_speed_kmh": 73,
+     "shot_distance_m": 8
+    },
+    "rule_id": "GOAL_V1"
    }
   },
   {
@@ -639,6 +4834,562 @@
   },
   {
    "type": "moment",
+   "game_time_s": 4771.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_042",
+    "match_id": "match_002",
+    "game_clock_s": 4771,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_06",
+    "evidence_event_ids": [
+     "evt_02092"
+    ],
+    "verified_facts": {
+     "badge": "killer_pass",
+     "player_id": "nil_06",
+     "minute": 80,
+     "pass_difficulty": 0.79,
+     "pass_distance_m": 41.8
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 4773.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5125",
+    "match_id": "match_002",
+    "game_clock_s": 4773,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_18",
+    "evidence_event_ids": [
+     "evt_02076"
+    ],
+    "verified_facts": {
+     "badge": "sprint",
+     "player_id": "del_18",
+     "minute": 80,
+     "frame": 9547,
+     "top_speed_kmh": 31.0
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 4776.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5126",
+    "match_id": "match_002",
+    "game_clock_s": 4776,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_04",
+    "evidence_event_ids": [
+     "evt_02029"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_04",
+     "minute": 80,
+     "frame": 9552,
+     "distance_km": 10
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 4788.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_043",
+    "match_id": "match_002",
+    "game_clock_s": 4788,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_14",
+    "evidence_event_ids": [
+     "evt_02102"
+    ],
+    "verified_facts": {
+     "badge": "killer_pass",
+     "player_id": "del_14",
+     "minute": 80,
+     "pass_difficulty": 0.77,
+     "pass_distance_m": 33.3
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 4805.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5127",
+    "match_id": "match_002",
+    "game_clock_s": 4805,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_19",
+    "evidence_event_ids": [
+     "evt_02105"
+    ],
+    "verified_facts": {
+     "badge": "sprint",
+     "player_id": "nil_19",
+     "minute": 81,
+     "frame": 9611,
+     "top_speed_kmh": 31.2
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 4822.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5128",
+    "match_id": "match_002",
+    "game_clock_s": 4822,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_14",
+    "evidence_event_ids": [
+     "evt_02104"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_14",
+     "minute": 81,
+     "frame": 9645,
+     "distance_km": 2
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 4854.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_044",
+    "match_id": "match_002",
+    "game_clock_s": 4854,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_06",
+    "evidence_event_ids": [
+     "evt_02144"
+    ],
+    "verified_facts": {
+     "badge": "killer_pass",
+     "player_id": "nil_06",
+     "minute": 81,
+     "pass_difficulty": 0.8,
+     "pass_distance_m": 49.0
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 4866.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5129",
+    "match_id": "match_002",
+    "game_clock_s": 4866,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_11",
+    "evidence_event_ids": [
+     "evt_02120"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_11",
+     "minute": 82,
+     "frame": 9733,
+     "distance_km": 12
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 4930.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_045",
+    "match_id": "match_002",
+    "game_clock_s": 4930,
+    "type": "pressing_shift",
+    "importance": 0.7,
+    "team_id": "delta_utd",
+    "evidence_event_ids": [
+     "evt_02146",
+     "evt_02155",
+     "evt_02156",
+     "evt_02183",
+     "evt_02185"
+    ],
+    "verified_facts": {
+     "ppda_last_5": 1.6,
+     "ppda_match": 3.7,
+     "regains_in_zone_last_5": 8,
+     "opponent_passes_in_zone_last_5": 13,
+     "possession_pct_last_5": 65.1,
+     "minute": 83
+    },
+    "rule_id": "PRESS_SHIFT_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 4986.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_046",
+    "match_id": "match_002",
+    "game_clock_s": 4986,
+    "type": "control_to_chaos",
+    "importance": 0.6,
+    "evidence_event_ids": [
+     "evt_02212",
+     "evt_02216",
+     "evt_02225",
+     "evt_02236",
+     "evt_02239"
+    ],
+    "verified_facts": {
+     "chaos_index_last_5": 66.8,
+     "turnovers_per_min_last_5": 4.8,
+     "short_possession_pct_last_5": 52.0,
+     "duels_fouls_last_5": 7,
+     "minute": 84
+    },
+    "rule_id": "CONTROL_TO_CHAOS_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 5007.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5130",
+    "match_id": "match_002",
+    "game_clock_s": 5007,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_02",
+    "evidence_event_ids": [
+     "evt_02214"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_02",
+     "minute": 84,
+     "frame": 10014,
+     "distance_km": 12
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 5049.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5131",
+    "match_id": "match_002",
+    "game_clock_s": 5049,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_16",
+    "evidence_event_ids": [
+     "evt_02266"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_16",
+     "minute": 85,
+     "frame": 10098,
+     "distance_km": 2
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 5052.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5132",
+    "match_id": "match_002",
+    "game_clock_s": 5052,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_03",
+    "evidence_event_ids": [
+     "evt_02262"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_03",
+     "minute": 85,
+     "frame": 10104,
+     "distance_km": 12
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 5092.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_047",
+    "match_id": "match_002",
+    "game_clock_s": 5092,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_14",
+    "evidence_event_ids": [
+     "evt_02301"
+    ],
+    "verified_facts": {
+     "badge": "killer_pass",
+     "player_id": "nil_14",
+     "minute": 85,
+     "pass_difficulty": 0.77,
+     "pass_distance_m": 30.7
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 5104.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_048",
+    "match_id": "match_002",
+    "game_clock_s": 5104,
+    "type": "rhythm_change",
+    "importance": 0.5,
+    "evidence_event_ids": [
+     "evt_02302",
+     "evt_02305",
+     "evt_02307"
+    ],
+    "verified_facts": {
+     "rhythm_from": "balanced",
+     "rhythm_to": "frantic",
+     "passes_per_min_last_5": 17.6,
+     "median_pass_gap_s": 2.4,
+     "minute": 86
+    },
+    "rule_id": "RHYTHM_CHANGE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 5108.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5133",
+    "match_id": "match_002",
+    "game_clock_s": 5108,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_02",
+    "evidence_event_ids": [
+     "evt_02297"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_02",
+     "minute": 86,
+     "frame": 10217,
+     "distance_km": 12
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 5130.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5134",
+    "match_id": "match_002",
+    "game_clock_s": 5130,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_03",
+    "evidence_event_ids": [
+     "evt_02223"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_03",
+     "minute": 86,
+     "frame": 10260,
+     "distance_km": 12
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 5142.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5135",
+    "match_id": "match_002",
+    "game_clock_s": 5142,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_17",
+    "evidence_event_ids": [
+     "evt_02302"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_17",
+     "minute": 86,
+     "frame": 10284,
+     "distance_km": 2
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 5176.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5136",
+    "match_id": "match_002",
+    "game_clock_s": 5176,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_06",
+    "evidence_event_ids": [
+     "evt_02298"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_06",
+     "minute": 87,
+     "frame": 10353,
+     "distance_km": 12
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 5184.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5137",
+    "match_id": "match_002",
+    "game_clock_s": 5184,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_05",
+    "evidence_event_ids": [
+     "evt_02331"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_05",
+     "minute": 87,
+     "frame": 10369,
+     "distance_km": 12
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 5193.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_049",
+    "match_id": "match_002",
+    "game_clock_s": 5193,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_02",
+    "evidence_event_ids": [
+     "evt_02340"
+    ],
+    "verified_facts": {
+     "badge": "killer_pass",
+     "player_id": "nil_02",
+     "minute": 87,
+     "pass_difficulty": 0.8,
+     "pass_distance_m": 52.8
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 5203.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5138",
+    "match_id": "match_002",
+    "game_clock_s": 5203,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_06",
+    "evidence_event_ids": [
+     "evt_02323"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "del_06",
+     "minute": 87,
+     "frame": 10406,
+     "distance_km": 12
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
    "game_time_s": 5232.0,
    "data": {
     "schema_version": "1.0",
@@ -664,6 +5415,38 @@
      "assist_id": "del_14"
     },
     "rule_id": "GOAL_TEMPLATE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 5232.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_050",
+    "match_id": "match_002",
+    "game_clock_s": 5232,
+    "type": "goal",
+    "importance": 1.0,
+    "team_id": "delta_utd",
+    "player_id": "del_11",
+    "evidence_event_ids": [
+     "evt_02357",
+     "evt_02358",
+     "evt_02359",
+     "evt_02360",
+     "evt_02361"
+    ],
+    "verified_facts": {
+     "scorer_id": "del_11",
+     "minute": 88,
+     "home_score": 2,
+     "away_score": 2,
+     "passes_in_move": 6,
+     "assist_id": "del_14",
+     "shot_speed_kmh": 98,
+     "shot_distance_m": 22
+    },
+    "rule_id": "GOAL_V1"
    }
   },
   {
@@ -844,6 +5627,106 @@
     "verification_status": "fallback",
     "source": "template",
     "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 5280.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5139",
+    "match_id": "match_002",
+    "game_clock_s": 5280,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_07",
+    "evidence_event_ids": [
+     "evt_02295"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_07",
+     "minute": 89,
+     "frame": 10561,
+     "distance_km": 12
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 5318.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_051",
+    "match_id": "match_002",
+    "game_clock_s": 5318,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "delta_utd",
+    "player_id": "del_02",
+    "evidence_event_ids": [
+     "evt_02373"
+    ],
+    "verified_facts": {
+     "badge": "killer_pass",
+     "player_id": "del_02",
+     "minute": 89,
+     "pass_difficulty": 0.77,
+     "pass_distance_m": 44.8
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 5322.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5140",
+    "match_id": "match_002",
+    "game_clock_s": 5322,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_04",
+    "evidence_event_ids": [
+     "evt_02245"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_04",
+     "minute": 89,
+     "frame": 10644,
+     "distance_km": 12
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
+   }
+  },
+  {
+   "type": "moment",
+   "game_time_s": 5361.0,
+   "data": {
+    "schema_version": "1.0",
+    "moment_id": "mom_5141",
+    "match_id": "match_002",
+    "game_clock_s": 5361,
+    "type": "player_milestone",
+    "importance": 0.4,
+    "team_id": "nile_fc",
+    "player_id": "nil_09",
+    "evidence_event_ids": [
+     "evt_02364"
+    ],
+    "verified_facts": {
+     "badge": "distance",
+     "player_id": "nil_09",
+     "minute": 90,
+     "frame": 10722,
+     "distance_km": 12
+    },
+    "rule_id": "PLAYER_MILESTONE_V1"
    }
   }
  ]
