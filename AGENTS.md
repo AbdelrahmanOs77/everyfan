@@ -10,4 +10,4 @@
 - Never commit `.env`, `.env.azure`, keys, tokens, or `deployment/.admin-token`.
 - Arabic overlays use `dir="rtl"` and metadata `name_ar` for names.
 - For Agent Framework, Foundry, and MCP imports, follow current official samples and pin added dependencies.
-- Follow `docs/OWNER_C_PLAN.md` in phase order, with a separate branch and green checks per phase. Merge each phase before starting the next.
+- Follow `docs/OWNER_C_PLAN.md` in phase order, with a separate branch and green checks per phase. The user explicitly authorized continuing locally without GitHub access: build each phase on the prior local commits and export patches for later team review/merge.

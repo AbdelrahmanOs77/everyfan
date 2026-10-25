@@ -16,7 +16,10 @@ The existing goal and red-card helpers are reused. Owner C replaces red-card bod
 text with verified minute and `players_left` facts, adds the missing player persona,
 and avoids calculating remaining minutes or assuming a single dismissal.
 
-Phases 2–8 are pending, starting with the verifier and Break-it.
+Phase 2 adds the deterministic verifier, optional budgeted semantic check, and
+Break-it helper on `owner-c-phase-2-verifier`. Phases 3–8 are pending, starting
+with the MCP evidence server. Per the user's instruction, phases are committed
+locally and exported for later team review/merge while GitHub access is unavailable.
 The original plan is preserved in [OWNER_C_PLAN.md](OWNER_C_PLAN.md).
 
 ## Run locally (PowerShell)
@@ -69,6 +72,67 @@ zero plugin errors for every scenario:
 
 Moments below importance 0.5 remain in the analytics feed but are deliberately
 skipped by this agent plugin. The 63:03 Hassan Nour goal is `mom_044` in match_001.
+
+## Phase 2 — verifier and Break-it
+
+`verify(draft, brief, moment, names, persona)` is a synchronous, offline check
+returning a `Verdict` with `status`, `reason_code`, and `detail`. It checks in order:
+
+1. Contract C, headline/body limits, match/moment identity, persona, timing, language and direction.
+2. Numeric grounding in the brief or moment, including numeric card fields and
+   numeric strings. Arabic-Indic and Eastern Arabic-Indic digits are normalized.
+   Decimal values tolerate 0.05 rounding; integers require exact matches;
+   percentages support fraction-to-percent and integer-percent rendering.
+   The code-derived display minute is allowed. `fields.generated_ms` and
+   `fields.budget_ms` are exempt runtime measurements.
+3. Names against metadata, including structured text fields. English detection is
+   conservative capitalization plus ordinary football vocabulary. Arabic detection
+   uses club cues and likely personal names. This is a heuristic, not comprehensive
+   named-entity recognition: lowercase English or unfamiliar Arabic entities can
+   evade it, and generated text also requires the semantic check.
+4. Evidence IDs within the brief and original moment.
+5. Immediately explained beginner jargon and the player persona's focus ID/name.
+
+Reason codes: `TOO_LONG`, `SCHEMA`, `NUMBER_NOT_IN_EVIDENCE`, `UNKNOWN_ENTITY`,
+`BAD_EVIDENCE_ID`, `TONE`, `UNSUPPORTED_CAUSALITY`.
+
+`await verify_with_model(..., model=client, budget=ctx.budget)` runs these checks
+before the optional semantic model call. It skips that call for StubModel, reserves
+tokens before calling, and settles real usage afterwards. Exceptions, malformed
+responses, denied budgets, and deadlines reject the draft so the caller can use
+fallback. Unknown token usage is conservatively charged to the reservation.
+The default semantic deadline is 1 s; the earlier 3.562 s Foundry smoke check means
+we must measure/tune live model latency during workflow integration.
+
+Numeric membership alone does not prove that a number is attached to the right
+claim or that a causal explanation is supported. Semantic validation complements
+these code checks. No verifier result automatically publishes a draft in Phase 2;
+the full repair/publish workflow arrives in Phase 5.
+
+For Owner A, the exact handoff is:
+
+```python
+from backend.agents.breakit import run_break_it
+
+result = await run_break_it(match_id, moment_id, persona, lang)
+# {draft, verdict, repaired_or_fallback_overlay}
+```
+
+Defaults are `match_001`, Hassan Nour's goal at 63:03 (`mom_044`), `tactical`, `en`.
+The helper loads the match through MatchLibrary and resolves real analytics
+evidence. It creates an intentionally corrupted copy, runs the actual verifier,
+and returns a verified deterministic template as fallback. It makes no model
+calls and never publishes the bad draft. Invalid persona/language or missing
+player raises ValueError; unknown match/moment raises KeyError. Owner A can map
+these to 422/404 when adding `POST /api/demo/break-it`. No API route was added here.
+
+Phase 2 validation: **336 tests passed** on Python 3.12.13, including 155 verifier
+tests; pyflakes clean. The numeric regression tests caught a deliberately inverted
+numeric guard before it was restored for the final passing run. A real local
+Break-it call rejected `999999` m and returned the original `21` m / `104` km/h /
+`2-2` template for `mom_044`. The reviewable JSON example is in the ignored local
+file `.venv/handoff/owner-c-break-it.json`. All Phase 2 tests use offline code or
+fake models; none call Azure.
 
 ## Foundry setup
 
