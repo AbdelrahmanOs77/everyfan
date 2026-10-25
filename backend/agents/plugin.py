@@ -38,9 +38,19 @@ class AgentsPlugin:
         generation = self.generations[moment.match_id]
         names = self.names[moment.match_id]
         # Reserve air slots in event order, before asynchronous work can interleave.
-        plan = produce(moment, self.runner.history)
-        self.ctx.spawn(self.runner.run(moment, names, plan=plan, started=started,
-                                       current=lambda: self.generations.get(moment.match_id) == generation))
+        trace = self.runner.start_trace(moment, "analytics_callback")
+        try:
+            with trace.activate():
+                with self.runner.telemetry.span("agent.producer") as span:
+                    plan = produce(moment, self.runner.history)
+                    span.set(count=len(plan))
+                task = self.ctx.spawn(self.runner.run(moment, names, plan=plan, started=started,
+                                      current=lambda: self.generations.get(moment.match_id) == generation,
+                                      workflow_trace=trace))
+                task.add_done_callback(lambda _: trace.end())
+        except BaseException:
+            trace.end()
+            raise
 
 
 def register(ctx) -> None:

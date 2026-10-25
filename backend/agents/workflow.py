@@ -16,6 +16,7 @@ from .llm import create_model
 from .names import NameAllowlist
 from .producer import AirPlanItem, produce
 from .templates import template_overlays
+from .telemetry import Telemetry, configure, event
 from .verifier import brief_from_moment, verify, verify_with_model
 from .writers import WriterResult, write_one
 
@@ -43,8 +44,12 @@ def item_key(item):
 
 
 class WorkflowRunner:
-    def __init__(self, ctx, config, *, tools=None, fast=None, strong=None, framework=True):
+    def __init__(self, ctx, config, *, tools=None, fast=None, strong=None, framework=True, telemetry=None):
         self.ctx, self.config, self.framework = ctx, config, framework
+        # Stub mode is offline even if the shell has a production Insights setting.
+        self.telemetry = telemetry
+        if self.telemetry is None:
+            self.telemetry = Telemetry() if config.mode == "stub" else configure()
         if tools is None:
             from .mcp_server import EvidenceTools
             tools = EvidenceTools(getattr(ctx, "library", None))
@@ -89,13 +94,18 @@ class WorkflowRunner:
     def audit(self, run, kind, **data):
         if not run.current():
             return
+        event(kind, persona=data.get("persona"), lang=data.get("language"),
+              reason_code=data.get("reason_code") or ",".join(data.get("reason_codes", [])),
+              verdict=data.get("status"), attempts=data.get("attempt"))
         self.enqueue("audit", {"match_id": run.moment.match_id, "moment_id": run.moment.moment_id,
                                "trace_id": run.trace_id, "kind": kind, **data})
 
     async def analyst(self, run):
         model = self.fast if self.config.analyst_model_role == "fast" else self.strong
-        run.brief = await analyze(run.moment, self.tools, model, self.ctx.budget,
-                                  timeout_s=self.config.analyst_timeout_s)
+        with self.telemetry.span("agent.analyst", model=getattr(model, "name", "off")) as span:
+            run.brief = await analyze(run.moment, self.tools, model, self.ctx.budget,
+                                      timeout_s=self.config.analyst_timeout_s)
+            span.set(confidence=run.brief.confidence)
 
     async def writers(self, run, repair=False):
         items = run.repair if repair else run.plan
@@ -104,10 +114,13 @@ class WorkflowRunner:
             key = item_key(item)
             run.attempts[key] = run.attempts.get(key, 0) + 1
             previous = run.drafts.get(key)
-            result = await write_one(run.brief, run.moment, run.names, item, self.fast, self.ctx.budget,
-                                     trace_id=run.trace_id, timeout_s=self.config.writer_timeout_s,
-                                     repair_reason=run.reasons[key][-1] if repair else None,
-                                     previous_draft=previous.draft.model_dump() if repair and previous.draft else None)
+            with self.telemetry.span("agent.writer", persona=item.persona, lang=item.language,
+                                     attempts=run.attempts[key], model=getattr(self.fast, "name", "off")) as span:
+                result = await write_one(run.brief, run.moment, run.names, item, self.fast, self.ctx.budget,
+                                         trace_id=run.trace_id, timeout_s=self.config.writer_timeout_s,
+                                         repair_reason=run.reasons[key][-1] if repair else None,
+                                         previous_draft=previous.draft.model_dump() if repair and previous.draft else None)
+                span.set(outcome="draft" if result.draft is not None else "fallback", reason_code=result.error)
             run.drafts[key] = result
         await asyncio.gather(*(draft(item) for item in items))
 
@@ -122,9 +135,12 @@ class WorkflowRunner:
             reason = result.error
             if result.draft is not None:
                 model = self.fast if self.config.verifier_model_role == "fast" else self.strong
-                verdict = await verify_with_model(result.draft.model_dump(), run.brief, run.moment, run.names,
-                                                  item.persona, model=model, budget=self.ctx.budget,
-                                                  timeout_s=self.config.verifier_timeout_s)
+                with self.telemetry.span("agent.verifier", persona=item.persona, lang=item.language,
+                                         attempts=run.attempts[key], model=getattr(model, "name", "off")) as span:
+                    verdict = await verify_with_model(result.draft.model_dump(), run.brief, run.moment, run.names,
+                                                      item.persona, model=model, budget=self.ctx.budget,
+                                                      timeout_s=self.config.verifier_timeout_s)
+                    span.set(verdict=verdict.status, reason_code=verdict.reason_code)
                 reason = verdict.reason_code
                 self.audit(run, "verdict", persona=item.persona, language=item.language,
                            attempt=run.attempts[key], **verdict.model_dump())
@@ -188,12 +204,36 @@ class WorkflowRunner:
                 continue
         return None
 
-    async def run(self, moment, names, *, plan=None, started=None, current=lambda: True):
+    def start_trace(self, moment, entry_point="direct"):
+        return self.telemetry.start("everyfan.workflow", match_id=moment.match_id,
+                                    moment_id=moment.moment_id, entry_point=entry_point,
+                                    tokens=0, charged_tokens=0)
+
+    async def run(self, moment, names, *, plan=None, started=None, current=lambda: True,
+                  workflow_trace=None, entry_point="direct"):
+        started = time.monotonic() if started is None else started
+        trace = workflow_trace or self.start_trace(moment, entry_point)
+        try:
+            with trace.activate():
+                overlays = await self._run(moment, names, plan=plan, started=started, current=current,
+                                           trace_id=trace.trace_id)
+                trace.set(approved=sum(o.verification_status == "approved" for o in overlays),
+                          fallback=sum(o.verification_status == "fallback" for o in overlays),
+                          outcome="completed" if current() else "stale")
+                return overlays
+        finally:
+            trace.end()
+
+    async def _run(self, moment, names, *, plan, started, current, trace_id):
         started = time.monotonic() if started is None else started
         if not current():
             return []
-        plan = produce(moment, self.history) if plan is None else plan
+        if plan is None:
+            with self.telemetry.span("agent.producer") as span:
+                plan = produce(moment, self.history)
+                span.set(count=len(plan))
         run = Run(moment, names, plan, started, brief=brief_from_moment(moment), current=current)
+        run.trace_id = trace_id or run.trace_id
         if not plan:
             return []
         reason = "OFF" if self.config.mode == "off" else "BUDGET"
@@ -246,7 +286,9 @@ class WorkflowRunner:
                 while len(self.cache) > 512:
                     self.cache.popitem(last=False)
                 self.enqueue("overlays", {"id": overlay.overlay_id, **overlay.model_dump()})
-            await self.ctx.publish_overlay(overlay)
+            with self.telemetry.span("overlay.publish", persona=item.persona, lang=item.language,
+                                     verdict=overlay.verification_status, reason_code=",".join(reasons)):
+                await self.ctx.publish_overlay(overlay)
             output.append(overlay)
         return output
 

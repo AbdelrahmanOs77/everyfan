@@ -11,7 +11,8 @@ from pydantic import BaseModel, ConfigDict, Field, TypeAdapter
 from shared.schemas import InsightBrief, Moment
 from shared.schemas.contracts import FactValue
 
-from .llm import complete_with_budget
+from .llm import BudgetUnavailable, complete_with_budget
+from .telemetry import TracedTools, annotate
 from .names import focus_player
 from .verifier import DIGITS, NUMBER, brief_from_moment, number_supported, numeric_values
 
@@ -78,7 +79,9 @@ def _ground(reply: InsightBrief, moment: Moment, data: list) -> InsightBrief:
 async def analyze(moment: Moment, tools, model=None, budget=None, *, timeout_s: float = 2.5) -> InsightBrief:
     fallback = brief_from_moment(moment).model_copy(update={"confidence": "low"})
     if model is None:
+        annotate(outcome="fallback", reason_code="OFF")
         return fallback
+    tools = TracedTools(tools)
 
     async def run():
         evidence, state = await asyncio.gather(tools.get_moment_evidence(moment.match_id, moment.moment_id),
@@ -109,9 +112,18 @@ async def analyze(moment: Moment, tools, model=None, budget=None, *, timeout_s: 
             text, _ = await complete_with_budget(model, system + "\nNo more tools. Return the final InsightBrief now.",
                                                  json.dumps(payload, ensure_ascii=False), InsightBrief.model_json_schema(), budget=budget)
             reply = InsightBrief.model_validate_json(text)
-        return _ground(reply, moment, data)
+        result = _ground(reply, moment, data)
+        annotate(outcome="completed")
+        return result
 
     try:
         return await asyncio.wait_for(run(), timeout_s)
-    except Exception:
+    except TimeoutError:
+        annotate(outcome="fallback", reason_code="TIMEOUT")
+        return fallback
+    except BudgetUnavailable:
+        annotate(outcome="fallback", reason_code="BUDGET")
+        return fallback
+    except Exception as exc:
+        annotate(outcome="fallback", reason_code="ANALYST_ERROR", error_type=type(exc).__name__)
         return fallback

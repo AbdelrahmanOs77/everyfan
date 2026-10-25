@@ -8,7 +8,7 @@ tactical, and player personas. Player overlays require a focus player in metadat
 The plugin subscribes to analytics, processes importance >= 0.5, deduplicates moments
 per replay, and invalidates pending overlays when a replay resets.
 
-Phases 1–5 are implemented locally. The plugin now runs the workflow in `stub` or
+Phases 1–6 are implemented locally. The plugin now runs the workflow in `stub` or
 `foundry` mode; `AGENT_MODE=off` remains the safe local default and emits checked
 templates. Foundry writers now pass local checks within the original deadlines
 when the Analyst and semantic checker explicitly select the fast deployment and
@@ -27,7 +27,9 @@ and authenticated MCP server on `owner-c-phase-3-mcp`. Phase 4 implements the
 Producer, Analyst, concurrent persona writers, and Foundry client on
 `owner-c-phase-4-agents`. Phase 5 adds workflow, repair/fallback, cache and publishing
 integration on `owner-c-phase-5-workflow`, with latency fixes on
-`codex/owner-c-phase-5-latency`. Frontend integration and Phases 6–8 remain.
+`codex/owner-c-phase-5-latency`. Phase 6 adds optional tracing on
+`codex/owner-c-phase-6-tracing`. Azure trace export/screenshot, frontend integration
+and Phases 7–8 remain.
 Per the user's instruction, phases are committed
 locally and exported for later team review/merge while GitHub access is unavailable.
 The original plan is preserved in [OWNER_C_PLAN.md](OWNER_C_PLAN.md).
@@ -356,7 +358,8 @@ Every published overlay has code-owned `fields.generated_ms`, `budget_ms`,
 `trace_id`. These describe execution rather than football facts. Writers cannot
 set attempts/reasons. Reason codes include verifier reasons and `OFF`, `BUDGET`,
 `TIMEOUT`, `DEADLINE`, `PRODUCER_TIMEOUT`, `MODEL_ERROR`, `INVALID_DRAFT`,
-`WORKFLOW_ERROR`, `REJECTED`, and `CACHE`. Distributed tracing is Phase 6.
+`WORKFLOW_ERROR`, `REJECTED`, and `CACHE`. Phase 6 uses a real OpenTelemetry trace
+ID when enabled; without export configuration this remains a local correlation ID.
 
 Offline coverage includes both runtimes, isolated one-time repair, repeated
 rejection, semantic rejection, stage/total timeouts, receipt queue delay,
@@ -454,6 +457,33 @@ When starting Uvicorn directly, add `--env-file .env`; Uvicorn does not otherwis
 load these project settings. No Azure resource/deployment change was needed.
 The [Microsoft latency guidance](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/latency)
 supports reducing unnecessary generated tokens and measuring model latency.
+
+## Phase 6 — tracing
+
+`telemetry.py` adds a workflow trace with child spans for Producer, Analyst,
+concurrent writers, verification, evidence tools, model calls and publication.
+The overlay's `trace_id` links to that workflow. Callback traces cover synchronous
+Producer work and queued generation; reset/cancellation closes them cleanly.
+Actual token totals are isolated per workflow rather than inferred from the
+shared budget, with unknown usage shown separately as conservative charges.
+
+Azure export starts once when `APPLICATIONINSIGHTS_CONNECTION_STRING` is set.
+Otherwise tracing is a no-op; stub mode never automatically exports, even when
+that variable exists in the parent shell. Prompts, drafts, evidence payloads and
+exception messages are excluded from our spans, and native Agent Framework message
+capture is disabled. See [OWNER_C_TRACING.md](OWNER_C_TRACING.md) for setup and queries.
+
+Local proof uses real local evidence and stub generation: **two traces, 78 spans,
+12 overlays**, covering approval and repair/fallback. The JSON is in
+`.venv/handoff/owner-c-phase6-traces.json`; regenerate it without Azure/model calls:
+
+```powershell
+.\.venv\py312\Scripts\python.exe -m backend.agents.trace_demo
+```
+
+The current Azure subscription has no Application Insights component, and the
+ignored `.env` has no connection string. Azure ingestion and the Foundry/App
+Insights screenshot remain unverified. No monitoring resource was created.
 
 ## Foundry setup
 

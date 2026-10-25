@@ -8,6 +8,7 @@ from typing import Protocol
 from urllib.parse import urlparse
 
 from .config import AgentConfig
+from .telemetry import current, record_usage
 
 
 class ModelClient(Protocol):
@@ -22,19 +23,24 @@ async def complete_with_budget(model: ModelClient, system: str, user: str, json_
                                *, budget, timeout_s: float | None = None) -> tuple[str, int]:
     # UTF-8 bytes are a conservative token estimate, plus bounded output/role overhead.
     estimate = len((system + user + json.dumps(json_schema or {})).encode("utf-8")) + 1200
-    if budget is None or not await budget.try_reserve(estimate):
-        raise BudgetUnavailable("Token budget unavailable")
-    actual = estimate
-    try:
-        call = model.complete(system, user, json_schema)
-        text, usage = await asyncio.wait_for(call, timeout_s) if timeout_s is not None else await call
-        if not isinstance(usage, int) or isinstance(usage, bool) or usage < 0:
-            raise ValueError("Model did not report valid token usage")
-        actual = usage
-        return text, usage
-    finally:
-        # On cancellation or a transport error, the service may still have spent tokens.
-        await budget.settle(estimate, actual)
+    with current().span("model.complete", model=getattr(model, "name", "unknown")) as span:
+        if budget is None or not await budget.try_reserve(estimate):
+            span.set(reason_code="BUDGET")
+            raise BudgetUnavailable("Token budget unavailable")
+        actual, reported = estimate, 0
+        try:
+            call = model.complete(system, user, json_schema)
+            text, usage = await asyncio.wait_for(call, timeout_s) if timeout_s is not None else await call
+            if not isinstance(usage, int) or isinstance(usage, bool) or usage < 0:
+                raise ValueError("Model did not report valid token usage")
+            actual = reported = usage
+            span.set(outcome="completed", usage_unknown=False)
+            return text, usage
+        finally:
+            # On cancellation/transport failure the service may still have spent tokens.
+            span.set(usage_unknown=actual != reported)
+            record_usage(reported, actual)
+            await budget.settle(estimate, actual)
 
 
 class FoundryModel:
