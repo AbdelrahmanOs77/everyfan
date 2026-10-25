@@ -8,9 +8,9 @@ tactical, and player personas. Player overlays require a focus player in metadat
 The plugin subscribes to analytics, processes importance >= 0.5, deduplicates moments
 per replay, and invalidates pending overlays when a replay resets.
 
-This phase makes no model calls. `AGENT_MODE=off` is the default. The scaffold
-accepts `stub` and `foundry` settings for later phases; both still publish templates
-until the model workflow is implemented. Nothing here claims live AI generation.
+The registered live plugin still makes no model calls. `AGENT_MODE=off` is the
+default. The model stage functions can be invoked separately, but the plugin
+continues to publish templates in all modes until Phase 5 connects the workflow.
 
 The existing goal and red-card helpers are reused. Owner C replaces red-card body
 text with verified minute and `players_left` facts, adds the missing player persona,
@@ -18,8 +18,10 @@ and avoids calculating remaining minutes or assuming a single dismissal.
 
 Phase 2 adds the deterministic verifier, optional budgeted semantic check, and
 Break-it helper on `owner-c-phase-2-verifier`. Phase 3 adds the five evidence tools
-and authenticated MCP server on `owner-c-phase-3-mcp`. Phases 4–8 are pending,
-starting with the Producer, Analyst, writers, and Foundry client. Per the user's instruction, phases are committed
+and authenticated MCP server on `owner-c-phase-3-mcp`. Phase 4 implements the
+Producer, Analyst, concurrent persona writers, and Foundry client on
+`owner-c-phase-4-agents`. Phases 5–8 remain, starting with the complete workflow,
+repair/fallback, cache, and publishing integration. Per the user's instruction, phases are committed
 locally and exported for later team review/merge while GitHub access is unavailable.
 The original plan is preserved in [OWNER_C_PLAN.md](OWNER_C_PLAN.md).
 
@@ -204,6 +206,84 @@ invalid keys/arguments/hosts/origins, and confirm optional mount failure leaves
 the API available. The authentication regression tests also caught an intentionally
 inverted key comparison, which was restored before the final passing suite.
 
+## Phase 4 — Producer, Analyst, writers, and Foundry client
+
+The Producer is code-only. It schedules beginner/tactical/player × English/Arabic,
+with player overlays only when a focus player exists. Goals and red cards bypass
+cooldowns with priority 1; other moments require 45 match-seconds since that
+persona's last scheduled overlay. History is keyed by match/persona and reserved
+synchronously, so concurrent background work cannot overbook a persona. A replay
+reset must clear that history in Phase 5. Placement, priority, and TTL are code-owned.
+
+`await analyze(moment, tools, model, budget)` prefetches moment evidence and state.
+It may process one JSON request for up to two additional read-only evidence calls,
+then requires a final InsightBrief. Cross-match requests, future timestamps,
+unknown tools, and more than two requests are rejected before execution.
+Every model call reserves budget and settles actual usage. Numeric facts must be
+copied under the same keys from tool output; the original moment's facts cannot
+be replaced by another player's or team's values. Unsupported facts are dropped,
+unsupported numbers in the claim are removed by replacing the claim with the
+deterministic moment label, and confidence is downgraded. Any error, unavailable
+budget, or 2.5 s deadline returns a fact-only deterministic brief.
+
+`await write_overlays(brief, moment, names, plan, model, budget)` fans out with
+asyncio.gather. One failure does not cancel the other personas. Each writer returns
+only headline, body, and fields; extra top-level properties are rejected. Code
+fills IDs, evidence IDs, timing, language/direction, layout, priority, TTL,
+model, prompt version, and correlation ID. Player IDs and runtime measurements
+cannot be chosen by a model. Output remains source=agent / verification_status=rejected
+until the Phase 5 Verifier explicitly approves it; these functions never publish.
+Each result contains its plan item, a draft or None, and an error code if needed.
+
+Persona cards cover beginner (one explained term), tactical (supplied metrics and
+baseline when available), and player (focus player). Arabic uses Modern Standard
+Arabic and metadata name_ar. The club style card is prepared but the club persona
+is not enabled until Phase 8. Repair feedback is supported by `write_one` for the
+Phase 5 repair loop, which is not implemented in this phase.
+
+`create_model(config, role)` chooses None, StubModel, or FoundryModel from
+AGENT_MODE. StubModel copies grounded fixtures, costs zero tokens, and performs no
+network calls. FoundryModel lazily uses `agent_framework.foundry.FoundryChatClient`
+with DefaultAzureCredential. SDK imports run off the event loop, and initialization
+is guarded for concurrent writers. It uses the project Responses endpoint, disables
+response storage, requests JSON when a schema is supplied, and reads real total
+token usage. Dynamic fact maps are validated locally rather than claiming strict
+server-side JSON-schema enforcement. Call `aclose()` for owned live clients.
+The strong deployment uses low reasoning effort. Client instances are for one
+event loop, matching the [official Foundry provider guidance](https://learn.microsoft.com/en-us/agent-framework/integrations/by-component/model-providers/microsoft-foundry).
+
+Pinned API versions: agent-framework-foundry 1.15.0, agent-framework-core 1.23.0,
+agent-framework-openai 1.17.0, azure-ai-projects 2.7.0, and openai 3.37.0. The MCP
+1.30.0 pin remains compatible. Model calls use the shared budget wrapper; failed
+or cancelled requests with unknown usage consume their reservation conservatively.
+Mode off makes no model calls or reservations.
+
+Live smoke checks outside pytest confirmed the new Agent Framework client can
+reach both deployments. A recorded strong-Analyst call returned a high-confidence,
+grounded brief using 2,674 tokens, with 8,438 ms observed cold request time. Two
+tactical writer calls returned English/Arabic drafts that passed deterministic
+checks; their observed stage times were 2,677 ms and 1,593 ms. These used relaxed
+20 s smoke deadlines, do not establish production latency, and were not published.
+The Arabic draft included an unsupported qualitative description despite correct
+numbers, illustrating why the semantic Verifier is still required. Prompts were
+tightened to avoid unsupported speed/distance classifications; this is not a
+substitute for the Phase 5 gate. An earlier Analyst smoke attempt safely returned
+the deterministic low-confidence fallback. Local artifacts are
+`.venv/handoff/owner-c-phase4-live.json` and `.venv/handoff/owner-c-analyst-live.json`.
+
+The live plugin still uses templates. Phase 5 must connect these stages, enforce
+the total 5.5 s receipt-to-result deadline, repair once, verify semantic claims,
+cache outcomes, audit them, and publish only checked agent output or safe fallback.
+
+Phase 4 validation: **382 tests passed** on Python 3.12.13, including 26 generation
+tests; pyflakes and `pip check` clean. Tests cover Producer cooldowns/urgent events,
+fact filtering with conflicting evidence contexts, bounded tool requests, malformed
+output, cancellation accounting, budgets, concurrent writer isolation, all eval
+moment types, Arabic names, code-owned fields, and the Foundry adapter with a fake
+SDK client. An inverted cooldown condition was caught by its regression test and
+restored before the full passing run. Pytest never calls Azure or real models;
+the live smoke checks described above ran separately.
+
 ## Foundry setup
 
 The `everyfan-ai` project is now provisioned in UAE North, under Foundry resource
@@ -250,7 +330,8 @@ loaded after `backend.analytics.plugin:register`. Off mode now provides bilingua
 templates for all agent-worthy moment types. Replace the old template plugin when
 switching to this path so goals are not shown twice. MCP is mounted locally at
 `/mcp/`, and the Break-it helper is ready for the API route described above.
-The Foundry agent workflow will arrive in Phases 4–5.
+The Foundry stage implementations are now present; workflow/publishing integration
+will arrive in Phase 5.
 
 For Owner B: Owner C will write its own briefs through the existing Cosmos store
 in Phase 5. Cosmos is in Italy North, per the team handoff. We will check for your

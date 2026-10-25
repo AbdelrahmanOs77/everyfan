@@ -11,3 +11,9 @@ pyyaml>=6.0
 azure-cosmos>=4.7
 # Owner C: official MCP SDK maintenance release exposing FastMCP.
 mcp==1.30.0
+# Owner C: inspected and tested Foundry/Agent Framework client API versions.
+agent-framework-foundry==1.15.0
+agent-framework-core==1.23.0
+agent-framework-openai==1.17.0
+azure-ai-projects==2.7.0
+openai==3.37.0
