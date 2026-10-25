@@ -70,18 +70,43 @@ zero plugin errors for every scenario:
 Moments below importance 0.5 remain in the analytics feed but are deliberately
 skipped by this agent plugin. The 63:03 Hassan Nour goal is `mom_044` in match_001.
 
-## Foundry setup still needed
+## Foundry setup
 
-The API and Cosmos endpoints are separate from model access. A read-only CLI check
-on this laptop found an active Azure for Students subscription and no Cognitive
-Services/Foundry accounts in that selected subscription. No cloud resources were
-created or changed.
+The `everyfan-ai` project is now provisioned in UAE North, under Foundry resource
+`everyfan-ai-resource` in resource group `damlink-ocr-rg`, using Azure for Students.
+Subscription quota and the account model catalog were checked before deploying:
 
-Sign in at <https://ai.azure.com/> with the student account. Follow Microsoft's
-[Foundry resource setup](https://learn.microsoft.com/en-us/azure/foundry/tutorials/quickstart-create-foundry-resources)
-to create a project, deploy available models, and obtain the project endpoint and
-deployment names. The plan prefers `uaenorth`, then `italynorth` if unavailable;
-region/model eligibility must be checked against the actual subscription.
+| Purpose | Deployment name | Model | Version | SKU / capacity |
+| --- | --- | --- | --- | --- |
+| Writers | everyfan-fast | gpt-4.1-mini | 2025-04-14 | GlobalStandard / 30 |
+| Analyst and semantic verifier | everyfan-strong | gpt-5-mini | 2025-08-07 | GlobalStandard / 10 |
+
+Both deployments report `Succeeded`. Capacity controls rate limits; these are
+pay-per-token deployments, with no provisioned throughput purchase.
+
+Project endpoint:
+`https://everyfan-ai-resource.services.ai.azure.com/api/projects/everyfan-ai`
+
+Local settings are saved in the ignored `.env`, with `AGENT_MODE=off` until the
+Foundry workflow is implemented. No keys or tokens are stored there. Local model
+authentication uses the existing Azure CLI login; production managed identity
+access still needs coordination with Owner A.
+
+Azure MCP confirmed quota, deployment inventory, and successful English/Arabic
+writer output. The checker accepted the verified 104 km/h and rejected a draft
+claiming 999 km/h. The Foundry management MCP connector failed authentication, so
+deployment operations used the signed-in Azure CLI. Existing resources, roles,
+API deployment, and committed demo bundles were not modified.
+
+A bounded Python Responses API smoke request also completed successfully with
+the same correct/invented verdicts, using 192 tokens. Its single observed request
+time was 3,562 ms, which exceeds the plan's 2.5 s Analyst deadline. This is not a
+latency benchmark; the workflow must enforce its deadlines and template fallback,
+and compare the fast model for that step before relying on live timing.
+
+For project REST calls, use the `https://ai.azure.com/.default` token scope. The
+Cognitive Services token scope returned 401 on this project endpoint. See the
+[official SDK/REST quickstart](https://learn.microsoft.com/en-us/azure/foundry/quickstarts/get-started-code).
 Never paste credentials into chat or commit them.
 
 ## Team handoff (draft; not sent)
