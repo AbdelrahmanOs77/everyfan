@@ -10,9 +10,12 @@ per replay, and invalidates pending overlays when a replay resets.
 
 Phases 1–5 are implemented locally. The plugin now runs the workflow in `stub` or
 `foundry` mode; `AGENT_MODE=off` remains the safe local default and emits checked
-templates. The first live AI milestone is still pending: cold and warm Foundry
-smokes hit stage/total deadlines and emitted six safe templates rather than
-approved model text. No production deployment or team demo bundle has changed.
+templates. Foundry writers now pass local checks within the original deadlines
+when the Analyst and semantic checker explicitly select the fast deployment and
+SDK/authentication preparation runs at startup. A verified Arabic tactical overlay
+also reached the actual local viewer WebSocket at the correct match timestamp.
+Browser display is unverified because this checkout contains no frontend.
+No production deployment or team demo bundle has changed.
 
 The existing goal and red-card helpers are reused. Owner C replaces red-card body
 text with verified minute and `players_left` facts, adds the missing player persona,
@@ -23,8 +26,9 @@ Break-it helper on `owner-c-phase-2-verifier`. Phase 3 adds the five evidence to
 and authenticated MCP server on `owner-c-phase-3-mcp`. Phase 4 implements the
 Producer, Analyst, concurrent persona writers, and Foundry client on
 `owner-c-phase-4-agents`. Phase 5 adds workflow, repair/fallback, cache and publishing
-integration on `owner-c-phase-5-workflow`. Its live AI latency milestone and Phases
-6–8 remain. Per the user's instruction, phases are committed
+integration on `owner-c-phase-5-workflow`, with latency fixes on
+`codex/owner-c-phase-5-latency`. Frontend integration and Phases 6–8 remain.
+Per the user's instruction, phases are committed
 locally and exported for later team review/merge while GitHub access is unavailable.
 The original plan is preserved in [OWNER_C_PLAN.md](OWNER_C_PLAN.md).
 
@@ -368,9 +372,88 @@ Manual live smoke, outside pytest: the first cold run produced six fallbacks in
 their 2 s deadline. The warm run also encountered a deterministic entity rejection
 and the total deadline. These are individual observations, not a latency benchmark.
 Ignored diagnostic output is `.venv/handoff/owner-c-phase5-live.json`.
-The plan's first milestone—an approved Foundry overlay visible in local playback—
-has **not** been demonstrated. Next work must diagnose/tune model latency without
-silently increasing the production deadlines or bypassing semantic verification.
+These initial checks preceded the latency follow-up below. They did not
+demonstrate an approved Foundry overlay.
+
+### Phase 5 latency follow-up
+
+The diagnostic used one real goal, with temporary diagnostic-only bounds long
+enough to observe completed calls. Production deadlines were unchanged.
+The original strong-model Analyst took 8,954 ms, writers 2,265–3,125 ms, and
+completed strong semantic checks 2,953–4,438 ms. That diagnostic took 22,500 ms;
+it cannot satisfy the live 5.5 s budget. Switching stage roles alone produced a
+12,656 ms diagnostic, including cold setup. Removing redundant generated facts
+and shortening semantic verdicts produced a 9,844 ms diagnostic. These are
+individual observations with variable service latency, not a benchmark or SLA.
+
+Changes retained after measurement:
+
+- `AGENT_ANALYST_MODEL_ROLE=fast` and `AGENT_VERIFIER_MODEL_ROLE=fast` explicitly
+  select the existing fast deployment. Defaults remain `strong`. Fast-only mode
+  does not require a strong deployment. All calls still reserve/settle tokens.
+- Writers return compact text JSON with `fields={}`; code attaches verified facts.
+  This removes duplicated generated statistics without dropping displayed facts.
+- Semantic checks receive the same metadata name/ID mapping as writers. Previously
+  they could reject correct player names because the brief carried IDs only.
+  Semantic approval is still mandatory for real model drafts.
+- API startup prepares SDK imports and authentication without a paid inference
+  call, bounded to 10 s. Failure leaves ordinary deadline/fallback protection in
+  place. Off mode stays offline. Direct `WorkflowRunner` callers can call
+  `await runner.prepare()` before receiving moments.
+- Manual review caught a model-approved unsupported “fast shot” description.
+  Code now rejects recognized English/Arabic fast/slow shot labels unless
+  `shot_speed_classification` supplies that label. A measured speed alone does
+  not establish a category. This uses `UNSUPPORTED_CAUSALITY`; other semantic
+  claims still need model checking and human review. The check is deliberately
+  narrow, not a claim of complete natural-language fact verification.
+
+An initial prepared live check produced six fresh model approvals in 4,984 ms
+after 2,157 ms of startup preparation; a repeat produced four fresh approvals and
+two checked cache hits in 5,516 ms. The unsupported English classification was
+discovered during manual review of that first batch and is rejected by the new
+code guard. With that guard, the next fresh run produced five approvals and one
+template; the repeat produced three fresh approvals, two checked cache hits and
+one template. Both took approximately 5,516 ms, exposing final scheduling overhead.
+The workflow now reserves up to 50 ms inside its existing total budget for timer
+granularity, checked fallback and local publication; demo lookup uses the same
+remaining budget. The final check produced **four fresh approved overlays and
+two safe templates in 5,203 ms**, after 2,328 ms of startup preparation, with zero
+outstanding token reservations. Real service latency remains variable.
+
+The actual local API replay also delivered `mom_044`, tactical/Arabic,
+`source=agent`, `verification_status=approved`, `dir=rtl`, `show_at_s=3783` through
+`/ws/matches/match_001`; its generation metadata was 5,516 ms including final
+publication overhead. Its Arabic text had no unsupported speed label. No frontend
+exists in this checkout, so this proves API delivery, not browser rendering.
+The Analyst can still hit its 2.5 s deadline and use its deterministic grounded
+brief; a successful writer result does not prove every stage completed a model call.
+Ignored evidence: `.venv/handoff/owner-c-phase5-api-live.json` and
+`.venv/handoff/owner-c-phase5-latency-live.json`. The final guarded/reserved-budget
+run is `.venv/handoff/owner-c-phase5-latency-final.json`.
+
+Validation of this follow-up: **415 offline tests passed**, including 33 workflow
+tests; pyflakes, `pip check` and whitespace checks passed. Tests cover explicit role
+selection with semantic checking intact, active-model startup preparation without
+inference, name evidence, compact writer fact preservation, unsupported English
+and Arabic shot classifications, and actual API/WebSocket replay in stub mode.
+An inverted verifier-role condition was caught and restored before final checks.
+
+For a local Foundry run (PowerShell):
+
+```powershell
+$env:PIPELINE_PLUGINS = "backend.analytics.plugin:register,backend.agents.plugin:register"
+$env:AGENT_MODE = "foundry"
+$env:AGENT_ANALYST_MODEL_ROLE = "fast"
+$env:AGENT_VERIFIER_MODEL_ROLE = "fast"
+$env:STREAM_TRANSPORT = "local"
+.\.venv\py312\Scripts\python.exe -m backend.cli serve
+```
+
+Use the ignored `.env` for the existing Foundry endpoint/deployment settings.
+When starting Uvicorn directly, add `--env-file .env`; Uvicorn does not otherwise
+load these project settings. No Azure resource/deployment change was needed.
+The [Microsoft latency guidance](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/latency)
+supports reducing unnecessary generated tokens and measuring model latency.
 
 ## Foundry setup
 
@@ -381,7 +464,7 @@ Subscription quota and the account model catalog were checked before deploying:
 | Purpose | Deployment name | Model | Version | SKU / capacity |
 | --- | --- | --- | --- | --- |
 | Writers | everyfan-fast | gpt-4.1-mini | 2025-04-14 | GlobalStandard / 30 |
-| Analyst and semantic verifier | everyfan-strong | gpt-5-mini | 2025-08-07 | GlobalStandard / 10 |
+| Default Analyst and semantic verifier; optional fast roles above | everyfan-strong | gpt-5-mini | 2025-08-07 | GlobalStandard / 10 |
 
 Both deployments report `Succeeded`. Capacity controls rate limits; these are
 pay-per-token deployments, with no provisioned throughput purchase.
@@ -420,8 +503,11 @@ templates for all agent-worthy moment types. Replace the old template plugin whe
 switching to this path so goals are not shown twice. MCP is mounted locally at
 `/mcp/`, and the Break-it helper is ready for the API route described above.
 The Foundry workflow is wired locally, including verification, one repair, cache,
-budget enforcement and template fallback. The live AI latency milestone remains
-pending; keep `AGENT_MODE=off` until that behavior is reviewed with the team.
+budget enforcement and template fallback. The fast-role configuration above
+has delivered a verified Foundry overlay through the local viewer WebSocket.
+Keep the existing off-mode default until the team reviews model quality, Arabic
+wording and frontend behavior. Production identity access and Cosmos access still
+need team coordination; nothing has been deployed or sent to teammates.
 
 For Owner B: Owner C writes its own briefs through the existing Cosmos store.
 Cosmos is in Italy North, per the team handoff. We will check for your

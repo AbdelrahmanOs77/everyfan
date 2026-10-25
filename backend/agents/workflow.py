@@ -50,9 +50,31 @@ class WorkflowRunner:
             tools = EvidenceTools(getattr(ctx, "library", None))
         self.tools = tools
         self.fast = fast if fast is not None else create_model(config)
-        self.strong = strong if strong is not None else create_model(config, "strong")
+        needs_strong = "strong" in {config.analyst_model_role, config.verifier_model_role}
+        self.strong = strong
+        if self.strong is None and needs_strong:
+            self.strong = create_model(config, "strong")
         self.cache = OrderedDict()
         self.history = {}
+
+    def time_left(self, started):
+        # Leave room for Windows timer granularity, checked fallback and local publication.
+        publication_reserve = min(.05, self.config.total_timeout_s / 10)
+        return self.config.total_timeout_s - publication_reserve - (time.monotonic() - started)
+
+    async def prepare(self):
+        """Move SDK imports and authentication outside the first moment's deadline."""
+        if self.config.mode == "off":
+            return
+        if self.framework:
+            try:
+                await asyncio.to_thread(importlib.import_module, "backend.agents.workflow_graph")
+            except ImportError:
+                self.framework = False
+        models = {self.fast}
+        if "strong" in {self.config.analyst_model_role, self.config.verifier_model_role}:
+            models.add(self.strong)
+        await asyncio.gather(*(model.prepare() for model in models if hasattr(model, "prepare")))
 
     def enqueue(self, container, doc):
         # A full queue or unavailable Cosmos must never stop the live stream.
@@ -71,7 +93,8 @@ class WorkflowRunner:
                                "trace_id": run.trace_id, "kind": kind, **data})
 
     async def analyst(self, run):
-        run.brief = await analyze(run.moment, self.tools, self.strong, self.ctx.budget,
+        model = self.fast if self.config.analyst_model_role == "fast" else self.strong
+        run.brief = await analyze(run.moment, self.tools, model, self.ctx.budget,
                                   timeout_s=self.config.analyst_timeout_s)
 
     async def writers(self, run, repair=False):
@@ -98,8 +121,9 @@ class WorkflowRunner:
             result = run.drafts[key]
             reason = result.error
             if result.draft is not None:
+                model = self.fast if self.config.verifier_model_role == "fast" else self.strong
                 verdict = await verify_with_model(result.draft.model_dump(), run.brief, run.moment, run.names,
-                                                  item.persona, model=self.strong, budget=self.ctx.budget,
+                                                  item.persona, model=model, budget=self.ctx.budget,
                                                   timeout_s=self.config.verifier_timeout_s)
                 reason = verdict.reason_code
                 self.audit(run, "verdict", persona=item.persona, language=item.language,
@@ -139,7 +163,7 @@ class WorkflowRunner:
         demo = getattr(self.ctx, "demo", None)
         bundle = None
         library = getattr(self.ctx, "library", None)
-        remaining = self.config.total_timeout_s - (time.monotonic() - run.started)
+        remaining = self.time_left(run.started)
         if demo is not None and library is not None and remaining > 0:
             try:
                 # DemoStore.get validates the simulation fingerprint, unlike direct bundle access.
@@ -173,7 +197,7 @@ class WorkflowRunner:
         if not plan:
             return []
         reason = "OFF" if self.config.mode == "off" else "BUDGET"
-        remaining = self.config.total_timeout_s - (time.monotonic() - started)
+        remaining = self.time_left(started)
         producer_late = time.monotonic() - started > self.config.producer_timeout_s
         if producer_late:
             reason = "PRODUCER_TIMEOUT"

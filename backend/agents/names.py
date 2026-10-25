@@ -19,3 +19,11 @@ def focus_player(moment: Moment) -> str | None:
         if isinstance(value, str):
             return value
     return None
+
+
+def prompt_names(names: NameAllowlist, moment: Moment) -> dict:
+    """The same metadata-backed name/ID mapping for writers and semantic checks."""
+    ids = {focus_player(moment), *[v for v in moment.verified_facts.values() if isinstance(v, str)]}
+    entities = {**names.teams, **{pid: player for pid, player in names.players.items() if pid in ids}}
+    return {key: {"name": entity.name, "short_name": entity.short_name, "name_ar": entity.name_ar}
+            for key, entity in entities.items()}

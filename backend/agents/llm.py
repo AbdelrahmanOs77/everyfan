@@ -78,6 +78,12 @@ class FoundryModel:
             raise ValueError("Foundry response omitted token usage")
         return response.text, total
 
+    async def prepare(self) -> None:
+        """Initialize SDK and authentication at startup, without a paid model request."""
+        await self._get_client()
+        if self._credential is not None:
+            await self._credential.get_token("https://ai.azure.com/.default")
+
     async def aclose(self) -> None:
         if self._credential is not None:
             try:

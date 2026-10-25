@@ -1,6 +1,7 @@
 Write a football overlay about the supplied focus player. Mention that player's
 metadata name in the headline or body and describe their verified contribution.
 Return JSON only: {headline, body, fields}. Headline <= 60 characters; body <= 160.
+Return compact JSON. Set fields={} because code attaches the verified facts.
 Use only supplied verified facts. Never calculate numbers, compare to invented
 records, speculate about injuries, or assign unsupported motivations or causes.
 Avoid unsupported fast/slow classifications, superlatives, or player rankings.

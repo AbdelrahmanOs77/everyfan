@@ -13,7 +13,7 @@ from pydantic import BaseModel, ConfigDict, ValidationError
 from shared.schemas import InsightBrief, Moment, Overlay
 
 from .llm import ModelClient, complete_with_budget
-from .names import NameAllowlist, focus_player
+from .names import NameAllowlist, focus_player, prompt_names
 
 PROMPTS = Path(__file__).with_name("prompts")
 DIGITS = str.maketrans("٠١٢٣٤٥٦٧٨٩۰۱۲۳۴۵۶۷۸۹٫٬", "01234567890123456789.,")
@@ -114,6 +114,19 @@ def _unexplained_jargon(text: str) -> str | None:
     return None
 
 
+def _unsupported_shot_speed(text: str, brief: InsightBrief, moment: Moment) -> bool:
+    # A measured speed alone never establishes a qualitative speed category.
+    classification = brief.facts.get("shot_speed_classification", moment.verified_facts.get("shot_speed_classification"))
+    normalized = re.sub(r"[\u064b-\u065f\u0670]", "", text)
+    for label, arabic in (("fast", "سريعة"), ("slow", "بطيئة")):
+        english = re.search(rf"\b{label}(?:er|est)?[\s-]+(?:shot|strike)\b|\b(?:shot|strike)\s+(?:(?:is|was)\s+)?{label}\b",
+                            normalized, re.IGNORECASE)
+        arabic_claim = "تسديد" in normalized and re.search(rf"(?<!\w)(?:ال)?{arabic}(?!\w)", normalized)
+        if (english or arabic_claim) and classification not in {label, arabic}:
+            return True
+    return False
+
+
 def verify(draft: dict, brief: InsightBrief, moment: Moment, names: NameAllowlist, persona: str) -> Verdict:
     try:
         overlay = Overlay.model_validate(draft)
@@ -128,6 +141,8 @@ def verify(draft: dict, brief: InsightBrief, moment: Moment, names: NameAllowlis
         return reject("SCHEMA", "Draft, brief, metadata, persona, direction or timing do not match the moment.")
     allowed = numeric_values(brief.facts) + numeric_values(moment.verified_facts) + [moment.game_clock_s // 60 + 1]
     text = overlay.headline + "\n" + overlay.body
+    if _unsupported_shot_speed(text, brief, moment):
+        return reject("UNSUPPORTED_CAUSALITY", "Shot speed classification requires a verified label.")
     for match in NUMBER.finditer(text.translate(DIGITS)):
         if not number_supported(match.group(), allowed):
             return reject("NUMBER_NOT_IN_EVIDENCE", f"Unsupported number: {match.group().strip()}")
@@ -177,7 +192,8 @@ async def verify_with_model(draft: dict, brief: InsightBrief, moment: Moment, na
     if verdict.status == "rejected" or model is None or getattr(model, "name", None) == "stub":
         return verdict
     try:
-        payload = {"draft": draft, "brief": brief.model_dump(), "moment": moment.model_dump()}
+        payload = {"draft": draft, "brief": brief.model_dump(), "moment": moment.model_dump(),
+                   "names": prompt_names(names, moment)}
         system = (PROMPTS / "verifier_v1.md").read_text(encoding="utf-8")
         text, _ = await complete_with_budget(model, system, json.dumps(payload, ensure_ascii=False),
                                              Verdict.model_json_schema(), budget=budget, timeout_s=timeout_s)

@@ -13,7 +13,7 @@ from shared.schemas import InsightBrief, Moment, Overlay
 from shared.schemas.contracts import FactValue
 
 from .llm import BudgetUnavailable, complete_with_budget
-from .names import NameAllowlist, focus_player
+from .names import NameAllowlist, focus_player, prompt_names
 from .producer import AirPlanItem
 from .templates import template_overlays
 
@@ -32,13 +32,6 @@ class WriterResult:
     error: str | None = None
 
 
-def _names_for_prompt(names: NameAllowlist, moment: Moment) -> dict:
-    ids = {focus_player(moment), *[v for v in moment.verified_facts.values() if isinstance(v, str)]}
-    entities = {**names.teams, **{pid: player for pid, player in names.players.items() if pid in ids}}
-    return {key: {"name": entity.name, "short_name": entity.short_name, "name_ar": entity.name_ar}
-            for key, entity in entities.items()}
-
-
 async def write_one(brief: InsightBrief, moment: Moment, names: NameAllowlist, item: AirPlanItem,
                     model, budget, *, trace_id: str, timeout_s: float = 2.0,
                     repair_reason: str | None = None, previous_draft: dict | None = None) -> WriterResult:
@@ -51,8 +44,8 @@ async def write_one(brief: InsightBrief, moment: Moment, names: NameAllowlist, i
         template = next(o for o in template_overlays(moment, names) if o.persona == item.persona and o.language == item.language)
         system = Path(__file__).with_name("prompts").joinpath(f"writer_{item.persona}_v1.md").read_text(encoding="utf-8")
         payload = {"task": "writer", "persona": item.persona, "language": item.language,
-                   "brief": brief.model_dump(), "names": _names_for_prompt(names, moment),
-                   "template": {key: getattr(template, key) for key in ("headline", "body", "fields")}}
+                   "brief": brief.model_dump(), "names": prompt_names(names, moment),
+                   "template": {"headline": template.headline, "body": template.body, "fields": {}}}
         if repair_reason:
             payload.update(repair_reason=repair_reason, previous_draft=previous_draft)
         text, _ = await complete_with_budget(model, system, json.dumps(payload, ensure_ascii=False),

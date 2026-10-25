@@ -16,6 +16,8 @@ class AgentConfig:
     writer_timeout_s: float = 2.0
     verifier_timeout_s: float = 1.0
     total_timeout_s: float = 5.5
+    analyst_model_role: str = "strong"
+    verifier_model_role: str = "strong"
 
     @classmethod
     def from_env(cls) -> "AgentConfig":
@@ -23,6 +25,13 @@ class AgentConfig:
         if mode not in {"off", "stub", "foundry"}:
             raise ValueError("AGENT_MODE must be off, stub, or foundry")
         deadlines = {}
+        roles = {}
+        for stage in ("analyst", "verifier"):
+            key = f"AGENT_{stage.upper()}_MODEL_ROLE"
+            role = os.getenv(key, "strong").lower()
+            if role not in {"fast", "strong"}:
+                raise ValueError(f"{key} must be fast or strong")
+            roles[f"{stage}_model_role"] = role
         for stage in ("producer", "analyst", "writer", "verifier", "total"):
             key = f"{stage}_timeout_s"
             value = float(os.getenv(f"AGENT_{key.upper()}", str(getattr(cls, key))))
@@ -32,4 +41,4 @@ class AgentConfig:
         return cls(mode=mode, foundry_project_endpoint=os.getenv("FOUNDRY_PROJECT_ENDPOINT", ""),
                    model_fast=os.getenv("FOUNDRY_MODEL_FAST", ""),
                    model_strong=os.getenv("FOUNDRY_MODEL_STRONG", ""),
-                   mcp_api_key=os.getenv("MCP_API_KEY", ""), **deadlines)
+                   mcp_api_key=os.getenv("MCP_API_KEY", ""), **deadlines, **roles)

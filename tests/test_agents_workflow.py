@@ -314,3 +314,177 @@ def test_model_shutdown_follows_live_stop():
     with TestClient(app):
         assert events == []
     assert events == ["live_stop", "drain", "close"]
+
+
+def test_fast_stage_selection_keeps_semantic_verification(inputs):
+    class Fast(Writer):
+        name = "fake-fast"
+
+        async def complete(self, system, user, json_schema=None):
+            if "task" not in json.loads(user):
+                self.calls.append(json.loads(user))
+                return json.dumps({"status": "approved", "reason_code": None, "detail": "supported"}), 3
+            return await super().complete(system, user, json_schema)
+
+    class Strong:
+        name = "unused-strong"
+
+        async def complete(self, *args, **kwargs):
+            raise AssertionError("The strong model must not run when both roles select fast")
+
+    async def go():
+        config = replace(AgentConfig(mode="stub"), analyst_model_role="fast", verifier_model_role="fast")
+        fast = Fast()
+        runner, moment, names, emitted = execute(inputs, config=config, model=fast)
+        runner.strong = Strong()
+        await runner.run(moment, names)
+        assert len(emitted) == 6 and all(o.verification_status == "approved" for o in emitted)
+        assert len(fast.calls) == 13  # Analyst + 6 writers + 6 semantic checks
+        assert runner.ctx.budget.used == 18
+    asyncio.run(go())
+
+
+def test_model_role_configuration_validated(monkeypatch):
+    assert AgentConfig().analyst_model_role == AgentConfig().verifier_model_role == "strong"
+    for stage in ("ANALYST", "VERIFIER"):
+        key = f"AGENT_{stage}_MODEL_ROLE"
+        monkeypatch.setenv(key, "fast")
+        assert getattr(AgentConfig.from_env(), f"{stage.lower()}_model_role") == "fast"
+        monkeypatch.setenv(key, "unknown")
+        with pytest.raises(ValueError, match=key):
+            AgentConfig.from_env()
+        monkeypatch.delenv(key)
+
+
+def test_compact_writer_keeps_code_owned_facts(inputs):
+    async def go():
+        model = Writer()
+        runner, moment, names, emitted = execute(inputs, model=model)
+        await runner.run(moment, names)
+        assert all(p["template"]["fields"] == {} for p in model.calls)
+        assert all(all(o.fields[k] == v for k, v in moment.verified_facts.items()) for o in emitted)
+    asyncio.run(go())
+
+
+def test_semantic_checker_receives_metadata_names(inputs):
+    class Semantic(StubModel):
+        name = "semantic-fake"
+
+        async def complete(self, system, user, json_schema=None):
+            payload = json.loads(user)
+            if payload.get("task") == "analyst":
+                return await super().complete(system, user, json_schema)
+            assert payload["names"]["nil_10"]["name"] == "Hassan Nour"
+            assert payload["names"]["nil_10"]["name_ar"] == "حسن نور"
+            assert payload["names"]["nil_07"]["name"] == "Seif Wahba"
+            return json.dumps({"status": "approved", "reason_code": None, "detail": "supported"}), 1
+
+    async def go():
+        runner, moment, names, emitted = execute(inputs)
+        runner.strong = Semantic()
+        await runner.run(moment, names)
+        assert len(emitted) == 6 and all(o.verification_status == "approved" for o in emitted)
+    asyncio.run(go())
+
+
+def test_prepare_initializes_only_active_models_without_inference(inputs):
+    events = []
+
+    class Prepared(Writer):
+        async def prepare(self):
+            events.append("fast")
+
+    class Unused(Writer):
+        async def prepare(self):
+            raise AssertionError("Unused strong model should stay lazy")
+
+    async def go():
+        config = replace(AgentConfig(mode="stub"), analyst_model_role="fast", verifier_model_role="fast")
+        model = Prepared()
+        runner, _, _, _ = execute(inputs, config=config, model=model)
+        runner.strong = Unused()
+        await runner.prepare()
+        assert events == ["fast"] and not model.calls
+    asyncio.run(go())
+
+
+def test_foundry_prepare_authenticates_without_model_call():
+    from backend.agents.llm import FoundryModel
+    scopes = []
+
+    class Credential:
+        async def get_token(self, scope):
+            scopes.append(scope)
+
+    class Client:
+        async def get_response(self, *args, **kwargs):
+            raise AssertionError("Startup must not call a model")
+
+    async def go():
+        model = FoundryModel("https://test.services.ai.azure.com/api/projects/test", "fast", client=Client())
+        model._credential = Credential()
+        await model.prepare()
+        assert scopes == ["https://ai.azure.com/.default"]
+    asyncio.run(go())
+
+
+def test_fast_only_workflow_does_not_require_strong_deployment(inputs):
+    from backend.agents.workflow import WorkflowRunner
+    moment, _ = inputs
+    config = AgentConfig(mode="foundry", foundry_project_endpoint="https://test.services.ai.azure.com/api/projects/test",
+                         model_fast="configured-fast", analyst_model_role="fast", verifier_model_role="fast")
+    runner = WorkflowRunner(SimpleNamespace(), config, tools=Tools(moment), framework=False)
+    assert runner.fast.name == "configured-fast" and runner.strong is None
+
+
+@pytest.mark.parametrize("body", ["A fast shot.", "A slow shot.", "تسديدة سريعة", "تسديدة بطيئة"])
+def test_unclassified_shot_speed_rejected_before_semantic_call(inputs, body):
+    from backend.agents.templates import template_overlays
+    from backend.agents.verifier import brief_from_moment, verify_with_model
+
+    class MustNotRun:
+        name = "fake-semantic"
+
+        async def complete(self, *args, **kwargs):
+            raise AssertionError("Unsupported classification must be rejected in code")
+
+    async def go():
+        moment, names = inputs
+        overlay = next(o for o in template_overlays(moment, names) if o.persona == "tactical" and o.language == "en")
+        draft = overlay.model_copy(update={"body": body}).model_dump()
+        budget = DailyTokenBudget(100000)
+        verdict = await verify_with_model(draft, brief_from_moment(moment), moment, names, "tactical",
+                                          model=MustNotRun(), budget=budget)
+        assert verdict.reason_code == "UNSUPPORTED_CAUSALITY" and budget.used == 0
+    asyncio.run(go())
+
+
+def test_explicit_shot_speed_classification_is_allowed(inputs):
+    from backend.agents.templates import template_overlays
+    from backend.agents.verifier import brief_from_moment, verify
+    moment, names = inputs
+    moment = moment.model_copy(update={"verified_facts": {**moment.verified_facts, "shot_speed_classification": "fast"}})
+    overlay = next(o for o in template_overlays(moment, names) if o.persona == "tactical" and o.language == "en")
+    draft = overlay.model_copy(update={"body": "A fast shot."}).model_dump()
+    assert verify(draft, brief_from_moment(moment), moment, names, "tactical").status == "approved"
+
+
+def test_replay_delivers_agent_overlay_through_websocket(tmp_path, monkeypatch):
+    from fastapi.testclient import TestClient
+    from backend.api.main import create_app
+    from tests.test_api import make_settings, collect
+
+    monkeypatch.setenv("AGENT_MODE", "stub")
+    settings = make_settings(tmp_path, plugins=["backend.analytics.plugin:register", "backend.agents.plugin:register"])
+    with TestClient(create_app(settings)) as client:
+        with client.websocket_connect("/ws/matches/match_001?persona=tactical&lang=ar&tracking_hz=0") as ws:
+            response = client.post("/api/matches/match_001/start", params={"speed": 20, "from_minute": 63})
+            assert response.status_code == 200
+            try:
+                messages = collect(ws, lambda items: any(m["type"] == "overlay" and m["data"]["moment_id"] == "mom_044" for m in items))
+                overlay = next(m["data"] for m in messages if m["type"] == "overlay" and m["data"]["moment_id"] == "mom_044")
+                assert overlay["source"] == "agent" and overlay["verification_status"] == "approved"
+                assert (overlay["language"], overlay["dir"], overlay["show_at_s"]) == ("ar", "rtl", 3783)
+                assert client.app.state.ctx.errors == 0
+            finally:
+                client.post("/api/matches/match_001/stop", headers={"X-Control-Token": response.json()["control_token"]})

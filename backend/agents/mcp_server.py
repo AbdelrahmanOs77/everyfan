@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import asyncio
+import logging
 import os
 import secrets
 from collections import OrderedDict
@@ -150,6 +151,14 @@ def mount_mcp(app) -> None:
             async with original_lifespan(parent):
                 tools.library = parent.state.library
                 ctx = getattr(parent.state, "ctx", None)
+                agents = getattr(ctx, "agents", None)
+                prepare = getattr(getattr(agents, "runner", None), "prepare", None)
+                if prepare is not None:
+                    try:
+                        await asyncio.wait_for(prepare(), timeout=10)
+                    except Exception:
+                        # Live mode still has bounded model work and checked template fallback.
+                        logging.getLogger(__name__).exception("Agent startup preparation failed")
                 async with child.router.lifespan_context(child):
                     yield
         finally:
