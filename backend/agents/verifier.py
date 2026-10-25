@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import asyncio
 import json
 import math
 import re
@@ -13,7 +12,7 @@ from pydantic import BaseModel, ConfigDict, ValidationError
 
 from shared.schemas import InsightBrief, Moment, Overlay
 
-from .llm import ModelClient
+from .llm import ModelClient, complete_with_budget
 from .names import NameAllowlist, focus_player
 
 PROMPTS = Path(__file__).with_name("prompts")
@@ -135,6 +134,8 @@ def verify(draft: dict, brief: InsightBrief, moment: Moment, names: NameAllowlis
     # Frontend-rendered field values need the same checks. IDs are checked
     # separately; runtime latency metadata is explicitly not a match statistic.
     for key, value in overlay.fields.items():
+        if key == "attempts" and type(value) is int and 0 <= value <= 2:
+            continue  # code-owned workflow count, never a football statistic
         if key in {"generated_ms", "budget_ms"} or isinstance(value, bool):
             continue
         if isinstance(value, (int, float, str)):
@@ -175,14 +176,11 @@ async def verify_with_model(draft: dict, brief: InsightBrief, moment: Moment, na
     verdict = verify(draft, brief, moment, names, persona)
     if verdict.status == "rejected" or model is None or getattr(model, "name", None) == "stub":
         return verdict
-    estimate, actual = 1000, 1000
-    if budget is None or not await budget.try_reserve(estimate):
-        return reject("SCHEMA", "Semantic check requires an available token budget.")
     try:
         payload = {"draft": draft, "brief": brief.model_dump(), "moment": moment.model_dump()}
         system = (PROMPTS / "verifier_v1.md").read_text(encoding="utf-8")
-        text, actual = await asyncio.wait_for(model.complete(system, json.dumps(payload, ensure_ascii=False),
-                                                           Verdict.model_json_schema()), timeout=timeout_s)
+        text, _ = await complete_with_budget(model, system, json.dumps(payload, ensure_ascii=False),
+                                             Verdict.model_json_schema(), budget=budget, timeout_s=timeout_s)
         semantic = Verdict.model_validate_json(text)
         if ((semantic.status == "approved" and semantic.reason_code is not None)
                 or (semantic.status == "rejected" and semantic.reason_code not in {"UNSUPPORTED_CAUSALITY", "TONE"})):
@@ -190,7 +188,3 @@ async def verify_with_model(draft: dict, brief: InsightBrief, moment: Moment, na
         return semantic
     except Exception:
         return reject("SCHEMA", "Semantic check failed or exceeded its deadline; use fallback.")
-    finally:
-        # Cancellation/timeout may still consume model tokens: charge the
-        # reservation conservatively when real usage is unavailable.
-        await budget.settle(estimate, actual)

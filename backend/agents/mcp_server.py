@@ -145,10 +145,21 @@ def mount_mcp(app) -> None:
 
     @asynccontextmanager
     async def lifespan(parent):
-        async with original_lifespan(parent):
-            tools.library = parent.state.library
-            async with child.router.lifespan_context(child):
-                yield
+        ctx = None
+        try:
+            async with original_lifespan(parent):
+                tools.library = parent.state.library
+                ctx = getattr(parent.state, "ctx", None)
+                async with child.router.lifespan_context(child):
+                    yield
+        finally:
+            # Stop the original live producer before draining and closing its models.
+            agents = getattr(ctx, "agents", None)
+            if agents is not None:
+                try:
+                    await ctx.drain(timeout=agents.config.total_timeout_s + 1)
+                finally:
+                    await agents.runner.aclose()
 
     app.mount("/mcp", child)
     app.state.mcp_tools = tools

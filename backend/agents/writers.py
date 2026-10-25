@@ -59,6 +59,8 @@ async def write_one(brief: InsightBrief, moment: Moment, names: NameAllowlist, i
                                              WriterText.model_json_schema(), budget=budget, timeout_s=timeout_s)
         content = WriterText.model_validate_json(text)
         fields = {**template.fields, **content.fields}
+        fields.pop("attempts", None)
+        fields.pop("reason_codes", None)
         # Runtime measurements and player focus are code-owned, even during repair.
         fields.pop("player_id", None)
         if item.persona == "player":

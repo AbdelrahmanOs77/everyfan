@@ -8,9 +8,11 @@ tactical, and player personas. Player overlays require a focus player in metadat
 The plugin subscribes to analytics, processes importance >= 0.5, deduplicates moments
 per replay, and invalidates pending overlays when a replay resets.
 
-The registered live plugin still makes no model calls. `AGENT_MODE=off` is the
-default. The model stage functions can be invoked separately, but the plugin
-continues to publish templates in all modes until Phase 5 connects the workflow.
+Phases 1–5 are implemented locally. The plugin now runs the workflow in `stub` or
+`foundry` mode; `AGENT_MODE=off` remains the safe local default and emits checked
+templates. The first live AI milestone is still pending: cold and warm Foundry
+smokes hit stage/total deadlines and emitted six safe templates rather than
+approved model text. No production deployment or team demo bundle has changed.
 
 The existing goal and red-card helpers are reused. Owner C replaces red-card body
 text with verified minute and `players_left` facts, adds the missing player persona,
@@ -20,8 +22,9 @@ Phase 2 adds the deterministic verifier, optional budgeted semantic check, and
 Break-it helper on `owner-c-phase-2-verifier`. Phase 3 adds the five evidence tools
 and authenticated MCP server on `owner-c-phase-3-mcp`. Phase 4 implements the
 Producer, Analyst, concurrent persona writers, and Foundry client on
-`owner-c-phase-4-agents`. Phases 5–8 remain, starting with the complete workflow,
-repair/fallback, cache, and publishing integration. Per the user's instruction, phases are committed
+`owner-c-phase-4-agents`. Phase 5 adds workflow, repair/fallback, cache and publishing
+integration on `owner-c-phase-5-workflow`. Its live AI latency milestone and Phases
+6–8 remain. Per the user's instruction, phases are committed
 locally and exported for later team review/merge while GitHub access is unavailable.
 The original plan is preserved in [OWNER_C_PLAN.md](OWNER_C_PLAN.md).
 
@@ -110,7 +113,7 @@ we must measure/tune live model latency during workflow integration.
 Numeric membership alone does not prove that a number is attached to the right
 claim or that a causal explanation is supported. Semantic validation complements
 these code checks. No verifier result automatically publishes a draft in Phase 2;
-the full repair/publish workflow arrives in Phase 5.
+Phase 5 now supplies the full repair/publish workflow.
 
 For Owner A, the exact handoff is:
 
@@ -271,9 +274,9 @@ substitute for the Phase 5 gate. An earlier Analyst smoke attempt safely returne
 the deterministic low-confidence fallback. Local artifacts are
 `.venv/handoff/owner-c-phase4-live.json` and `.venv/handoff/owner-c-analyst-live.json`.
 
-The live plugin still uses templates. Phase 5 must connect these stages, enforce
-the total 5.5 s receipt-to-result deadline, repair once, verify semantic claims,
-cache outcomes, audit them, and publish only checked agent output or safe fallback.
+At the Phase 4 checkpoint the plugin still used templates. Phase 5 below connects
+these stages, enforces the total deadline, repairs once, checks semantic claims,
+caches outcomes, audits them and publishes checked agent output or safe fallback.
 
 Phase 4 validation: **382 tests passed** on Python 3.12.13, including 26 generation
 tests; pyflakes and `pip check` clean. Tests cover Producer cooldowns/urgent events,
@@ -283,6 +286,91 @@ moment types, Arabic names, code-owned fields, and the Foundry adapter with a fa
 SDK client. An inverted cooldown condition was caught by its regression test and
 restored before the full passing run. Pytest never calls Azure or real models;
 the live smoke checks described above ran separately.
+
+## Phase 5 workflow
+
+`owner-c-phase-5-workflow` builds on the prior local phase commits. Producer reserves
+persona air slots synchronously in event order, before `ctx.spawn` starts the
+workflow. Nonurgent moments have a 45 match-second cooldown. Replay reset clears
+that history and invalidates pending publications. Moment timestamps remain the
+analytics timestamps, independent of model latency.
+
+```mermaid
+flowchart LR
+    P[Producer in event order] --> A[Analyst and evidence tools]
+    A --> W[Concurrent bilingual persona writers]
+    W --> V[Code and semantic verifier]
+    V -->|approved| O[Publish and cache]
+    V -->|first rejection| R[Same writer with reason]
+    R --> V
+    V -->|second rejection or failure| F[Checked cache or template]
+    F --> O
+```
+
+`workflow_graph.py` uses the pinned Agent Framework 1.23 `Executor`, `handler`,
+`WorkflowContext` and `WorkflowBuilder(start_executor=...)` APIs. Its conditional
+repair edge runs only for a first rejected draft; approved items are skipped on
+the second verification pass. Fan-out uses concurrent per-item writer/verifier
+calls. Producer and final publication stay in the surrounding code so scheduling,
+timeouts and stale replay checks also apply when the framework fails to import.
+The plain async runtime calls the identical stage functions. See the
+[official workflow builder source](https://github.com/microsoft/agent-framework/blob/main/python/packages/core/agent_framework/_workflows/_workflow_builder.py).
+
+Deadlines stay at Producer 0.5 s, Analyst 2.5 s, writers 2 s, semantic verification
+1 s and total 5.5 s, configurable through `AgentConfig`. Total time begins at
+moment receipt, including the background queue and framework import. Model work
+is cancelled at the deadline; a final synchronous validation and local publication
+adds a small amount of overhead. Demo loading is bounded by the remaining deadline.
+Template fallback also passes deterministic verification; an invalid template is
+audited and suppressed. External cancellation propagates and settles reservations.
+
+All model calls, including semantic checks and repairs, reserve a conservative
+input/output estimate first. Reported usage replaces that reservation; unknown
+usage after a transport error or cancellation charges the estimate. Zero budget
+skips the Analyst and writers completely. A nonzero cap too small for a reservation
+also prevents the corresponding model call. Live drafts require the strong model's
+semantic approval after the deterministic checks; stub mode uses code checks only.
+
+Approved overlays are cached in a bounded 512-item memory cache keyed by
+`(match_id, moment_id, persona, language)`. Fallback first tries that cache, then a
+demo bundle validated with `DemoStore.get` against the current match fingerprint.
+Candidates must have approved agent provenance and the expected prompt version;
+identity, direction, time, facts and evidence are checked again. Stale, rejected,
+malformed and unsupported cache entries are ignored. With no safe candidate, the
+workflow uses the item's template. Cosmos is a write destination, not a runtime
+cache reader in this implementation.
+
+The existing optional Cosmos queue receives briefs, approved overlays, and audit
+records for verdicts, repairs and fallback. No new storage client or credentials
+are required; `get_store() is None` is handled explicitly. Local tests use a fake
+queue. Real Cosmos writes remain unverified until the team's access is granted.
+The owned MCP lifespan drains pending workflows and closes model clients during
+API shutdown. CLI users invoking `WorkflowRunner` directly must call `aclose()`.
+
+Every published overlay has code-owned `fields.generated_ms`, `budget_ms`,
+`attempts` (0–2) and comma-separated `reason_codes`, plus a run correlation
+`trace_id`. These describe execution rather than football facts. Writers cannot
+set attempts/reasons. Reason codes include verifier reasons and `OFF`, `BUDGET`,
+`TIMEOUT`, `DEADLINE`, `PRODUCER_TIMEOUT`, `MODEL_ERROR`, `INVALID_DRAFT`,
+`WORKFLOW_ERROR`, `REJECTED`, and `CACHE`. Distributed tracing is Phase 6.
+
+Offline coverage includes both runtimes, isolated one-time repair, repeated
+rejection, semantic rejection, stage/total timeouts, receipt queue delay,
+cancellation accounting, exhausted/insufficient budgets, memory/demo cache
+validation, stale replays, and Cosmos queue documents. An inverted repair condition
+was rejected by the repair tests before restoring the implementation.
+Final Phase 5 validation: **402 tests passed**, including 20 workflow tests;
+`python -m pyflakes backend shared tests`, `pip check`, and whitespace checks passed.
+
+Manual live smoke, outside pytest: the first cold run produced six fallbacks in
+4,609 ms. A separate cold/warm comparison produced six fallbacks in 4,594 ms and
+5,500 ms respectively, with zero outstanding reservations. Cold writer calls hit
+their 2 s deadline. The warm run also encountered a deterministic entity rejection
+and the total deadline. These are individual observations, not a latency benchmark.
+Ignored diagnostic output is `.venv/handoff/owner-c-phase5-live.json`.
+The plan's first milestone—an approved Foundry overlay visible in local playback—
+has **not** been demonstrated. Next work must diagnose/tune model latency without
+silently increasing the production deadlines or bypassing semantic verification.
 
 ## Foundry setup
 
@@ -301,8 +389,9 @@ pay-per-token deployments, with no provisioned throughput purchase.
 Project endpoint:
 `https://everyfan-ai-resource.services.ai.azure.com/api/projects/everyfan-ai`
 
-Local settings are saved in the ignored `.env`, with `AGENT_MODE=off` until the
-Foundry workflow is implemented. No keys or tokens are stored there. Local model
+Local settings are saved in the ignored `.env`, with `AGENT_MODE=off` while live
+latency is being resolved. No Foundry credentials or access tokens are stored
+there; the local MCP shared secret stays in that ignored file. Local model
 authentication uses the existing Azure CLI login; production managed identity
 access still needs coordination with Owner A.
 
@@ -330,11 +419,12 @@ loaded after `backend.analytics.plugin:register`. Off mode now provides bilingua
 templates for all agent-worthy moment types. Replace the old template plugin when
 switching to this path so goals are not shown twice. MCP is mounted locally at
 `/mcp/`, and the Break-it helper is ready for the API route described above.
-The Foundry stage implementations are now present; workflow/publishing integration
-will arrive in Phase 5.
+The Foundry workflow is wired locally, including verification, one repair, cache,
+budget enforcement and template fallback. The live AI latency milestone remains
+pending; keep `AGENT_MODE=off` until that behavior is reviewed with the team.
 
-For Owner B: Owner C will write its own briefs through the existing Cosmos store
-in Phase 5. Cosmos is in Italy North, per the team handoff. We will check for your
+For Owner B: Owner C writes its own briefs through the existing Cosmos store.
+Cosmos is in Italy North, per the team handoff. We will check for your
 numeric-faithfulness evaluator before adding one.
 
 Owner C implementation and tests were developed with Codex.

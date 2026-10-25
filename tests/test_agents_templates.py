@@ -187,7 +187,10 @@ def test_real_replay_records_templates_at_moment_time(derby):
                    for i in bundle.items if i["type"] == "moment" and i["data"]["importance"] >= 0.5}
         overlays = [Overlay.model_validate(i["data"]) for i in bundle.items if i["type"] == "overlay"]
         assert overlays and ctx.errors == 0
-        assert {o.moment_id for o in overlays} == set(moments)
+        from backend.agents.producer import produce
+        history = {}
+        scheduled = {mid for mid, moment in moments.items() if produce(moment, history)}
+        assert {o.moment_id for o in overlays} == scheduled
         assert len({o.overlay_id for o in overlays}) == len(overlays)
         assert all(o.show_at_s == moments[o.moment_id].game_clock_s for o in overlays)
 
