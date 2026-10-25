@@ -17,8 +17,9 @@ text with verified minute and `players_left` facts, adds the missing player pers
 and avoids calculating remaining minutes or assuming a single dismissal.
 
 Phase 2 adds the deterministic verifier, optional budgeted semantic check, and
-Break-it helper on `owner-c-phase-2-verifier`. Phases 3–8 are pending, starting
-with the MCP evidence server. Per the user's instruction, phases are committed
+Break-it helper on `owner-c-phase-2-verifier`. Phase 3 adds the five evidence tools
+and authenticated MCP server on `owner-c-phase-3-mcp`. Phases 4–8 are pending,
+starting with the Producer, Analyst, writers, and Foundry client. Per the user's instruction, phases are committed
 locally and exported for later team review/merge while GitHub access is unavailable.
 The original plan is preserved in [OWNER_C_PLAN.md](OWNER_C_PLAN.md).
 
@@ -134,6 +135,75 @@ Break-it call rejected `999999` m and returned the original `21` m / `104` km/h 
 file `.venv/handoff/owner-c-break-it.json`. All Phase 2 tests use offline code or
 fake models; none call Azure.
 
+## Phase 3 — evidence tools and MCP
+
+`backend.agents.mcp_server.EvidenceTools(library)` exposes the same five async
+methods in-process and through the official MCP SDK:
+
+| Tool | Owner B method | Required parameters |
+| --- | --- | --- |
+| get_match_state | state_at | match_id, at_s |
+| get_recent_events | recent_events | match_id, at_s, window_s |
+| get_player_statistics | player_stats | match_id, player_id |
+| get_moment_evidence | evidence | match_id, moment_id |
+| compare_to_baseline | baseline | match_id, metric, window_s, at_s |
+
+Player statistics accepts optional `at_s`; omitting it means the full match, so
+the Analyst must explicitly supply the moment clock. Recent events and baseline
+also accept optional `team_id`. Metric choices match Owner B exactly:
+`possession_pct`, `pass_accuracy_pct`, `ppda`, `control_index`, `shots`, `passes`,
+`chaos_index`, `turnovers_per_min`, `passes_per_min`.
+
+All clocks are finite seconds in [0, 5400], and windows are in (0, 5400]. IDs and
+metric enums are validated before match loading. Recent results are capped at
+50 events. Engine builds and heavier queries run off the event loop, with a
+bounded two-match evidence cache and one build per concurrent cache miss. Returned
+data is copied so callers cannot corrupt cached verified facts. These tools never
+call a model or write Cosmos data.
+
+The dependency is pinned to `mcp==1.30.0`, the supported maintenance SDK line
+that retains FastMCP. The current major SDK renamed that class; see the
+[official maintenance documentation](https://github.com/modelcontextprotocol/python-sdk/blob/v1.x/README.md).
+Transport is stateless Streamable HTTP with JSON responses. Dictionary results
+are MCP structured content; recent-event lists are wrapped as `{"result": [...]}`
+on the wire, while the in-process method returns the original list.
+
+The API contains one guarded `mount_mcp(app)` call. All lifespan integration lives
+in Owner C's module: it starts the SDK manager within the API lifespan and reuses
+the API's MatchLibrary. The mounted URL is `/mcp/` (`/mcp` redirects there).
+`mcp_asgi_app()` remains available for standalone or custom host use; a host that
+mounts it directly must enter the child app's lifespan, or use `mount_mcp(app)`.
+
+Standalone PowerShell command:
+
+```powershell
+.\.venv\py312\Scripts\python.exe -m backend.agents.mcp_server --port 8001
+```
+
+This listens at `http://127.0.0.1:8001/mcp` and loads the ignored local `.env`.
+When `MCP_API_KEY` is set, every HTTP method requires exactly one matching
+`x-api-key` header; absent, wrong, or duplicate values return 401. Comparison uses
+constant-time byte comparison. When unset, key authentication is disabled for
+local development, as specified in the plan.
+
+DNS-rebinding protection remains enabled. Configure `MCP_ALLOWED_HOSTS` and
+`MCP_ALLOWED_ORIGINS` as comma-separated allowlists for the deployment; the defaults
+allow local hosts/origins. A random private MCP key and the supplied API hostname
+were added to the ignored local `.env`, without displaying the key. Owner A must
+configure these settings as deployment secrets/environment values when shipping.
+Existing CORS settings were not changed.
+
+Standalone verification used the official MCP ClientSession: initialization,
+listing exactly five tools, and fetching `mom_044` all succeeded, with a verified
+104 km/h result. The temporary test server was stopped afterwards.
+
+Phase 3 validation: **356 tests passed** on Python 3.12.13, including 20 MCP tests;
+pyflakes and `pip check` clean. Tests compare all five tools against Owner B's
+engine, exercise real JSON-RPC requests and the mounted API lifespan, reject
+invalid keys/arguments/hosts/origins, and confirm optional mount failure leaves
+the API available. The authentication regression tests also caught an intentionally
+inverted key comparison, which was restored before the final passing suite.
+
 ## Foundry setup
 
 The `everyfan-ai` project is now provisioned in UAE North, under Foundry resource
@@ -178,8 +248,9 @@ Never paste credentials into chat or commit them.
 For Owner A after Phase 1 merges: the plugin is `backend.agents.plugin:register`,
 loaded after `backend.analytics.plugin:register`. Off mode now provides bilingual
 templates for all agent-worthy moment types. Replace the old template plugin when
-switching to this path so goals are not shown twice. MCP mounting, Break-it, and
-the Foundry workflow will arrive in later phases.
+switching to this path so goals are not shown twice. MCP is mounted locally at
+`/mcp/`, and the Break-it helper is ready for the API route described above.
+The Foundry agent workflow will arrive in Phases 4–5.
 
 For Owner B: Owner C will write its own briefs through the existing Cosmos store
 in Phase 5. Cosmos is in Italy North, per the team handoff. We will check for your

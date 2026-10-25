@@ -212,6 +212,13 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     except Exception:  # analytics must never stop the API from starting
         log.exception("evidence API not mounted")
 
+    # Owner C: read-only MCP evidence tools, including the mounted SDK lifespan.
+    try:
+        from backend.agents.mcp_server import mount_mcp
+        mount_mcp(app)
+    except Exception:
+        log.exception("MCP evidence server not mounted")
+
     # ----------------------------------------------------------- WebSockets
 
     async def _admit(ws: WebSocket) -> str | None:
