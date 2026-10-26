@@ -46,6 +46,39 @@ python -m evals.run_agent_eval --mode stub --inject 0.3    # Verifier gate, offl
 `./deployment/deploy.ps1 -Location <allowed-region> -Image ghcr.io/<owner>/<repo>-backend:latest` —
 see [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md). Images are built, smoke-tested and published by GitHub Actions.
 
+## Evaluation
+
+Measured on 2026-10-26 20:51 UTC using the 30-moment sample (seed 7).
+
+| Metric | Foundry, no injection | Offline stub, 30% injection |
+| --- | ---: | ---: |
+| Moments / persona-language-club slots | 30 / 236 | 30 / 236 |
+| Valid first drafts / missing first drafts | 211 / 25 | 236 / 0 |
+| Raw numeric faithfulness, before Verifier | 91.0% (192/211) | 66.1% (156/236) |
+| Published numeric faithfulness, after repair/fallback | **100.0% (236/236)** | **100.0% (236/236)** |
+| Approved drafts | 149 (63.1%) | 236 (100.0%) |
+| Checked template fallbacks | 87 (36.9%) | 0 (0.0%) |
+| Repairs attempted | 70 | 80 |
+| Deliberately injected drafts | 0 | 80 |
+
+The Foundry sample spans four matches and is balanced by moment type; raw scores
+cover valid first drafts, with missing drafts reported separately.
+All final outputs passed the numeric check, including checked template fallbacks;
+this is a numeric-token metric rather than an overall quality score.
+The separate offline challenge caught and repaired all 80 injected drafts.
+
+The real run used `everyfan-fast` for Analyst, writers and Verifier, in-process
+evidence tools, 20-second stage deadlines and 24,000 charged tokens/minute pacing.
+This evaluates offline quality and verifier behavior, not live latency. It used
+519,131 provider-reported tokens in 502 completion calls; conservative charges were
+519,131, with 0 unknown-usage calls. Model-based quality judges were not run.
+
+See the [Foundry report](evals/results/latest.md),
+[raw/final Foundry records](evals/results/20261026-203019-foundry.json),
+[evidence and coverage audit](evals/results/20261026-203019-foundry.audit.json), and
+[offline injection report](evals/results/stub-injected.md).
+Owner B's independent review is pending.
+
 ## Agents, MCP and Foundry
 
 The Producer plans overlays by persona, language and favorite club. The Analyst
