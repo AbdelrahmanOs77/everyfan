@@ -9,3 +9,14 @@ python-dotenv>=1.0
 # Owner B: analytics config + Cosmos DB persistence
 pyyaml>=6.0
 azure-cosmos>=4.7
+# Owner C: official MCP SDK maintenance release exposing FastMCP.
+mcp==1.30.0
+# Owner C: inspected and tested Foundry/Agent Framework client API versions.
+agent-framework-foundry==1.15.0
+agent-framework-core==1.23.0
+agent-framework-openai==1.17.0
+azure-ai-projects==2.7.0
+openai==3.37.0
+# Owner C: optional Azure export and locally testable OpenTelemetry tracing.
+azure-monitor-opentelemetry==1.8.11
+opentelemetry-sdk==1.45.1
