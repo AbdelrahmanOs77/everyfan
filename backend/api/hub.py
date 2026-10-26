@@ -32,6 +32,7 @@ class ViewerClient:
     persona: str | None = None
     language: str | None = None
     tracking_hz: float = 2.0
+    club: str | None = None  # Favorite Club viewers only receive their club's club-persona overlays
     queue: asyncio.Queue = field(default_factory=lambda: asyncio.Queue(maxsize=4000))
     dropped: int = 0
     lagging: bool = False
@@ -49,6 +50,8 @@ class ViewerClient:
             if self.persona and d.get("persona") != self.persona:
                 return False
             if self.language and d.get("language") != self.language:
+                return False
+            if self.club and d.get("persona") == "club" and d.get("fields", {}).get("club_id") != self.club:
                 return False
         return True
 

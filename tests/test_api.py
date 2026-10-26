@@ -117,7 +117,9 @@ def test_demo_playback_filters_and_seek(client):
     with client.websocket_connect(url) as ws:
         hello = json.loads(ws.receive_text())
         assert hello["type"] == "hello" and hello["data"]["mode"] == "demo"
-        assert hello["data"]["bundle"]["counts"]["overlay"] == 24
+        # analytics + agents: every agent-worthy moment, 4 personas (club per club) x 2 languages
+        assert hello["data"]["bundle"]["counts"]["overlay"] >= 100
+        assert "backend.agents.plugin:register" in hello["data"]["bundle"]["plugins"]
         msgs = collect(ws, lambda g: any(m["type"] == "overlay" for m in g))
         ov = [m for m in msgs if m["type"] == "overlay"]
         assert ov[-1]["data"]["language"] == "ar" and ov[-1]["data"]["dir"] == "rtl"

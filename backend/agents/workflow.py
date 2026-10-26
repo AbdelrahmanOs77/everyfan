@@ -15,7 +15,7 @@ from .analyst import analyze
 from .llm import create_model
 from .names import NameAllowlist
 from .producer import AirPlanItem, produce
-from .templates import template_overlays
+from .templates import all_template_overlays, overlay_key
 from .telemetry import Telemetry, configure, event
 from .verifier import brief_from_moment, verify, verify_with_model
 from .writers import WriterResult, write_one
@@ -40,7 +40,8 @@ class Run:
 
 
 def item_key(item):
-    return item.persona, item.language
+    """(persona, language, club_id): the same identity as templates.overlay_key()."""
+    return item.persona, item.language, getattr(item, "club_id", None)
 
 
 class WorkflowRunner:
@@ -50,6 +51,9 @@ class WorkflowRunner:
         self.telemetry = telemetry
         if self.telemetry is None:
             self.telemetry = Telemetry() if config.mode == "stub" else configure()
+        if tools is None and config.mode != "off" and config.tools_transport == "mcp":
+            from .mcp_client import McpEvidenceTools
+            tools = McpEvidenceTools(config.mcp_server_url, config.mcp_api_key)
         if tools is None:
             from .mcp_server import EvidenceTools
             tools = EvidenceTools(getattr(ctx, "library", None))
@@ -142,7 +146,7 @@ class WorkflowRunner:
                                                       timeout_s=self.config.verifier_timeout_s)
                     span.set(verdict=verdict.status, reason_code=verdict.reason_code)
                 reason = verdict.reason_code
-                self.audit(run, "verdict", persona=item.persona, language=item.language,
+                self.audit(run, "verdict", persona=item.persona, language=item.language, club_id=item.club_id,
                            attempt=run.attempts[key], **verdict.model_dump())
                 if verdict.status == "approved":
                     run.approved[key] = result.draft.model_copy(update={"verification_status": "approved"})
@@ -151,7 +155,8 @@ class WorkflowRunner:
             # Only a rejected draft gets a repair. Transport, budget and timeout errors fall back.
             if result.draft is not None and reason != "SCHEMA" and run.attempts[key] == 1:
                 run.repair.append(item)
-                self.audit(run, "repair", persona=item.persona, language=item.language, reason_code=reason)
+                self.audit(run, "repair", persona=item.persona, language=item.language, club_id=item.club_id,
+                           reason_code=reason)
         await asyncio.gather(*(check(item) for item in run.plan))
 
     async def plain(self, run):
@@ -188,14 +193,15 @@ class WorkflowRunner:
             except Exception:
                 log.info("Demo cache unavailable; using memory cache or templates")
         if bundle is not None and not bundle.stale:
-            candidates.extend(bundle.overlays_for(run.moment.moment_id, item.persona, item.language))
+            candidates.extend(c for c in bundle.overlays_for(run.moment.moment_id, item.persona, item.language)
+                              if item.club_id is None or c.get("fields", {}).get("club_id") == item.club_id)
         for candidate in candidates:
             try:
                 overlay = Overlay.model_validate(candidate)
                 # Cache approval is provenance, not a replacement for current evidence checks.
                 data = overlay.model_dump()
                 data["fields"] = {k: v for k, v in overlay.fields.items() if k not in {"attempts", "reason_codes"}}
-                if (overlay.persona == item.persona and overlay.language == item.language
+                if (overlay_key(overlay) == item_key(item)
                         and overlay.source == "agent" and overlay.verification_status == "approved"
                         and overlay.prompt_version == f"writer_{item.persona}_v1"
                         and verify(data, brief_from_moment(run.moment), run.moment, run.names, item.persona).status == "approved"):
@@ -254,7 +260,7 @@ class WorkflowRunner:
         if not current():
             return []
         self.enqueue("briefs", {"id": moment.moment_id, **run.brief.model_dump()})
-        templates = {item_key(o): o for o in template_overlays(moment, names)}
+        templates = {overlay_key(o): o for o in all_template_overlays(moment, names)}
         output = []
         for item in plan:
             if not current():
@@ -268,9 +274,11 @@ class WorkflowRunner:
                 if overlay is None:
                     overlay = templates.get(key)
                     if overlay is None or verify(overlay.model_dump(), brief_from_moment(moment), moment, names, item.persona).status != "approved":
-                        self.audit(run, "fallback_rejected", persona=item.persona, language=item.language)
+                        self.audit(run, "fallback_rejected", persona=item.persona, language=item.language,
+                                   club_id=item.club_id)
                         continue  # fail closed even if a deterministic template is unexpectedly invalid
-                self.audit(run, "fallback", persona=item.persona, language=item.language, reason_codes=reasons)
+                self.audit(run, "fallback", persona=item.persona, language=item.language, club_id=item.club_id,
+                           reason_codes=reasons)
             if not current():
                 break
             fields = {**overlay.fields, "generated_ms": round((time.monotonic() - started) * 1000),
@@ -293,6 +301,9 @@ class WorkflowRunner:
         return output
 
     async def aclose(self):
+        close_tools = getattr(self.tools, "aclose", None)
+        if close_tools is not None:
+            await close_tools()
         for model in {self.fast, self.strong} - {None}:
             close = getattr(model, "aclose", None)
             if close:

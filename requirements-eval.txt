@@ -1,0 +1,4 @@
+# Optional: Foundry quality evaluators for `python -m evals.run_agent_eval --foundry-evaluators`.
+# Not needed by the API image or CI. Install into your local venv only.
+-r requirements.txt
+azure-ai-evaluation>=1.11

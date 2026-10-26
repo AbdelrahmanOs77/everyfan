@@ -43,22 +43,53 @@ async def complete_with_budget(model: ModelClient, system: str, user: str, json_
             await budget.settle(estimate, actual)
 
 
-class FoundryModel:
-    """Lazy direct inference through Agent Framework's current Foundry client."""
+AZURE_AI_HOSTS = (".services.ai.azure.com", ".openai.azure.com", ".cognitiveservices.azure.com")
 
-    def __init__(self, endpoint: str, deployment: str, *, client=None, reasoning_effort: str | None = None):
+
+def resource_endpoint(project_endpoint: str, override: str = "") -> str:
+    """The Foundry resource root (https://<resource>.services.ai.azure.com/) used for key auth."""
+    url = override or project_endpoint
+    parsed = urlparse(url)
+    if parsed.scheme != "https" or not (parsed.hostname or "").endswith(AZURE_AI_HOSTS):
+        raise ValueError("FOUNDRY_OPENAI_ENDPOINT must be an https Azure AI resource endpoint")
+    return f"https://{parsed.hostname}/"
+
+
+class FoundryModel:
+    """Lazy direct inference through Agent Framework's current Foundry client.
+
+    Authentication:
+      * Entra ID (default): DefaultAzureCredential -> managed identity in Azure, `az login` locally.
+      * Resource key (`api_key`): for the team's cross-tenant setup, where the API's managed identity
+        lives in a different Azure account than the Foundry resource. Same deployments, same Responses
+        API, through Agent Framework's OpenAI client on https://<resource>.services.ai.azure.com/openai/v1/.
+    """
+
+    def __init__(self, endpoint: str, deployment: str, *, client=None, reasoning_effort: str | None = None,
+                 api_key: str = "", openai_endpoint: str = ""):
         parsed = urlparse(endpoint)
         if (parsed.scheme != "https" or not (parsed.hostname or "").endswith(".services.ai.azure.com")
                 or not parsed.path.startswith("/api/projects/") or not deployment):
             raise ValueError("A Foundry project endpoint and deployment name are required")
         self.endpoint, self.name = endpoint, deployment
         self.reasoning_effort = reasoning_effort
+        self._api_key = api_key
+        self._resource = resource_endpoint(endpoint, openai_endpoint) if api_key else ""
+        self.auth = "key" if api_key else "entra_id"
         self._client, self._credential = client, None
         self._init_lock = asyncio.Lock()
+
+    def __repr__(self) -> str:  # never show the key
+        return f"FoundryModel({self.name!r}, auth={self.auth!r})"
 
     async def _get_client(self):
         async with self._init_lock:
             if self._client is None:
+                if self._api_key:
+                    openai = await asyncio.to_thread(importlib.import_module, "agent_framework.openai")
+                    self._client = openai.OpenAIChatClient(model=self.name, azure_endpoint=self._resource,
+                                                           api_key=self._api_key)
+                    return self._client
                 foundry = await asyncio.to_thread(importlib.import_module, "agent_framework.foundry")
                 identity = await asyncio.to_thread(importlib.import_module, "azure.identity.aio")
                 self._credential = identity.DefaultAzureCredential(exclude_interactive_browser_credential=True,
@@ -91,6 +122,12 @@ class FoundryModel:
             await self._credential.get_token("https://ai.azure.com/.default")
 
     async def aclose(self) -> None:
+        if self._api_key:
+            client, self._client = self._client, None
+            inner = getattr(client, "client", None)
+            if inner is not None and hasattr(inner, "close"):
+                await inner.close()
+            return
         if self._credential is not None:
             try:
                 if self._client is not None:
@@ -112,14 +149,15 @@ def create_model(config: AgentConfig, role: str = "fast") -> ModelClient | None:
         raise ValueError("Unknown agent mode")
     deployment = config.model_fast if role == "fast" else config.model_strong
     effort = "low" if role == "strong" else None
-    return FoundryModel(config.foundry_project_endpoint, deployment, reasoning_effort=effort)
+    return FoundryModel(config.foundry_project_endpoint, deployment, reasoning_effort=effort,
+                        api_key=config.foundry_api_key, openai_endpoint=config.foundry_openai_endpoint)
 
 
 class StubModel:
     """Return caller-provided grounded fixtures, never invent text or contact a service.
 
-    User payload: {"task": "writer", "template": {"headline": ..., "body": ..., "fields": ...}}
-    or {"task": "analyst", "brief": <Contract D>}.
+    User payload: {"task": "writer", "template": {"headline": ..., "body": ..., "fields": ...}},
+    {"task": "analyst", "brief": <Contract D>} or {"task": "recap", "template": {"headline", "body"}}.
     Zero tokens means zero model usage, rather than a fabricated token count.
     """
 
@@ -133,6 +171,8 @@ class StubModel:
             result = {key: template[key] for key in ("headline", "body", "fields")}
         elif task == "analyst":
             result = payload["brief"]
+        elif task == "recap":
+            result = payload["template"]
         else:
             raise ValueError(f"Unsupported stub task: {task!r}")
         return json.dumps(result, ensure_ascii=False), 0

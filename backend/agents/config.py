@@ -11,6 +11,10 @@ class AgentConfig:
     model_fast: str = ""
     model_strong: str = ""
     mcp_api_key: str = field(default="", repr=False)
+    # Cross-tenant deployments (the API's managed identity lives in another Azure account than
+    # Foundry) authenticate with the Foundry resource key instead of Entra ID. Never logged.
+    foundry_api_key: str = field(default="", repr=False)
+    foundry_openai_endpoint: str = ""
     producer_timeout_s: float = 0.5
     analyst_timeout_s: float = 2.5
     writer_timeout_s: float = 2.0
@@ -18,12 +22,19 @@ class AgentConfig:
     total_timeout_s: float = 5.5
     analyst_model_role: str = "strong"
     verifier_model_role: str = "strong"
+    # How the Analyst reaches the evidence tools: in-process calls, or the real MCP transport.
+    tools_transport: str = "inprocess"
+    mcp_server_url: str = "http://127.0.0.1:8000/mcp/"
+    club_persona: bool = True  # Favorite Club overlays, one per club (AGENT_CLUB_PERSONA=0 turns them off)
 
     @classmethod
     def from_env(cls) -> "AgentConfig":
         mode = os.getenv("AGENT_MODE", "off").lower()
         if mode not in {"off", "stub", "foundry"}:
             raise ValueError("AGENT_MODE must be off, stub, or foundry")
+        tools = os.getenv("AGENT_TOOLS", "inprocess").strip().lower()
+        if tools not in {"inprocess", "mcp"}:
+            raise ValueError("AGENT_TOOLS must be inprocess or mcp")
         deadlines = {}
         roles = {}
         for stage in ("analyst", "verifier"):
@@ -41,4 +52,10 @@ class AgentConfig:
         return cls(mode=mode, foundry_project_endpoint=os.getenv("FOUNDRY_PROJECT_ENDPOINT", ""),
                    model_fast=os.getenv("FOUNDRY_MODEL_FAST", ""),
                    model_strong=os.getenv("FOUNDRY_MODEL_STRONG", ""),
-                   mcp_api_key=os.getenv("MCP_API_KEY", ""), **deadlines, **roles)
+                   mcp_api_key=os.getenv("MCP_API_KEY", ""),
+                   foundry_api_key=os.getenv("FOUNDRY_API_KEY", "").strip(),
+                   foundry_openai_endpoint=os.getenv("FOUNDRY_OPENAI_ENDPOINT", "").strip(),
+                   tools_transport=tools,
+                   mcp_server_url=os.getenv("MCP_SERVER_URL", "http://127.0.0.1:8000/mcp/").strip(),
+                   club_persona=os.getenv("AGENT_CLUB_PERSONA", "1").strip().lower() not in {"0", "false", "no", "off"},
+                   **deadlines, **roles)

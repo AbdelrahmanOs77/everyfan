@@ -6,7 +6,10 @@
 //   Role assignments: identity = Data Sender + Data Receiver; optional developer = Data Owner
 //   Container App (0.5 vCPU / 1 GiB, always 1 replica so WebSockets never cold-start)
 //   Optional monthly budget with e-mail alerts
-// Other owners' settings (Foundry, Cosmos DB, App Insights) are passed through `extraEnv`.
+//   Application Insights (workspace-based) for OpenTelemetry traces of the agent workflow
+//   Agents (Owner C) settings + secrets (Foundry key, MCP key, Cosmos key) as Container Apps secrets
+//   Optional: Cosmos DB data-plane role for the app identity (Owner B's account, same subscription)
+// Any other setting can still be passed through `extraEnv`.
 
 targetScope = 'resourceGroup'
 
@@ -37,8 +40,46 @@ param broadcastDelaySeconds string = '6'
 @description('Daily model-token cap for live mode (0 disables live AI; the cached demo always works).')
 param dailyTokenCap string = '200000'
 
-@description('Comma-separated pipeline plugins (module:function).')
-param pipelinePlugins string = 'backend.api.template_plugin:register'
+@description('Comma-separated pipeline plugins (module:function). Analytics must come before agents.')
+param pipelinePlugins string = 'backend.analytics.plugin:register,backend.agents.plugin:register'
+
+@description('Agents: off = checked templates only (no model), stub = offline test, foundry = live Foundry agents.')
+@allowed([ 'off', 'stub', 'foundry' ])
+param agentMode string = 'off'
+
+@description('Foundry project endpoint, https://<resource>.services.ai.azure.com/api/projects/<project>.')
+param foundryProjectEndpoint string = ''
+
+@description('Foundry deployment for the persona writers (and fast roles).')
+param foundryModelFast string = ''
+
+@description('Foundry deployment for the strong role (Recap agent; Analyst/Verifier when their role is strong).')
+param foundryModelStrong string = ''
+
+@description('Model role of the Analyst. fast fits the 6 s broadcast-delay budget best.')
+@allowed([ 'fast', 'strong' ])
+param analystModelRole string = 'fast'
+
+@description('Model role of the semantic Verifier.')
+@allowed([ 'fast', 'strong' ])
+param verifierModelRole string = 'fast'
+
+@description('How the Analyst reaches the evidence tools: mcp = the real MCP server mounted at /mcp, or inprocess.')
+@allowed([ 'inprocess', 'mcp' ])
+param agentTools string = 'mcp'
+
+@description('Secret settings as { ENV_NAME: value }, e.g. FOUNDRY_API_KEY (cross-tenant Foundry), MCP_API_KEY, COSMOS_KEY.')
+@secure()
+param secretEnv object = {}
+
+@description('Create Application Insights (on the Log Analytics workspace) and send agent traces to it.')
+param deployAppInsights bool = true
+
+@description('Cosmos DB account (Owner B) in this subscription: grants the app identity the data-plane role. Empty = skip.')
+param cosmosAccountName string = ''
+
+@description('Resource group of that Cosmos DB account (default: this one).')
+param cosmosResourceGroup string = ''
 
 @description('Extra environment variables for other owners, e.g. [{ name: \'FOUNDRY_PROJECT_ENDPOINT\', value: \'...\' }].')
 param extraEnv array = []
@@ -73,6 +114,17 @@ resource logs 'Microsoft.OperationalInsights/workspaces@2023-09-01' = {
     sku: { name: 'PerGB2018' }
     retentionInDays: 30
     workspaceCapping: { dailyQuotaGb: json('0.1') } // hard cap on log ingestion cost
+  }
+}
+
+resource insights 'Microsoft.Insights/components@2020-02-02' = if (deployAppInsights) {
+  name: '${prefix}-insights-${suffix}'
+  location: location
+  kind: 'web'
+  properties: {
+    Application_Type: 'web'
+    WorkspaceResourceId: logs.id
+    IngestionMode: 'LogAnalytics'
   }
 }
 
@@ -163,6 +215,26 @@ var baseEnv = [
   { name: 'APP_VERSION', value: last(split(image, ':')) }
 ]
 
+var apiFqdn = '${prefix}-api.${environment.properties.defaultDomain}'
+
+var agentEnv = [
+  { name: 'AGENT_MODE', value: agentMode }
+  { name: 'FOUNDRY_PROJECT_ENDPOINT', value: foundryProjectEndpoint }
+  { name: 'FOUNDRY_MODEL_FAST', value: foundryModelFast }
+  { name: 'FOUNDRY_MODEL_STRONG', value: foundryModelStrong }
+  { name: 'AGENT_ANALYST_MODEL_ROLE', value: analystModelRole }
+  { name: 'AGENT_VERIFIER_MODEL_ROLE', value: verifierModelRole }
+  { name: 'AGENT_TOOLS', value: agentTools }
+  { name: 'MCP_SERVER_URL', value: 'http://127.0.0.1:8000/mcp/' }
+  { name: 'MCP_ALLOWED_HOSTS', value: 'localhost,localhost:*,127.0.0.1,127.0.0.1:*,${apiFqdn}' }
+]
+
+// Secret names: FOUNDRY_API_KEY -> foundry-api-key (Container Apps secret names are lowercase with dashes).
+var userSecrets = [for item in items(secretEnv): { name: toLower(replace(item.key, '_', '-')), value: item.value }]
+var userSecretEnv = [for item in items(secretEnv): { name: item.key, secretRef: toLower(replace(item.key, '_', '-')) }]
+var insightsSecret = deployAppInsights ? [ { name: 'appinsights-connection', value: insights!.properties.ConnectionString } ] : []
+var insightsEnv = deployAppInsights ? [ { name: 'APPLICATIONINSIGHTS_CONNECTION_STRING', secretRef: 'appinsights-connection' } ] : []
+
 resource api 'Microsoft.App/containerApps@2024-03-01' = {
   name: '${prefix}-api'
   location: location
@@ -181,7 +253,7 @@ resource api 'Microsoft.App/containerApps@2024-03-01' = {
         allowInsecure: false
         traffic: [ { latestRevision: true, weight: 100 } ]
       }
-      secrets: [ { name: 'admin-token', value: adminToken } ]
+      secrets: concat([ { name: 'admin-token', value: adminToken } ], userSecrets, insightsSecret)
     }
     template: {
       containers: [
@@ -189,7 +261,7 @@ resource api 'Microsoft.App/containerApps@2024-03-01' = {
           name: 'api'
           image: image
           resources: { cpu: json('0.5'), memory: '1Gi' }
-          env: concat(baseEnv, extraEnv)
+          env: concat(baseEnv, agentEnv, extraEnv, userSecretEnv, insightsEnv)
           probes: [
             {
               type: 'Startup'
@@ -221,6 +293,17 @@ resource api 'Microsoft.App/containerApps@2024-03-01' = {
   dependsOn: [ apiSends, apiReceives ]
 }
 
+// ---------------------------------------------------------------- Cosmos DB access (Owner B)
+
+module cosmosAccess 'cosmos-access.bicep' = if (!empty(cosmosAccountName)) {
+  name: 'everyfan-cosmos-access'
+  scope: resourceGroup(empty(cosmosResourceGroup) ? resourceGroup().name : cosmosResourceGroup)
+  params: {
+    accountName: cosmosAccountName
+    principalId: identity.properties.principalId
+  }
+}
+
 // ---------------------------------------------------------------- budget
 
 resource budget 'Microsoft.Consumption/budgets@2023-11-01' = if (deployBudget && !empty(alertEmail)) {
@@ -246,3 +329,5 @@ output eventHubName string = hubName
 output identityClientId string = identity.properties.clientId
 output containerAppName string = api.name
 output logAnalyticsWorkspace string = logs.name
+output appInsightsName string = deployAppInsights ? insights!.name : ''
+output mcpUrl string = 'https://${apiFqdn}/mcp/'

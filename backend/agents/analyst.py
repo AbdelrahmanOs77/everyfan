@@ -14,7 +14,7 @@ from shared.schemas.contracts import FactValue
 from .llm import BudgetUnavailable, complete_with_budget
 from .telemetry import TracedTools, annotate
 from .names import focus_player
-from .verifier import DIGITS, NUMBER, brief_from_moment, number_supported, numeric_values
+from .verifier import DIGITS, NUMBER, brief_from_moment, number_supported, numeric_values, target_personas
 
 
 class ToolCall(BaseModel):
@@ -73,7 +73,7 @@ def _ground(reply: InsightBrief, moment: Moment, data: list) -> InsightBrief:
                                     "confidence": "low" if dropped else reply.confidence,
                                     "evidence_event_ids": list(moment.evidence_event_ids),
                                     "focus_player_id": focus_player(moment),
-                                    "target_personas": ["beginner", "tactical"] + (["player"] if focus_player(moment) else [])})
+                                    "target_personas": target_personas(moment)})
 
 
 async def analyze(moment: Moment, tools, model=None, budget=None, *, timeout_s: float = 2.5) -> InsightBrief:

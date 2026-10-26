@@ -61,6 +61,28 @@ and their plugins via `PIPELINE_PLUGINS` (redeploy with the same command; it is 
 If you don't know the frontend URL yet, deploy with the default and re-run with `-FrontendOrigin` later.
 Several origins: `-FrontendOrigin "https://a.azurestaticapps.net,http://localhost:5173"`.
 
+## Step 2b — Turn on the integrated pipeline (agents, Foundry, Cosmos, tracing)
+
+The app runs analytics + agents by default. With no settings the agents publish **checked templates**
+(zero model cost). To switch on live Foundry agents on the running app, no redeploy needed:
+
+```powershell
+copy deployment\integration.env.example deployment\integration.env   # git-ignored; paste FOUNDRY_API_KEY etc.
+./deployment/enable-integration.ps1                                   # -CosmosAccount <name> -CosmosResourceGroup <rg>
+```
+```bash
+cp deployment/integration.env.example deployment/integration.env
+./deployment/enable-integration.sh                                    # --cosmos-account <name> --cosmos-rg <rg>
+```
+
+It creates Application Insights on the existing Log Analytics workspace, stores `FOUNDRY_API_KEY`, `MCP_API_KEY`
+(generated into the git-ignored `deployment/.mcp-api-key`), `COSMOS_KEY` and the App Insights connection string as
+Container Apps secrets, sets `PIPELINE_PLUGINS`, `AGENT_*`, `FOUNDRY_*`, `MCP_*`, `COSMOS_*`, waits for the new
+revision and runs the smoke test (now also: agents loaded, overlay feed, Arabic recap, Break it, MCP with and
+without the key, verified live overlays). The full `deploy.*` scripts read the same file. Why a key for
+Foundry: the app's managed identity is in this Azure account, Foundry is in Owner C's, and roles cannot be
+granted across tenants.
+
 ## Step 3 — Use Event Hubs from your laptop (optional)
 
 ```powershell
@@ -85,7 +107,9 @@ Roll back the same way with an older tag. Never deploy `:latest` blindly during 
 - [ ] `python -m backend.cli smoke --url <api> --origin <frontend> --live --admin-token <token>` → 13/13
 - [ ] Open the frontend on a phone, on mobile data, in a private window
 - [ ] `/api/health`: `transport` is `eventhubs`, `transport_fallback_reason` is `null`, `pipeline.errors` is 0
-- [ ] `demo_bundles` shows the bundle with the **agent** plugins (rebuild it once Owner C's agents are in)
+- [ ] `demo_bundles` shows the agent plugins and `overlay_sources` with `agent/approved` (record it with
+      `./deployment/build-demo-agents.ps1 -Scenario derby_balanced`, see [INTEGRATION.md](INTEGRATION.md))
+- [ ] `agents.mode` is `foundry` with `auth: key`, `agents.tools.transport` is `McpEvidenceTools`
 - [ ] Budget alert e-mail address is right (Portal → Cost Management → Budgets)
 - [ ] Note the deployed image tag in the README
 
@@ -108,7 +132,9 @@ Daily (2 minutes):
 | `MissingSubscriptionRegistration` | provider not registered | `az provider register --namespace Microsoft.App --wait` (the script does this) |
 | Budget step fails | budgets unsupported for the offer | the script retries without it; create the budget in the portal |
 | Judges see 409 on Run live | someone else's live broadcast is running | expected: they can join it, or use the demo; admin can take over with `X-Admin-Token` |
-| Live overlays become templates | daily token cap reached | expected cost protection; raise `LIVE_MODE_DAILY_TOKEN_CAP` only if the budget allows |
+| Live overlays become templates | daily token cap reached, or the 30k tokens/min Foundry quota at high replay speed | expected cost protection; run live at 1x/5x, raise capacity, or `AGENT_CLUB_PERSONA=0` |
+| `agents.fast` missing or overlays all templates after enabling | wrong/missing `FOUNDRY_API_KEY` or endpoint | `az containerapp logs show ...`; re-run `enable-integration` with the right key |
+| Traces missing in App Insights | connection string not set, or Log Analytics daily cap (0.1 GB) reached | re-run `enable-integration`; raise `dailyQuotaGb` in `main.bicep` if needed |
 | Credit running low | | `az containerapp update -n everyfan-api -g rg-everyfan-hackathon --set-env-vars LIVE_MODE_DAILY_TOKEN_CAP=0` (demo keeps working) |
 
 Do not push risky changes to the deployed app during judging; if you must, deploy a tested tag and smoke test it.

@@ -40,7 +40,11 @@ class Settings:
     idle_stop_s: float = field(default_factory=lambda: _float("IDLE_STOP_S", 300))
     daily_token_cap: int = field(default_factory=lambda: _int("LIVE_MODE_DAILY_TOKEN_CAP", 200_000))
     budget_file: Path = field(default_factory=lambda: Path(os.getenv("BUDGET_FILE", "/tmp/everyfan_budget.json")))
-    plugins: list[str] = field(default_factory=lambda: _list("PIPELINE_PLUGINS", "backend.api.template_plugin:register"))
+    # Analytics (Owner B) publishes moments; agents (Owner C) turn them into verified overlays.
+    # backend.api.template_plugin:register is Owner A's original goal/red-card stand-in: do not load it
+    # together with the agents plugin, or goals are shown twice.
+    plugins: list[str] = field(default_factory=lambda: _list(
+        "PIPELINE_PLUGINS", "backend.analytics.plugin:register,backend.agents.plugin:register"))
     preload: list[str] = field(default_factory=lambda: _list("PRELOAD_MATCHES", "match_001"))
     max_loaded_matches: int = field(default_factory=lambda: _int("MAX_LOADED_MATCHES", 2))
     version: str = field(default_factory=lambda: os.getenv("APP_VERSION", "dev"))
