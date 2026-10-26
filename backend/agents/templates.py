@@ -6,6 +6,9 @@ from shared.schemas import Moment, Overlay
 from .names import NameAllowlist, focus_player
 
 PERSONAS = ("beginner", "tactical", "player")
+# Favorite Club is written once per club, so each fan sees the moment from their own side.
+CLUB_PERSONA = "club"
+ALL_PERSONAS = (*PERSONAS, CLUB_PERSONA)
 LANGUAGES = ("en", "ar")
 
 TITLES = {
@@ -132,3 +135,147 @@ def template_overlays(moment: Moment, names: NameAllowlist) -> list[Overlay]:
                 prompt_version="template_v1",
             ))
     return result
+
+
+# ---------------------------------------------------------------------------
+# Favorite Club persona: partisan framing for the chosen club, factual, respectful to the rival.
+# One overlay per (club, language); `fields.club_id` says which club's fans it is for.
+# ---------------------------------------------------------------------------
+
+def _club_text(moment: Moment, names: NameAllowlist, club: str, lang: str) -> tuple[str, str] | None:
+    """(headline, body) for fans of `club`, or None to use the generic wording."""
+    f = moment.verified_facts
+    ar = lang == "ar"
+    ours = moment.team_id == club
+    rival_id = next(t for t in names.teams if t != club)
+    me, rival = names.team(club, lang), names.team(rival_id, lang)
+
+    def who(key: str) -> str | None:
+        pid = f.get(key)
+        return names.player(pid, lang) if isinstance(pid, str) and pid in names.players else None
+
+    kind = moment.type
+    if kind == "goal" and {"minute", "home_score", "away_score"} <= f.keys():
+        scorer = who("scorer_id")
+        score = f"{f['home_score']}-{f['away_score']}"
+        if ar:
+            lead = f"{scorer} يسجل" if scorer else "هدف"
+            return ((f"هدف لصالح {me}", f"{lead} في الدقيقة {f['minute']}. النتيجة {score}.") if ours else
+                    (f"هدف ضد {me}", f"{lead} لصالح {rival} في الدقيقة {f['minute']}. النتيجة {score}."))
+        lead = f"{scorer} scores" if scorer else "A goal"
+        return ((f"Goal for {me}!", f"{lead} in minute {f['minute']}. Score {score}.") if ours else
+                (f"Setback for {me}", f"{lead} for {rival} in minute {f['minute']}. Score {score}."))
+    if kind == "red_card" and "minute" in f:
+        player = who("player_id")
+        if ar:
+            lead = f"طرد {player} في الدقيقة {f['minute']}." if player else f"طرد في الدقيقة {f['minute']}."
+            if ours:
+                tail = f" عدد لاعبي {me} الآن {f['players_left']}." if "players_left" in f else ""
+                return f"بطاقة حمراء ضد {me}", lead + tail
+            tail = (f" عدد لاعبي {rival} الآن {f['players_left']} أمام {me}." if "players_left" in f
+                    else f" يواصل {rival} أمام {me} بنقص عددي.")
+            return f"بطاقة حمراء ضد {rival}", lead + tail
+        lead = f"{player} is sent off in minute {f['minute']}." if player else f"Sent off in minute {f['minute']}."
+        if ours:
+            tail = f" {me} play with {f['players_left']}." if "players_left" in f else ""
+            return f"Blow for {me}", lead + tail
+        tail = (f" {rival} play with {f['players_left']} against {me}." if "players_left" in f
+                else f" {rival} play on against {me} a player down.")
+        return f"Red card against {rival}", lead + tail
+    if kind == "big_chance" and {"shot_distance_m", "shot_speed_kmh"} <= f.keys():
+        shooter = who("shooter_id")
+        d, s = f["shot_distance_m"], f["shot_speed_kmh"]
+        if ar:
+            lead = f"تسديدة {shooter}" if shooter else "تسديدة"
+            side = "" if ours else f" لصالح {rival}"
+            return (f"فرصة خطيرة لصالح {me}" if ours else f"خطر على مرمى {me}",
+                    f"{lead}{side} من مسافة {d} م بسرعة {s} كم/س.")
+        lead = f"{shooter} shoots" if shooter else "A shot"
+        side = "" if ours else f" for {rival}"
+        return (f"So close for {me}!" if ours else f"Let-off for {me}", f"{lead}{side} from {d} m at {s} km/h.")
+    if kind == "momentum_shift" and "possession_pct_last_5" in f:
+        p, team = f["possession_pct_last_5"], (me if ours else rival)
+        if ar:
+            return (f"{me} يفرض أفضليته" if ours else f"ضغط على {me}", f"استحوذ {team} على {p}٪ من الكرة مؤخراً.")
+        return (f"{me} on top" if ours else f"{me} under pressure", f"{team} have had {p}% of the ball recently.")
+    if kind == "pressing_shift" and "regains_in_zone_last_5" in f:
+        n, team = f["regains_in_zone_last_5"], (me if ours else rival)
+        if ar:
+            return (f"{me} يضغط بقوة" if ours else f"{rival} يضغط على {me}",
+                    f"استعاد {team} الكرة {n} مرات في منطقة الضغط مؤخراً.")
+        return (f"{me} pressing high" if ours else f"{rival} pressing {me}",
+                f"{team} won the ball back {n} times in the pressing zone recently.")
+    if kind == "killer_pass" and {"pass_distance_m", "seconds_to_shot"} <= f.keys():
+        passer = who("passer_id")
+        d, t = f["pass_distance_m"], f["seconds_to_shot"]
+        if ar:
+            lead = f"تمريرة {passer}" if passer else "تمريرة"
+            side = "" if ours else f" لصالح {rival}"
+            return (f"خطورة من {me}" if ours else f"تهديد على مرمى {me}",
+                    f"{lead}{side} لمسافة {d} م تبعتها تسديدة بعد {t} ثوانٍ.")
+        lead = f"A {d} m pass from {passer}" if passer else f"A {d} m pass"
+        side = "" if ours else f" for {rival}"
+        return (f"Danger from {me}" if ours else f"Warning for {me}",
+                f"{lead}{side} was followed by a shot {t} seconds later.")
+    return None
+
+
+def club_overlays(moment: Moment, names: NameAllowlist, clubs=None) -> list[Overlay]:
+    """Favorite Club fallbacks for every club (or `clubs`), both languages. Team moments only."""
+    if moment.match_id != names.meta.match_id:
+        raise ValueError("Moment and metadata must describe the same match")
+    if moment.team_id not in names.teams:
+        return []  # match-level moments (rhythm, chaos) have no side to support
+    result = []
+    for club in (clubs if clubs is not None else names.teams):
+        if club not in names.teams:
+            continue
+        for lang in LANGUAGES:
+            ar = lang == "ar"
+            text = _club_text(moment, names, club, lang)
+            if text is None:
+                me = names.team(club, lang)
+                if moment.team_id == club:
+                    subject = me
+                else:
+                    rival = names.team(moment.team_id, lang)
+                    subject = f"{rival} أمام {me}" if ar else f"{rival} against {me}"
+                text = TITLES[moment.type][ar], f"{subject}: {_text(moment, lang, 'beginner')}"
+            headline, body = text
+            if len(headline) > 60:
+                headline = TITLES[moment.type][ar]
+            if len(body) > 160:
+                body = _text(moment, lang, "beginner")
+            fields = {**moment.verified_facts, "club_id": club}
+            result.append(Overlay(
+                overlay_id=f"ov_{moment.moment_id}_club_{club}_{lang}", moment_id=moment.moment_id,
+                match_id=moment.match_id, persona=CLUB_PERSONA, language=lang, dir="rtl" if ar else "ltr",
+                template_id="lower_third", slot="lower_third",
+                priority=1 if moment.type in {"goal", "red_card"} else 3,
+                headline=headline, body=body, fields=fields, evidence_event_ids=moment.evidence_event_ids,
+                show_at_s=moment.game_clock_s, ttl_s=8, verification_status="fallback", source="template",
+                prompt_version="template_v1",
+            ))
+    return result
+
+
+def overlay_key(overlay) -> tuple[str, str, str | None]:
+    """(persona, language, club_id): identifies one air slot of one moment."""
+    club = overlay.fields.get("club_id") if overlay.persona == CLUB_PERSONA else None
+    return overlay.persona, overlay.language, club
+
+
+def all_template_overlays(moment: Moment, names: NameAllowlist) -> list[Overlay]:
+    return template_overlays(moment, names) + club_overlays(moment, names)
+
+
+def template_for(moment: Moment, names: NameAllowlist, persona: str, language: str,
+                 club_id: str | None = None) -> Overlay | None:
+    """The checked fallback for one air slot, or None if that persona does not apply."""
+    if persona == CLUB_PERSONA:
+        if club_id is None:
+            return None
+        found = club_overlays(moment, names, [club_id])
+    else:
+        found = template_overlays(moment, names)
+    return next((o for o in found if overlay_key(o) == (persona, language, club_id if persona == CLUB_PERSONA else None)), None)

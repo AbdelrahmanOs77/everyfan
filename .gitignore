@@ -9,3 +9,7 @@ node_modules/
 .env.azure
 deployment/.admin-token
 *.zip
+deployment/integration.env
+deployment/.mcp-api-key
+*.secrets.env
+evals/results/*.jsonl

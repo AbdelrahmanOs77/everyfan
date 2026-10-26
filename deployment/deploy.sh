@@ -34,7 +34,7 @@ az account show --query "{subscription:name, user:user.name}" -o table
 az bicep install >/dev/null 2>&1 || true
 
 step "Registering resource providers (first run only, can take 1-2 minutes)"
-for ns in Microsoft.App Microsoft.OperationalInsights Microsoft.EventHub Microsoft.ManagedIdentity Microsoft.Consumption; do
+for ns in Microsoft.App Microsoft.OperationalInsights Microsoft.Insights Microsoft.EventHub Microsoft.ManagedIdentity Microsoft.Consumption; do
   az provider register --namespace "$ns" --wait -o none
 done
 
@@ -44,11 +44,16 @@ az group create -n "$RG" -l "$LOCATION" -o none || { echo "Is '$LOCATION' in you
 [[ -z "$ADMIN_TOKEN" ]] && ADMIN_TOKEN="$(python3 -c 'import secrets; print(secrets.token_hex(32))')"
 DEV="$(az ad signed-in-user show --query id -o tsv 2>/dev/null || true)"
 
+# Agents, Foundry, Cosmos and secrets come from deployment/integration.env when it exists
+# (see deployment/integration.env.example). Without it the app runs analytics + checked templates.
+INTEGRATION="${INTEGRATION_FILE:-$ROOT/deployment/integration.env}"
+PARAMS="$(mktemp)"; trap 'rm -f "$PARAMS"' EXIT
 deploy() {
+  EF_IMAGE="$IMAGE" EF_ORIGIN="$ORIGIN" EF_ADMIN_TOKEN="$ADMIN_TOKEN" EF_DEV="$DEV" EF_EMAIL="$EMAIL" \
+  EF_BUDGET="$BUDGET" EF_WITH_BUDGET="$1" EF_EXTRA_ENV="$EXTRA_ENV" \
+    python3 "$ROOT/deployment/integration_env.py" "$INTEGRATION" paramfile "$PARAMS"
   az deployment group create -g "$RG" -n everyfan-backend -f "$ROOT/deployment/azure/main.bicep" \
-    -p image="$IMAGE" frontendOrigin="$ORIGIN" adminToken="$ADMIN_TOKEN" developerPrincipalId="$DEV" \
-       alertEmail="$EMAIL" budgetAmount="$BUDGET" deployBudget="$1" extraEnv="$EXTRA_ENV" \
-    --query properties.outputs -o json
+    -p "@$PARAMS" --query properties.outputs -o json
 }
 
 step "Deploying Event Hubs, managed identity and Container Apps (3-6 minutes)"
@@ -82,4 +87,5 @@ curl -fs "$URL/api/health" | python3 -c "import json,sys; h=json.load(sys.stdin)
   || { echo "Not healthy yet: az containerapp logs show -n everyfan-api -g $RG --tail 100"; exit 1; }
 
 step "Smoke test"
-python3 -m backend.cli smoke --url "$URL" --origin "${ORIGIN%%,*}" --live --admin-token "$ADMIN_TOKEN"
+MCP_KEY="$(python3 "$ROOT/deployment/integration_env.py" "$INTEGRATION" get MCP_API_KEY)"
+python3 -m backend.cli smoke --url "$URL" --origin "${ORIGIN%%,*}" --live --admin-token "$ADMIN_TOKEN" --mcp-key "$MCP_KEY"

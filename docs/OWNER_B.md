@@ -177,6 +177,23 @@ az cosmosdb sql role assignment create -g $RG -a $ACC --scope "/" \
   --role-definition-id 00000000-0000-0000-0000-000000000002 --principal-id <principal-id>
 ```
 
+## Numeric-faithfulness evaluator
+
+`evals/numeric_faithfulness.py` is the "every number comes from evidence" metric, with the Verifier's exact
+rules (Arabic-Indic digits, exact integers, ±0.05 decimals, fraction-to-percent, display minute).
+`NumericFaithfulnessEvaluator` has the callable shape `azure.ai.evaluation.evaluate()` accepts, so it runs next
+to Foundry's groundedness/relevance/fluency/coherence evaluators. `python -m evals.run_agent_eval` uses it on
+the eval dataset above to report writer faithfulness before and after the Verifier (see [OWNER_C.md](OWNER_C.md)).
+
+## Cosmos DB from the deployed API
+
+`deployment/enable-integration.ps1 -CosmosAccount <account> -CosmosResourceGroup <rg>` grants the API's managed
+identity the data-plane role (same subscription), and sets `COSMOS_ENDPOINT` from `deployment/integration.env`.
+If the account is in a different subscription or tenant, put `COSMOS_KEY` in that file instead (stored as a
+Container Apps secret). Check with `GET /api/analytics/status` → `cosmos.written` growing and `failed` at 0.
+Note: this document says the account is in `uaenorth`; the team handoff said Italy North. Either works (the
+API reaches it over HTTPS); just confirm the endpoint.
+
 ## For Owner D (frontend)
 
 - `moment` messages are Contract B. For pitch tags, use `type == "player_milestone"` with

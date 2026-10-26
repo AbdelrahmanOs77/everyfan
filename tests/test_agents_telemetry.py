@@ -257,7 +257,7 @@ def test_plugin_trace_includes_synchronous_producer_and_handles_reset(trace_case
         assert root.start_time <= producer.start_time <= producer.end_time <= root.end_time
         assert root.attributes["everyfan.entry_point"] == "analytics_callback"
         assert root.attributes["everyfan.outcome"] == ("stale" if reset_before_run else "completed")
-        assert len(ctx.recording) == (0 if reset_before_run else 6)
+        assert len(ctx.recording) == (0 if reset_before_run else 10)  # 6 core + 4 Favorite Club
         assert ctx.errors == 0
     asyncio.run(go())
 

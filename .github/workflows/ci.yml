@@ -22,6 +22,13 @@ jobs:
         run: |
           python -m backend.cli generate --all
           python -m backend.cli validate --all
+      - name: Agent eval gate (stub agents, 30% invented numbers injected; must publish 100% faithful)
+        run: python -m evals.run_agent_eval --mode stub --inject 0.3 --quiet --no-write
+      - name: Bicep compiles
+        run: |
+          curl -sSL -o /tmp/bicep https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64
+          chmod +x /tmp/bicep
+          /tmp/bicep build deployment/azure/main.bicep --stdout > /dev/null
       - name: Exported JSON Schemas are up to date
         run: |
           python -m backend.cli export-schemas

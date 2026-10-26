@@ -12,9 +12,11 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
+import os
 import secrets
 import time
 from contextlib import asynccontextmanager
+from typing import Literal
 
 from fastapi import FastAPI, HTTPException, Query, Request, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
@@ -103,7 +105,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     @app.get("/")
     async def root():
-        return {"name": "EveryFan API", "docs": "/docs", "health": "/api/health", "scenarios": "/api/scenarios"}
+        return {"name": "EveryFan API", "docs": "/docs", "health": "/api/health", "scenarios": "/api/scenarios",
+                "overlay_spec": "/api/spec/overlay", "mcp": "/mcp/"}
 
     @app.get("/api/health")
     async def health(request: Request):
@@ -123,6 +126,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             "live_replays_active": s.live.active_count(),
             "viewers": s.hub.viewer_count(),
             "pipeline": s.ctx.status(),
+            "agents": s.ctx.agents.status() if getattr(s.ctx, "agents", None) else {"loaded": False},
+            "mcp": {"mounted": hasattr(s, "mcp_tools"), "path": "/mcp/", "auth": "key" if os.getenv("MCP_API_KEY") else "none"},
             "budget": s.budget.status(),
             "demo_bundles": s.demo.catalog(),
         }
@@ -205,6 +210,83 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     async def overlay_spec():
         return Overlay.model_json_schema()
 
+    # ------------------------------------------- overlays feed, recap, Break it (Owners A + C)
+
+    async def overlay_source(request: Request, match_id: str, source: str) -> tuple[str, str | None, list[dict], object]:
+        """The live run's overlays, or the cached demo bundle's (auto: live when a live run has any)."""
+        s = request.app.state
+        run_id, live = s.ctx.overlays(match_id)
+        if source == "live" or (source == "auto" and live):
+            return "live", run_id, live, None
+        bundle = s.demo.get(await s.library.get(match_id))
+        return "demo", None, bundle.overlays(), bundle
+
+    def wanted(o: dict, persona, lang, club, since, until) -> bool:
+        return ((persona is None or o["persona"] == persona) and (lang is None or o["language"] == lang)
+                and (club is None or o["persona"] != "club" or o.get("fields", {}).get("club_id") == club)
+                and (since is None or o["show_at_s"] > since) and (until is None or o["show_at_s"] <= until))
+
+    @app.get("/api/matches/{match_id}/overlays")
+    async def overlays_feed(request: Request, match_id: str, persona: str | None = None, lang: str | None = None,
+                            club: str | None = None, since: float | None = Query(None, ge=0, le=5400),
+                            until: float | None = Query(None, ge=0, le=5400),
+                            source: Literal["auto", "live", "demo"] = "auto",
+                            limit_: int = Query(500, alias="limit", ge=1, le=5000)):
+        """Public, machine-readable overlay feed (Contract C) for a rendering partner."""
+        limit(request, "read")
+        known(request, match_id)
+        src, run_id, items, _ = await overlay_source(request, match_id, source)
+        out = sorted((o for o in items if wanted(o, persona, lang, club, since, until)),
+                     key=lambda o: (o["show_at_s"], o["priority"], o["overlay_id"]))[:limit_]
+        return {"match_id": match_id, "source": src, "run_id": run_id, "count": len(out),
+                "schema": "/api/spec/overlay", "overlays": out}
+
+    @app.get("/api/matches/{match_id}/recap")
+    async def recap(request: Request, match_id: str, persona: str = "beginner", lang: str = "en",
+                    club: str | None = None, until_s: float = Query(5400, ge=0, le=5400),
+                    source: Literal["auto", "live", "demo"] = "auto"):
+        """End-of-match (or so-far) story built only from published, verified overlays."""
+        known(request, match_id)
+        s = request.app.state
+        src, run_id, items, bundle = await overlay_source(request, match_id, source)
+        match = await s.library.get(match_id)
+        agents = getattr(s.ctx, "agents", None)
+        final = until_s >= match.metadata.match_duration_s
+        if src == "demo":
+            limit(request, "read")
+            stored = bundle.recaps.get(f"{persona}|{lang}|{club or ''}") if bundle is not None and final else None
+            if stored:
+                return stored
+        # A model recap only for a finished live run; everything else is deterministic and free.
+        use_model = bool(agents) and src == "live" and final and agents.config.mode != "off"
+        limit(request, "control" if use_model else "read")
+        try:
+            if agents:
+                result = await agents.recap(match.metadata, items, persona=persona, language=lang, club_id=club,
+                                            until_s=until_s, cache_key=(src, run_id or (bundle.fingerprint if bundle else None)),
+                                            use_model=use_model)
+            else:
+                from backend.agents.recap import deterministic_recap
+                result = deterministic_recap(match.metadata, items, persona=persona, language=lang,
+                                             club_id=club, until_s=until_s)
+        except ValueError as exc:
+            raise HTTPException(422, str(exc))
+        return {**result.model_dump(), "feed_source": src, "run_id": run_id}
+
+    @app.post("/api/demo/break-it")
+    async def break_it(request: Request, match_id: str = "match_001", moment_id: str | None = None,
+                       persona: str = "tactical", lang: str = "en", club: str | None = None):
+        """Inject an invented number: the Verifier rejects it and the checked overlay replaces it."""
+        limit(request, "control")
+        known(request, match_id)
+        from backend.agents.breakit import run_break_it
+        try:
+            return await run_break_it(match_id, moment_id, persona, lang, club, library=request.app.state.library)
+        except ValueError as exc:
+            raise HTTPException(422, str(exc))
+        except KeyError as exc:
+            raise HTTPException(404, f"unknown moment {exc.args[0] if exc.args else ''}")
+
     # Owner B: evidence API (moments, evidence trail, stats at any second) for the UI and the MCP tools
     try:
         from backend.analytics.api import router as analytics_router
@@ -247,7 +329,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     @app.websocket("/ws/matches/{match_id}")
     async def ws_live(ws: WebSocket, match_id: str, persona: str | None = None, lang: str | None = None,
-                      tracking_hz: float = 2.0):
+                      tracking_hz: float = 2.0, club: str | None = None):
         if not ws.app.state.library.has(match_id):
             await ws.close(code=4404, reason="unknown match")
             return
@@ -256,11 +338,11 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             return
         try:
             await ws.accept()
-            client = ViewerClient(key, persona, lang, tracking_hz)
+            client = ViewerClient(key, persona, lang, tracking_hz, club)
             ch = ws.app.state.hub.channel(match_id)
             hello = message("hello", match_id, None, 0.0, {
                 "mode": "live", "broadcast_delay_s": settings.broadcast_delay_s,
-                "replay": ws.app.state.live.status(match_id), "persona": persona, "language": lang})
+                "replay": ws.app.state.live.status(match_id), "persona": persona, "language": lang, "club": club})
             await ws.send_text(json.dumps(hello, ensure_ascii=False))
             for m in ch.snapshot_messages():
                 client.offer(json.dumps(m, ensure_ascii=False, separators=(",", ":")), m)
@@ -279,7 +361,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     @app.websocket("/ws/demo/{match_id}")
     async def ws_demo(ws: WebSocket, match_id: str, persona: str | None = None, lang: str | None = None,
-                      speed: float = 20.0, from_minute: float = 0.0, tracking_hz: float = 2.0):
+                      speed: float = 20.0, from_minute: float = 0.0, tracking_hz: float = 2.0,
+                      club: str | None = None):
         if not ws.app.state.library.has(match_id):
             await ws.close(code=4404, reason="unknown match")
             return
@@ -290,7 +373,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             await ws.accept()
             match = await ws.app.state.library.get(match_id)
             bundle = ws.app.state.demo.get(match)
-            client = ViewerClient(key, persona, lang, tracking_hz)
+            client = ViewerClient(key, persona, lang, tracking_hz, club)
 
             def send(msg: dict) -> None:
                 client.offer(json.dumps(msg, ensure_ascii=False, separators=(",", ":")), msg)
@@ -298,7 +381,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             speed = min(max(speed, 0.5), 60.0)
             start_s = min(max(from_minute, 0.0), 89.0) * 60
             await ws.send_text(json.dumps(message("hello", match_id, None, 0.0, {
-                "mode": "demo", "broadcast_delay_s": 0, "persona": persona, "language": lang,
+                "mode": "demo", "broadcast_delay_s": 0, "persona": persona, "language": lang, "club": club,
                 "bundle": {"counts": bundle.counts(), "plugins": bundle.plugins, "stale": bundle.stale},
                 "controls": ["pause", "resume", "speed", "seek"]}), ensure_ascii=False))
 

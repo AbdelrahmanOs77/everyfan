@@ -36,7 +36,7 @@ az account show --query "{subscription:name, user:user.name}" -o table
 az bicep install 2>$null | Out-Null
 
 Step "Registering resource providers (first run only, can take 1-2 minutes)"
-foreach ($ns in "Microsoft.App", "Microsoft.OperationalInsights", "Microsoft.EventHub", "Microsoft.ManagedIdentity", "Microsoft.Consumption") {
+foreach ($ns in "Microsoft.App", "Microsoft.OperationalInsights", "Microsoft.Insights", "Microsoft.EventHub", "Microsoft.ManagedIdentity", "Microsoft.Consumption") {
     az provider register --namespace $ns --wait -o none
 }
 
@@ -51,6 +51,14 @@ if ($LASTEXITCODE -ne 0) { $Developer = "" }
 $ParamFile = Join-Path ([IO.Path]::GetTempPath()) "everyfan-params.json"
 $Extra = @()
 if ($ExtraEnvJson -and $ExtraEnvJson.Trim() -ne "[]") { $Extra = @($ExtraEnvJson | ConvertFrom-Json) }
+# Agents, Foundry, Cosmos and secrets come from deployment/integration.env when it exists
+# (see deployment/integration.env.example). Without it the app runs analytics + checked templates.
+$Integration = Join-Path $Root "deployment/integration.env"
+$IntegrationParams = @{}; $SecretEnv = @{}
+$cfg = python "$Root/deployment/integration_env.py" $Integration bicep | ConvertFrom-Json
+foreach ($p in $cfg.params.PSObject.Properties) { $IntegrationParams[$p.Name] = $p.Value }
+foreach ($p in $cfg.secretEnv.PSObject.Properties) { $SecretEnv[$p.Name] = $p.Value }
+$Extra += @($cfg.extraEnv)
 function Write-Params([bool] $WithBudget) {
     $doc = @{
         '$schema'      = "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#"
@@ -64,8 +72,10 @@ function Write-Params([bool] $WithBudget) {
             budgetAmount         = @{ value = $BudgetAmount }
             deployBudget         = @{ value = $WithBudget }
             extraEnv             = @{ value = $Extra }
+            secretEnv            = @{ value = $SecretEnv }
         }
     }
+    foreach ($k in $IntegrationParams.Keys) { $doc.parameters[$k] = @{ value = $IntegrationParams[$k] } }
     Write-Utf8 $ParamFile ($doc | ConvertTo-Json -Depth 8)
 }
 
@@ -113,4 +123,5 @@ if ($h.transport_fallback_reason) {
 }
 
 Step "Smoke test"
-python -m backend.cli smoke --url $Url --origin ($FrontendOrigin.Split(",")[0]) --live --admin-token $AdminToken
+$McpKey = python "$Root/deployment/integration_env.py" $Integration get MCP_API_KEY
+python -m backend.cli smoke --url $Url --origin ($FrontendOrigin.Split(",")[0]) --live --admin-token $AdminToken --mcp-key $McpKey

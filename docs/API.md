@@ -32,12 +32,23 @@ Use demo for "Watch demo match" and live for "Run live". Both send the **same me
 | `GET /api/budget` | today's token use | `live_ai_enabled=false` when the cap is reached |
 | `GET /api/demo` | cached bundles | counts of moments and overlays |
 | `GET /api/spec/overlay` | Contract C JSON Schema | |
+| `GET /api/matches/{id}/overlays?persona=&lang=&club=&since=&until=&source=auto\|live\|demo&limit=` | **public overlay feed** (Contract C) for a rendering partner | `auto` = the current live run if it has overlays, else the cached demo; sorted by `show_at_s` |
+| `GET /api/matches/{id}/recap?persona=&lang=&club=&until_s=&source=` | **match recap** built only from published, verified overlays | `until_s < 5400` = "so far"; `club` required for `persona=club`; 422 on a bad persona |
+| `POST /api/demo/break-it?match_id=&moment_id=&persona=&lang=&club=` | **Break it**: an invented number is rejected by the Verifier | returns `draft`, `verdict`, `repaired_or_fallback_overlay`; defaults to Hassan Nour's 63' goal |
+| `GET /api/matches/{id}/moments`, `/evidence/{moment_id}`, `/stats?at_s=`, `/players/{pid}/stats`, `/baseline` | Owner B's evidence API | see [OWNER_B.md](OWNER_B.md) |
+| `POST /mcp/` | MCP evidence server (Streamable HTTP, 5 read-only tools) | header `x-api-key: MCP_API_KEY` |
 
 Errors are `{"detail": "..."}` with the status codes above.
 
+`/api/health` also reports `agents` (mode, model deployments and auth, tool transport, deadlines, cache sizes),
+`mcp` (mounted, path, auth) and, per demo bundle, `overlay_sources` (e.g. `agent/approved: 180, template/fallback: 38`)
+and the number of recorded `recaps`.
+
 ## WebSocket query parameters
 
-`persona` (`beginner|tactical|player|club|metric`) and `lang` (`en|ar|...`) filter **overlays** only; omit them to get every overlay.
+`persona` (`beginner|tactical|player|club`) and `lang` (`en|ar`) filter **overlays** only; omit them to get every overlay.
+`club` (`nile_fc|delta_utd`, the metadata `team_id`): a Favorite Club viewer receives only the club-persona
+overlays written for their club (both clubs get their own version of every team moment).
 `tracking_hz` = `2` (default), `1`, or `0` (no tracking). Demo also takes `speed` (0.5–60) and `from_minute`.
 
 Demo controls, sent by the client as text frames:
@@ -72,6 +83,21 @@ Every frame: `{"type", "match_id", "run_id", "game_time_s", "data"}`.
 * An overlay can arrive **before** the play it describes (live mode delays the picture, not overlays). Keep a queue and show each overlay when the clock reaches `show_at_s`, for `ttl_s` seconds. Higher `priority` (1 = highest) wins a slot.
 * `dir: "rtl"` → render right-to-left (Arabic). Player and team names in Arabic are in metadata `name_ar`.
 * Pitch: 105 × 68 m, origin bottom-left, home attacks to the right (x = 105) in both halves.
+
+### Overlay fields worth showing
+
+| Field | Meaning |
+| --- | --- |
+| `source` | `agent` (Foundry writer, approved by the Verifier) or `template` (checked deterministic fallback) |
+| `verification_status` | `approved` (agent) or `fallback` (template); a `rejected` overlay is never sent |
+| `fields.generated_ms` / `fields.budget_ms` | Tactical latency readout: "generated in 2.4 s of 5.5 s" |
+| `fields.attempts`, `fields.reason_codes` | 2 attempts + `NUMBER_NOT_IN_EVIDENCE` = the Verifier caught and repaired a draft |
+| `fields.player_id` | player persona: whose pitch tag this is |
+| `fields.club_id` | club persona: whose fans this overlay is for |
+| `trace_id` | links to the workflow trace in Application Insights |
+| `evidence_event_ids` | resolve with `/api/matches/{id}/events/{event_id}` or the evidence API |
+
+Every other entry of `fields` is a verified fact copied from the moment (`shot_speed_kmh`, `ppda_last_5`, ...).
 
 ### Example
 
@@ -114,7 +140,8 @@ async def explain(moment):
 
 * `ctx.demo.bundles["match_001"].overlays_for(moment_id, persona, lang)` returns cached overlays (fallback).
 * `backend.api.template_plugin.goal_overlays / red_card_overlays` are ready-made deterministic fallbacks.
-* When your plugin replaces the template one, remove `backend.api.template_plugin:register` from the list
-  and rebuild the demo: `python -m backend.cli build-demo` (then commit `demo/*.bundle.json`).
-  Template moments use ids `mom_9001+`, so yours (`mom_001+`) never collide.
+* The default pipeline is now `backend.analytics.plugin:register,backend.agents.plugin:register`. Owner A's
+  `backend.api.template_plugin:register` is the original stand-in; loading it together with the agents
+  plugin would air goals twice (the agents plugin logs a warning and the smoke test fails).
+  Template moments use ids `mom_9001+`, so they never collide with analytics' `mom_001+`.
 * A handler that raises is logged and counted in `/api/health` → `pipeline.errors`; the match keeps running.

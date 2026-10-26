@@ -1,6 +1,13 @@
 # Owner C — agents
 
-## Current status
+## Current status (26 Oct, integration)
+
+**All Owner C phases are implemented, including Phase 7 (Azure) and Phase 8 (SHOULD items).** See
+[INTEGRATION.md](INTEGRATION.md) for the cross-owner audit and the go-live steps, and the section
+[Phases 7–8](#phases-78--azure-favorite-club-recap-evals) below. What remains needs people, not code: the
+Foundry key for the deployed API, recording the demo with live agents, and native Arabic review.
+
+### History
 
 Phase 1 is implemented on `owner-c-phase-1-templates`, based on `ad0f898`.
 English and Arabic fallbacks cover all nine Contract B moment types for beginner,
@@ -525,7 +532,72 @@ Cognitive Services token scope returned 401 on this project endpoint. See the
 [official SDK/REST quickstart](https://learn.microsoft.com/en-us/azure/foundry/quickstarts/get-started-code).
 Never paste credentials into chat or commit them.
 
-## Team handoff (draft; not sent)
+## Phases 7–8 — Azure, Favorite Club, Recap, evals
+
+### Cross-tenant Foundry (Phase 7 blocker, fixed)
+
+The API runs in Owner A/B's Azure account; Foundry is in Owner C's. A managed identity cannot be granted a
+role across those tenants, so `FoundryModel` now also authenticates with the Foundry resource key:
+`FOUNDRY_API_KEY` set → Agent Framework's `OpenAIChatClient` on `https://<resource>.services.ai.azure.com/openai/v1/`
+(Responses API, `api-key` header, same deployments, same request body as the Entra path; verified offline with
+a mock transport). Unset → Entra ID as before. The key is a Container Apps secret, never logged or in `repr`.
+`deployment/enable-integration.ps1` applies it, plus App Insights for traces, to the running app.
+
+### Favorite Club persona
+
+Enabled end to end (`AGENT_CLUB_PERSONA=1`, default). For every moment with a team, the Producer plans one
+air slot **per club** × language, so each fan sees the moment from their side ("Goal for Nile FC!" vs.
+"Setback for Delta United"). The item key, cache key and overlay ID carry the club
+(`ov_<moment>_club_<team>_<lang>`, `fields.club_id`). Match-level moments (rhythm, chaos) get no club overlay.
+The Verifier adds: `club_id` must be a match team, the fan's club must be named, and contemptuous words (EN/AR
+lists) are `TONE` for every persona; the semantic prompt checks respect too. All 2,948 club templates across the
+four matches pass the Verifier. Viewers filter with `?persona=club&club=<team_id>`.
+
+### Recap agent
+
+`backend/agents/recap.py`: an end-of-match (or "so far") story per persona × language (× club), built only from
+overlays that were published (approved or checked templates). The deterministic recap needs no model; the
+Recap agent (strong model) rewrites it, and the result is re-verified: numbers must come from the summarised
+overlays' facts, names from metadata, respectful tone, club named. Otherwise the deterministic recap is served
+with `reason_code`. `GET /api/matches/{id}/recap` uses the model only for a finished live run; demo recaps are
+recorded at build time (`bundle.recaps`), so judges never trigger model calls.
+
+### Analyst over MCP
+
+`AGENT_TOOLS=mcp` makes the Analyst call the five evidence tools through `backend/agents/mcp_client.py`, a real
+MCP `ClientSession` over Streamable HTTP to `MCP_SERVER_URL` (default the API's own `/mcp/`, key in
+`MCP_API_KEY`). One session lives for the app's lifetime and reconnects once on failure. Verified end to end:
+a live run on a local server made the Analyst's calls over HTTP (`/api/health` → `agents.tools.mcp_calls`).
+
+### Evals
+
+`python -m evals.run_agent_eval --mode foundry --limit 30` runs the real stages on 30 eval moments balanced
+across types × every planned slot, and reports raw writer numeric faithfulness (before the Verifier),
+published faithfulness (after), approval/fallback, rejections by reason and stage latency, into
+`evals/results/latest.md`. `--inject 0.3` corrupts 30% of first drafts with an invented number (Break it at
+scale); `--foundry-evaluators` adds Foundry's groundedness, relevance, fluency and coherence (`pip install -r
+requirements-eval.txt`). CI runs the offline gate:
+
+| Offline gate (stub agents, 30% injected) | Value |
+| --- | --- |
+| Overlays | 236 (30 moments) |
+| Raw numeric faithfulness, before Verifier | 66.1% |
+| Published numeric faithfulness, after Verifier | **100.0%** |
+| Injected invented numbers caught | 80 / 80 (all repaired) |
+
+Run the Foundry version once the key is in place and paste its table here and in the README.
+
+### Demo with agents
+
+`./deployment/build-demo-agents.ps1 -Scenario derby_balanced` records the demo match with live Foundry
+agents and recaps. It keeps the real 5.5 s deadlines (so the latency readouts are honest), runs one moment at
+a time and paces token use under the deployment quota (`AGENT_BUILD_TPM`, default 24,000 for the 30k TPM
+`everyfan-fast`). `-Relaxed` trades honesty of the readout for more agent overlays. Review the Arabic, copy into
+`demo/`, commit.
+
+Validation: **559 tests** (129 new in `tests/test_integration.py`), pyflakes clean.
+
+## Team handoff (superseded by INTEGRATION.md)
 
 For Owner A after Phase 1 merges: the plugin is `backend.agents.plugin:register`,
 loaded after `backend.analytics.plugin:register`. Off mode now provides bilingual

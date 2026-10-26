@@ -15,7 +15,7 @@ from shared.schemas.contracts import FactValue
 from .llm import BudgetUnavailable, complete_with_budget
 from .names import NameAllowlist, focus_player, prompt_names
 from .producer import AirPlanItem
-from .templates import template_overlays
+from .templates import template_for
 
 
 class WriterText(BaseModel):
@@ -41,11 +41,17 @@ async def write_one(brief: InsightBrief, moment: Moment, names: NameAllowlist, i
     try:
         if brief.match_id != moment.match_id or brief.moment_id != moment.moment_id:
             raise ValueError("Brief does not match moment")
-        template = next(o for o in template_overlays(moment, names) if o.persona == item.persona and o.language == item.language)
+        template = template_for(moment, names, item.persona, item.language, item.club_id)
+        if template is None:
+            raise ValueError("No checked template for this air slot")
         system = Path(__file__).with_name("prompts").joinpath(f"writer_{item.persona}_v1.md").read_text(encoding="utf-8")
         payload = {"task": "writer", "persona": item.persona, "language": item.language,
                    "brief": brief.model_dump(), "names": prompt_names(names, moment),
                    "template": {"headline": template.headline, "body": template.body, "fields": {}}}
+        if item.club_id:
+            rival = next(t for t in names.teams if t != item.club_id)
+            payload.update(favorite_club_id=item.club_id, rival_club_id=rival,
+                           moment_is_for_favorite_club=moment.team_id == item.club_id)
         if repair_reason:
             payload.update(repair_reason=repair_reason, previous_draft=previous_draft)
         text, _ = await complete_with_budget(model, system, json.dumps(payload, ensure_ascii=False),
@@ -56,10 +62,13 @@ async def write_one(brief: InsightBrief, moment: Moment, names: NameAllowlist, i
         fields.pop("reason_codes", None)
         # Runtime measurements and player focus are code-owned, even during repair.
         fields.pop("player_id", None)
+        fields.pop("club_id", None)
         if item.persona == "player":
             fields["player_id"] = focus_player(moment)
+        if item.club_id:
+            fields["club_id"] = item.club_id
         fields.update(generated_ms=round((time.perf_counter() - start) * 1000), budget_ms=round(timeout_s * 1000))
-        overlay = Overlay(overlay_id=f"ov_{moment.moment_id}_{item.persona}_{item.language}",
+        overlay = Overlay(overlay_id=template.overlay_id,
                           moment_id=moment.moment_id, match_id=moment.match_id, persona=item.persona,
                           language=item.language, dir="rtl" if item.language == "ar" else "ltr",
                           template_id=item.template_id, slot=item.slot, priority=item.priority, ttl_s=item.ttl_s,

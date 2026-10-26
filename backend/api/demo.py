@@ -53,6 +53,8 @@ class DemoBundle:
     items: list[dict] = field(default_factory=list)  # {"type", "game_time_s", "data"} sorted by time
     created_at: str = ""
     stale: bool = False
+    # Recap agent output recorded at build time, keyed "persona|language|club_id" (zero cost to serve).
+    recaps: dict[str, dict] = field(default_factory=dict)
 
     @property
     def times(self) -> list[float]:
@@ -62,6 +64,16 @@ class DemoBundle:
         out: dict[str, int] = {}
         for i in self.items:
             out[i["type"]] = out.get(i["type"], 0) + 1
+        return out
+
+    def overlays(self) -> list[dict]:
+        return [i["data"] for i in self.items if i["type"] == "overlay"]
+
+    def overlay_sources(self) -> dict:
+        out: dict[str, int] = {}
+        for o in self.overlays():
+            key = f'{o.get("source")}/{o.get("verification_status")}'
+            out[key] = out.get(key, 0) + 1
         return out
 
     def overlays_for(self, moment_id: str, persona: str | None = None, language: str | None = None) -> list[dict]:
@@ -76,6 +88,8 @@ class DemoBundle:
         body = {"schema_version": SCHEMA_VERSION, "match_id": self.match_id, "scenario_id": self.scenario_id,
                 "fingerprint": self.fingerprint, "plugins": self.plugins, "created_at": self.created_at,
                 "counts": self.counts(), "items": self.items}
+        if self.recaps:
+            body["recaps"] = self.recaps
         path.write_text(json.dumps(body, ensure_ascii=False, indent=1), encoding="utf-8")
         return path
 
@@ -84,7 +98,7 @@ class DemoBundle:
         d = json.loads(Path(path).read_text(encoding="utf-8"))
         items = sorted(d["items"], key=lambda i: (i["game_time_s"], i["type"] != "moment"))
         return cls(d["match_id"], d["scenario_id"], d["fingerprint"], d.get("plugins", []), items,
-                   d.get("created_at", ""))
+                   d.get("created_at", ""), recaps=d.get("recaps", {}))
 
 
 class DemoStore:
@@ -114,7 +128,8 @@ class DemoStore:
 
     def catalog(self) -> list[dict]:
         return [{"match_id": b.match_id, "scenario_id": b.scenario_id, "plugins": b.plugins,
-                 "created_at": b.created_at, "counts": b.counts(), "stale": b.stale}
+                 "created_at": b.created_at, "counts": b.counts(), "stale": b.stale,
+                 "overlay_sources": b.overlay_sources(), "recaps": len(b.recaps)}
                 for b in self.bundles.values()]
 
 

@@ -25,6 +25,7 @@ from __future__ import annotations
 
 import asyncio
 import importlib
+from collections import deque
 import inspect
 import logging
 from typing import Any, Callable
@@ -50,6 +51,8 @@ class PipelineContext:
         self.errors = 0
         self._tasks: set[asyncio.Task] = set()
         self.loaded_plugins: list[str] = []
+        # Public overlay feed: every overlay published in the current run of each match.
+        self.overlay_log: dict[str, tuple[str | None, deque]] = {}
 
     # registration (usable as decorators)
     def on_event(self, fn): self.event_handlers.append(fn); return fn
@@ -94,8 +97,25 @@ class PipelineContext:
 
     async def publish_overlay(self, overlay: Overlay | dict) -> Overlay:
         overlay = Overlay.model_validate(overlay)
-        self._emit("overlay", overlay.match_id, overlay.show_at_s, overlay.model_dump(exclude_none=True))
+        data = overlay.model_dump(exclude_none=True)
+        self._log_overlay(overlay.match_id, data)
+        self._emit("overlay", overlay.match_id, overlay.show_at_s, data)
         return overlay
+
+    def _log_overlay(self, match_id: str, data: dict) -> None:
+        run_id = self.run_ids.get(match_id)
+        current = self.overlay_log.get(match_id)
+        if current is None or current[0] != run_id:  # a new replay or seek starts a fresh feed
+            current = (run_id, deque(maxlen=5000))
+            self.overlay_log[match_id] = current
+        current[1].append(data)
+
+    def overlays(self, match_id: str) -> tuple[str | None, list[dict]]:
+        """(run_id, overlays) published so far in the current run of a match."""
+        run_id, items = self.overlay_log.get(match_id, (None, ()))
+        if run_id != self.run_ids.get(match_id):
+            return self.run_ids.get(match_id), []
+        return run_id, list(items)
 
     def _emit(self, kind: str, match_id: str, t: float, data: dict) -> None:
         msg = message(kind, match_id, self.run_ids.get(match_id), t, data)

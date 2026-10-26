@@ -28,13 +28,22 @@ sent off minute players remaining possession means share ball recently index ver
 opponent now baseline pressure regained regains zone chaos per median gap seconds
 was followed by after winning driving forward single move from in on at with and
 of for is are has have had into to as down left boot ppda xg km m fc
-passes allowed defensive action improves""".split())
+passes allowed defensive action improves
+so close setback blow against under warning danger let let-off high won back times pressing
+had have play plays playing score scores shoots on down
+full time half so far yet no verified moments v vs story dangerous recently for fans support supports""".split())
 AR_WORD = r"[\u0621-\u064a]+"
 AR_NAME_STARTS = frozenset("""محمد أحمد احمد محمود حسن حسين علي عمر عمرو يوسف ياسر ياسين
 مصطفى خالد كريم طارق رامي سامح سامي أحمد أدهم ادهم إبراهيم ابراهيم إسماعيل اسماعيل
 عبد عبدالله زين ليونيل كريستيانو نيمار كيليان إيرلينغ ارلينغ هاري روبرت لوكا""".split())
 AR_KNOWN_FOREIGN = frozenset("ميسي رونالدو برشلونة ليفربول مانشستر أرسنال ارسنال تشيلسي يوفنتوس".split())
 AR_ENTITY = re.compile(rf"(?<!\w)(?:نادي|فريق)\s+{AR_WORD}(?:\s+{AR_WORD})?")
+# Partisan is fine, contempt is not: the Favorite Club persona must stay respectful to the rival.
+DISRESPECT_EN = re.compile(r"\b(?:pathetic|useless|rubbish|garbage|trash|clowns?|cheat(?:s|ers?|ing|ed)?|disgrace(?:ful)?"
+                           r"|embarrass\w*|humiliat\w*|losers?|hopeless|joke|shameful|idiot\w*|stupid|dirty|thugs?"
+                           r"|hate[sd]?|crap|awful|terrible|clueless|incompetent)\b", re.IGNORECASE)
+DISRESPECT_AR = re.compile(r"(?<!\w)(?:ال)?(?:فاشل|فاشلون|فاشلين|مهزلة|عار|أغبياء|اغبياء|غبي|حثالة|مخادع|مخادعون|غشاش|غشاشون"
+                           r"|تافه|تافهون|مهين|إهانة|اهانة|سيئون|مثير للشفقة|بائس|بائسون|أضحوكة|اضحوكة)(?!\w)")
 
 
 class Verdict(BaseModel):
@@ -54,7 +63,12 @@ def brief_from_moment(moment: Moment) -> InsightBrief:
     return InsightBrief(moment_id=moment.moment_id, match_id=moment.match_id,
                         claim=moment.type.replace("_", " "), facts=moment.verified_facts,
                         evidence_event_ids=moment.evidence_event_ids, focus_player_id=focus_player(moment),
-                        confidence="high", target_personas=["beginner", "tactical", "player"])
+                        confidence="high", target_personas=target_personas(moment))
+
+
+def target_personas(moment: Moment) -> list[str]:
+    return (["beginner", "tactical"] + (["player"] if focus_player(moment) else [])
+            + (["club"] if moment.team_id else []))
 
 
 def numeric_values(facts: dict) -> list[float]:
@@ -127,6 +141,15 @@ def _unsupported_shot_speed(text: str, brief: InsightBrief, moment: Moment) -> b
     return False
 
 
+def _disrespectful(text: str) -> str | None:
+    match = DISRESPECT_EN.search(text) or DISRESPECT_AR.search(re.sub(r"[\u064b-\u065f\u0670]", "", text))
+    return match.group() if match else None
+
+
+def _mentions(text: str, aliases) -> bool:
+    return any(alias and re.search(r"(?<!\w)" + re.escape(alias) + r"(?!\w)", text, re.IGNORECASE) for alias in aliases)
+
+
 def verify(draft: dict, brief: InsightBrief, moment: Moment, names: NameAllowlist, persona: str) -> Verdict:
     try:
         overlay = Overlay.model_validate(draft)
@@ -162,6 +185,9 @@ def verify(draft: dict, brief: InsightBrief, moment: Moment, names: NameAllowlis
                 match.group() for match in NUMBER.finditer(value.translate(DIGITS))]
             if any(not number_supported(raw, candidates) for raw in raw_numbers):
                 return reject("NUMBER_NOT_IN_EVIDENCE", f"Unsupported field: {key}")
+    rude = _disrespectful(text)
+    if rude:
+        return reject("TONE", f"Disrespectful wording: {rude}")
     entity_text = text + "\n" + "\n".join(str(value) for key, value in overlay.fields.items()
                                            if isinstance(value, str) and not key.endswith("_id"))
     unknown = _unknown_entity(entity_text, names)
@@ -170,6 +196,13 @@ def verify(draft: dict, brief: InsightBrief, moment: Moment, names: NameAllowlis
     real_ids = set(moment.evidence_event_ids)
     if not set(brief.evidence_event_ids) <= real_ids or not set(overlay.evidence_event_ids) <= set(brief.evidence_event_ids):
         return reject("BAD_EVIDENCE_ID", "Evidence IDs must resolve to the brief and moment.")
+    if persona == "club":
+        club = overlay.fields.get("club_id")
+        if club not in names.teams or moment.team_id not in names.teams:
+            return reject("SCHEMA", "Favorite Club overlay needs a known club_id and a team moment.")
+        team = names.teams[club]
+        if not _mentions(text, [team.name, team.short_name, team.name_ar]):
+            return reject("TONE", "Favorite Club overlay must name the fan's club.")
     if persona == "beginner":
         jargon = _unexplained_jargon(text)
         if jargon:
@@ -179,8 +212,7 @@ def verify(draft: dict, brief: InsightBrief, moment: Moment, names: NameAllowlis
         if (pid not in names.players or brief.focus_player_id != pid or overlay.fields.get("player_id") != pid):
             return reject("TONE", "Player overlay must identify the moment's focus player.")
         player = names.players[pid]
-        aliases = [player.name, player.short_name, player.name_ar]
-        if not any(alias and re.search(r"(?<!\w)" + re.escape(alias) + r"(?!\w)", text, re.IGNORECASE) for alias in aliases):
+        if not _mentions(text, [player.name, player.short_name, player.name_ar]):
             return reject("TONE", "Player overlay must mention the focus player.")
     return Verdict(status="approved", detail="Deterministic checks passed.")
 

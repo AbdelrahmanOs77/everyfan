@@ -118,13 +118,15 @@ def test_plugin_publishes_only_agent_worthy_moments_and_resets(derby):
         callbacks[0](moment, state)
         callbacks[0](moment, state)
         await ctx.drain()
-        assert len(ctx.recording) == 6
+        # 3 personas x 2 languages, plus Favorite Club for each of the 2 clubs x 2 languages.
+        assert len(ctx.recording) == 10
+        assert sum(i["data"]["persona"] == "club" for i in ctx.recording) == 4
         assert ctx.errors == 0
         state.run_id = "run_b"
         await ctx.dispatch(ctx.reset_handlers, state)
         callbacks[0](moment, state)
         await ctx.drain()
-        assert len(ctx.recording) == 12
+        assert len(ctx.recording) == 20
         assert ctx.budget.used == 0
         # Reset before a queued publisher runs: the previous run must not leak overlays.
         state.run_id = "run_c"
@@ -133,7 +135,7 @@ def test_plugin_publishes_only_agent_worthy_moments_and_resets(derby):
         state.run_id = "run_d"
         await ctx.dispatch(ctx.reset_handlers, state)
         await ctx.drain()
-        assert len(ctx.recording) == 12
+        assert len(ctx.recording) == 20
 
     asyncio.run(go())
 
@@ -189,7 +191,8 @@ def test_real_replay_records_templates_at_moment_time(derby):
         assert overlays and ctx.errors == 0
         from backend.agents.producer import produce
         history = {}
-        scheduled = {mid for mid, moment in moments.items() if produce(moment, history)}
+        clubs = (derby.metadata.home.team_id, derby.metadata.away.team_id)
+        scheduled = {mid for mid, moment in moments.items() if produce(moment, history, clubs)}
         assert {o.moment_id for o in overlays} == scheduled
         assert len({o.overlay_id for o in overlays}) == len(overlays)
         assert all(o.show_at_s == moments[o.moment_id].game_clock_s for o in overlays)

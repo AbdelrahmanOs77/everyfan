@@ -189,9 +189,17 @@ async def _build_demo(args) -> int:
             return 1
         t0 = time.time()
         bundle = await build_bundle(match, ctx)
+        agents = getattr(ctx, "agents", None)
+        try:
+            if agents is not None and agents.config.mode != "off" and not args.no_recaps:
+                bundle.recaps = await agents.record_recaps(match.metadata, bundle.overlays())
+        finally:
+            if agents is not None:
+                await agents.runner.aclose()
         path = bundle.save(out)
-        print(f"[build-demo] {sid:16} {bundle.counts()}  plugins {bundle.plugins}  errors {ctx.errors}  "
-              f"({time.time() - t0:.1f}s) -> {path}")
+        print(f"[build-demo] {sid:16} {bundle.counts()}  overlays {bundle.overlay_sources()}  "
+              f"recaps {len(bundle.recaps)}  plugins {bundle.plugins}  errors {ctx.errors}  "
+              f"budget used {ctx.budget.used}  ({time.time() - t0:.1f}s) -> {path}")
         if ctx.errors:
             return 1
     return 0
@@ -236,6 +244,7 @@ async def _smoke(args) -> int:
         return got
 
     print(f"[smoke] {base}")
+    admin = {"X-Admin-Token": args.admin_token} if args.admin_token else {}
     async with httpx.AsyncClient(timeout=30, follow_redirects=True) as http:
         t0 = time.monotonic()
         try:
@@ -265,6 +274,39 @@ async def _smoke(args) -> int:
             r = await http.get(f"{base}/api/health", headers={"Origin": args.origin})
             allowed = r.headers.get("access-control-allow-origin")
             check("CORS allows the frontend", allowed in (args.origin, "*"), f"allow-origin={allowed}")
+        # ---- integration of Owners A, B and C (all free: no model calls)
+        plugins = h.get("pipeline", {}).get("plugins", []) if h else []
+        check("analytics + agents plugins loaded", "backend.analytics.plugin:register" in plugins
+              and "backend.agents.plugin:register" in plugins, str(plugins))
+        check("template plugin not loaded twice", "backend.api.template_plugin:register" not in plugins
+              or "backend.agents.plugin:register" not in plugins)
+        agents = h.get("agents", {}) if h else {}
+        print(f"        agents: mode={agents.get('mode')} fast={agents.get('fast')} tools={agents.get('tools')}")
+        r = await http.get(f"{base}/api/matches/{args.match}/overlays", params={"persona": "tactical", "lang": "en", "source": "demo"})
+        feed = r.json() if r.status_code == 200 else {}
+        check("public overlay feed (demo)", feed.get("count", 0) > 0, f"{feed.get('count')} overlays")
+        r = await http.get(f"{base}/api/matches/{args.match}/recap", params={"persona": "beginner", "lang": "ar", "source": "demo"})
+        rec = r.json() if r.status_code == 200 else {}
+        check("recap (Arabic, RTL)", rec.get("dir") == "rtl" and bool(rec.get("key_moments")),
+              f"{r.status_code} '{rec.get('headline', '')}' source={rec.get('source')}")
+        r = await http.post(f"{base}/api/demo/break-it", params={"match_id": args.match}, headers=admin)
+        bi = r.json() if r.status_code == 200 else {}
+        check("Break it: invented number rejected", bi.get("verdict", {}).get("reason_code") == "NUMBER_NOT_IN_EVIDENCE",
+              f"{r.status_code} {bi.get('verdict', {}).get('detail', r.text[:80])}")
+        if args.mcp_key:
+            mcp_headers = {"x-api-key": args.mcp_key, "Accept": "application/json, text/event-stream",
+                           "Content-Type": "application/json"}
+            init = {"jsonrpc": "2.0", "id": 1, "method": "initialize", "params": {
+                "protocolVersion": "2025-06-18", "capabilities": {}, "clientInfo": {"name": "smoke", "version": "1"}}}
+            r = await http.post(f"{base}/mcp/", json=init, headers=mcp_headers)
+            ok = r.status_code == 200
+            if ok:
+                mcp_headers["MCP-Protocol-Version"] = r.json()["result"]["protocolVersion"]
+                r = await http.post(f"{base}/mcp/", json={"jsonrpc": "2.0", "id": 2, "method": "tools/list"}, headers=mcp_headers)
+                ok = r.status_code == 200 and len(r.json()["result"]["tools"]) == 5
+            check("MCP evidence server (5 read-only tools, key required)", ok, str(r.status_code))
+            r = await http.post(f"{base}/mcp/", json=init, headers={**mcp_headers, "x-api-key": "wrong"})
+            check("MCP rejects a wrong key", r.status_code == 401, str(r.status_code))
 
     first_goal_min = (goals[0]["game_clock_s"] // 60) if goals else 12
     start = max(0, first_goal_min - 1)
@@ -299,6 +341,20 @@ async def _smoke(args) -> int:
                     print(f"        live WebSocket error: {exc!r}")
                 n = sum(m["type"] == "event" for m in msgs)
                 check("live events arrive through the stream", n >= 5, f"{n} events (delay {delay}s)")
+                live_feed = {}
+                for _ in range(20):  # the first goal's overlays: agents (or checked templates) within ~6 s
+                    r = await http.get(f"{base}/api/matches/{args.match}/overlays", params={"source": "live"})
+                    live_feed = r.json() if r.status_code == 200 else {}
+                    if live_feed.get("count"):
+                        break
+                    await asyncio.sleep(1.5)
+                kinds = {}
+                for o in live_feed.get("overlays", []):
+                    key = f"{o['source']}/{o['verification_status']}"
+                    kinds[key] = kinds.get(key, 0) + 1
+                check("live overlays published (verified)", bool(live_feed.get("count"))
+                      and all(o["verification_status"] in ("approved", "fallback") for o in live_feed["overlays"]),
+                      f"{live_feed.get('count')} overlays {kinds}")
                 r = await http.post(f"{base}/api/matches/{args.match}/stop", headers={"X-Control-Token": token, **headers})
                 check("live stop with control token", r.status_code == 200, str(r.status_code))
                 r = await http.get(f"{base}/api/health")
@@ -371,6 +427,7 @@ def main(argv: list[str] | None = None) -> int:
     g.add_argument("--all", action="store_true")
     p.add_argument("--plugins", help="comma-separated plugin specs (default: PIPELINE_PLUGINS)")
     p.add_argument("--out", help="output folder (default: demo/)")
+    p.add_argument("--no-recaps", action="store_true", help="skip the Recap agent (agent modes only)")
 
     p = sub.add_parser("serve")
     p.add_argument("--host", default="127.0.0.1")
@@ -383,6 +440,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--origin", help="frontend origin to check CORS for")
     p.add_argument("--live", action="store_true", help="also start a short live run (uses the stream and plugins)")
     p.add_argument("--admin-token", help="ADMIN_TOKEN, lets --live take over a running broadcast")
+    p.add_argument("--mcp-key", help="MCP_API_KEY: also check the MCP evidence server over the wire")
 
     args = ap.parse_args(argv)
     if args.cmd == "generate":

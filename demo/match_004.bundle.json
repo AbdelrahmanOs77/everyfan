@@ -4,13 +4,13 @@
  "scenario_id": "press_vs_block",
  "fingerprint": "cc7481a3eb6bf6791d48a2656171af957b875044ede5d32da80a1dd95e53ff15",
  "plugins": [
-  "backend.api.template_plugin:register",
-  "backend.analytics.plugin:register"
+  "backend.analytics.plugin:register",
+  "backend.agents.plugin:register"
  ],
- "created_at": "2026-10-23T23:41:06Z",
+ "created_at": "2026-10-26T03:48:36Z",
  "counts": {
-  "moment": 172,
-  "overlay": 12
+  "moment": 170,
+  "overlay": 128
  },
  "items": [
   {
@@ -1068,6 +1068,354 @@
    }
   },
   {
+   "type": "overlay",
+   "game_time_s": 1104.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_004_beginner_en",
+    "moment_id": "mom_004",
+    "match_id": "match_004",
+    "persona": "beginner",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "Pressing changes: Delta United",
+    "body": "Delta United: Pressing means trying to win the ball back: 6 recent regains in the zone.",
+    "fields": {
+     "ppda_last_5": 3.0,
+     "ppda_match": 5.5,
+     "regains_in_zone_last_5": 6,
+     "opponent_passes_in_zone_last_5": 18,
+     "possession_pct_last_5": 17.9,
+     "minute": 19,
+     "generated_ms": 14,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00487",
+     "evt_00490",
+     "evt_00545",
+     "evt_00553",
+     "evt_00584"
+    ],
+    "show_at_s": 1104,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "3a0a4956c21e4aefa3d82b4d83773bf8",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1104.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_004_beginner_ar",
+    "moment_id": "mom_004",
+    "match_id": "match_004",
+    "persona": "beginner",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "تغير في الضغط: دلتا يونايتد",
+    "body": "دلتا يونايتد: الضغط — محاولة استعادة الكرة — شهد 6 استردادات في المنطقة مؤخراً.",
+    "fields": {
+     "ppda_last_5": 3.0,
+     "ppda_match": 5.5,
+     "regains_in_zone_last_5": 6,
+     "opponent_passes_in_zone_last_5": 18,
+     "possession_pct_last_5": 17.9,
+     "minute": 19,
+     "generated_ms": 15,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00487",
+     "evt_00490",
+     "evt_00545",
+     "evt_00553",
+     "evt_00584"
+    ],
+    "show_at_s": 1104,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "3a0a4956c21e4aefa3d82b4d83773bf8",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1104.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_004_tactical_en",
+    "moment_id": "mom_004",
+    "match_id": "match_004",
+    "persona": "tactical",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "stat_card",
+    "slot": "side_panel",
+    "priority": 3,
+    "headline": "Pressing changes: Delta United",
+    "body": "Delta United: PPDA now 3.0 versus a match baseline of 5.5.",
+    "fields": {
+     "ppda_last_5": 3.0,
+     "ppda_match": 5.5,
+     "regains_in_zone_last_5": 6,
+     "opponent_passes_in_zone_last_5": 18,
+     "possession_pct_last_5": 17.9,
+     "minute": 19,
+     "generated_ms": 15,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00487",
+     "evt_00490",
+     "evt_00545",
+     "evt_00553",
+     "evt_00584"
+    ],
+    "show_at_s": 1104,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "3a0a4956c21e4aefa3d82b4d83773bf8",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1104.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_004_tactical_ar",
+    "moment_id": "mom_004",
+    "match_id": "match_004",
+    "persona": "tactical",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "stat_card",
+    "slot": "side_panel",
+    "priority": 3,
+    "headline": "تغير في الضغط: دلتا يونايتد",
+    "body": "دلتا يونايتد: مؤشر PPDA الآن 3.0 مقابل 5.5 كمتوسط المباراة.",
+    "fields": {
+     "ppda_last_5": 3.0,
+     "ppda_match": 5.5,
+     "regains_in_zone_last_5": 6,
+     "opponent_passes_in_zone_last_5": 18,
+     "possession_pct_last_5": 17.9,
+     "minute": 19,
+     "generated_ms": 15,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00487",
+     "evt_00490",
+     "evt_00545",
+     "evt_00553",
+     "evt_00584"
+    ],
+    "show_at_s": 1104,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "3a0a4956c21e4aefa3d82b4d83773bf8",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1104.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_004_club_nile_fc_en",
+    "moment_id": "mom_004",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "Delta United pressing Nile FC",
+    "body": "Delta United won the ball back 6 times in the pressing zone recently.",
+    "fields": {
+     "ppda_last_5": 3.0,
+     "ppda_match": 5.5,
+     "regains_in_zone_last_5": 6,
+     "opponent_passes_in_zone_last_5": 18,
+     "possession_pct_last_5": 17.9,
+     "minute": 19,
+     "club_id": "nile_fc",
+     "generated_ms": 16,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00487",
+     "evt_00490",
+     "evt_00545",
+     "evt_00553",
+     "evt_00584"
+    ],
+    "show_at_s": 1104,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "3a0a4956c21e4aefa3d82b4d83773bf8",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1104.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_004_club_nile_fc_ar",
+    "moment_id": "mom_004",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "دلتا يونايتد يضغط على نادي النيل",
+    "body": "استعاد دلتا يونايتد الكرة 6 مرات في منطقة الضغط مؤخراً.",
+    "fields": {
+     "ppda_last_5": 3.0,
+     "ppda_match": 5.5,
+     "regains_in_zone_last_5": 6,
+     "opponent_passes_in_zone_last_5": 18,
+     "possession_pct_last_5": 17.9,
+     "minute": 19,
+     "club_id": "nile_fc",
+     "generated_ms": 16,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00487",
+     "evt_00490",
+     "evt_00545",
+     "evt_00553",
+     "evt_00584"
+    ],
+    "show_at_s": 1104,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "3a0a4956c21e4aefa3d82b4d83773bf8",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1104.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_004_club_delta_utd_en",
+    "moment_id": "mom_004",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "Delta United pressing high",
+    "body": "Delta United won the ball back 6 times in the pressing zone recently.",
+    "fields": {
+     "ppda_last_5": 3.0,
+     "ppda_match": 5.5,
+     "regains_in_zone_last_5": 6,
+     "opponent_passes_in_zone_last_5": 18,
+     "possession_pct_last_5": 17.9,
+     "minute": 19,
+     "club_id": "delta_utd",
+     "generated_ms": 16,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00487",
+     "evt_00490",
+     "evt_00545",
+     "evt_00553",
+     "evt_00584"
+    ],
+    "show_at_s": 1104,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "3a0a4956c21e4aefa3d82b4d83773bf8",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1104.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_004_club_delta_utd_ar",
+    "moment_id": "mom_004",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "دلتا يونايتد يضغط بقوة",
+    "body": "استعاد دلتا يونايتد الكرة 6 مرات في منطقة الضغط مؤخراً.",
+    "fields": {
+     "ppda_last_5": 3.0,
+     "ppda_match": 5.5,
+     "regains_in_zone_last_5": 6,
+     "opponent_passes_in_zone_last_5": 18,
+     "possession_pct_last_5": 17.9,
+     "minute": 19,
+     "club_id": "delta_utd",
+     "generated_ms": 17,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00487",
+     "evt_00490",
+     "evt_00545",
+     "evt_00553",
+     "evt_00584"
+    ],
+    "show_at_s": 1104,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "3a0a4956c21e4aefa3d82b4d83773bf8",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
    "type": "moment",
    "game_time_s": 1143.0,
    "data": {
@@ -1296,6 +1644,422 @@
    }
   },
   {
+   "type": "overlay",
+   "game_time_s": 1482.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_007_beginner_en",
+    "moment_id": "mom_007",
+    "match_id": "match_004",
+    "persona": "beginner",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "Big chance: Ramy Galal",
+    "body": "Ramy Galal: A shot from 11 m at 71 km/h.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 25,
+     "shot_speed_kmh": 71,
+     "shot_distance_m": 11,
+     "pressure": 0.46,
+     "outcome": "saved",
+     "in_box": true,
+     "generated_ms": 18,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00745",
+     "evt_00751"
+    ],
+    "show_at_s": 1482,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "d38517f0f90244ee935835f61ad2bc08",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1482.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_007_beginner_ar",
+    "moment_id": "mom_007",
+    "match_id": "match_004",
+    "persona": "beginner",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "فرصة خطيرة: رامي جلال",
+    "body": "رامي جلال: تسديدة من مسافة 11 م بسرعة 71 كم/س.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 25,
+     "shot_speed_kmh": 71,
+     "shot_distance_m": 11,
+     "pressure": 0.46,
+     "outcome": "saved",
+     "in_box": true,
+     "generated_ms": 18,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00745",
+     "evt_00751"
+    ],
+    "show_at_s": 1482,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "d38517f0f90244ee935835f61ad2bc08",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1482.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_007_tactical_en",
+    "moment_id": "mom_007",
+    "match_id": "match_004",
+    "persona": "tactical",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "stat_card",
+    "slot": "side_panel",
+    "priority": 3,
+    "headline": "Big chance: Ramy Galal",
+    "body": "Ramy Galal: A shot from 11 m at 71 km/h.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 25,
+     "shot_speed_kmh": 71,
+     "shot_distance_m": 11,
+     "pressure": 0.46,
+     "outcome": "saved",
+     "in_box": true,
+     "generated_ms": 19,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00745",
+     "evt_00751"
+    ],
+    "show_at_s": 1482,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "d38517f0f90244ee935835f61ad2bc08",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1482.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_007_tactical_ar",
+    "moment_id": "mom_007",
+    "match_id": "match_004",
+    "persona": "tactical",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "stat_card",
+    "slot": "side_panel",
+    "priority": 3,
+    "headline": "فرصة خطيرة: رامي جلال",
+    "body": "رامي جلال: تسديدة من مسافة 11 م بسرعة 71 كم/س.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 25,
+     "shot_speed_kmh": 71,
+     "shot_distance_m": 11,
+     "pressure": 0.46,
+     "outcome": "saved",
+     "in_box": true,
+     "generated_ms": 19,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00745",
+     "evt_00751"
+    ],
+    "show_at_s": 1482,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "d38517f0f90244ee935835f61ad2bc08",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1482.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_007_player_en",
+    "moment_id": "mom_007",
+    "match_id": "match_004",
+    "persona": "player",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "player_tag",
+    "slot": "pitch",
+    "priority": 3,
+    "headline": "Big chance: Ramy Galal",
+    "body": "Ramy Galal: A shot from 11 m at 71 km/h.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 25,
+     "shot_speed_kmh": 71,
+     "shot_distance_m": 11,
+     "pressure": 0.46,
+     "outcome": "saved",
+     "in_box": true,
+     "player_id": "nil_09",
+     "generated_ms": 19,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00745",
+     "evt_00751"
+    ],
+    "show_at_s": 1482,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "d38517f0f90244ee935835f61ad2bc08",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1482.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_007_player_ar",
+    "moment_id": "mom_007",
+    "match_id": "match_004",
+    "persona": "player",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "player_tag",
+    "slot": "pitch",
+    "priority": 3,
+    "headline": "فرصة خطيرة: رامي جلال",
+    "body": "رامي جلال: تسديدة من مسافة 11 م بسرعة 71 كم/س.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 25,
+     "shot_speed_kmh": 71,
+     "shot_distance_m": 11,
+     "pressure": 0.46,
+     "outcome": "saved",
+     "in_box": true,
+     "player_id": "nil_09",
+     "generated_ms": 20,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00745",
+     "evt_00751"
+    ],
+    "show_at_s": 1482,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "d38517f0f90244ee935835f61ad2bc08",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1482.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_007_club_nile_fc_en",
+    "moment_id": "mom_007",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "So close for Nile FC!",
+    "body": "Ramy Galal shoots from 11 m at 71 km/h.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 25,
+     "shot_speed_kmh": 71,
+     "shot_distance_m": 11,
+     "pressure": 0.46,
+     "outcome": "saved",
+     "in_box": true,
+     "club_id": "nile_fc",
+     "generated_ms": 20,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00745",
+     "evt_00751"
+    ],
+    "show_at_s": 1482,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "d38517f0f90244ee935835f61ad2bc08",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1482.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_007_club_nile_fc_ar",
+    "moment_id": "mom_007",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "فرصة خطيرة لصالح نادي النيل",
+    "body": "تسديدة رامي جلال من مسافة 11 م بسرعة 71 كم/س.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 25,
+     "shot_speed_kmh": 71,
+     "shot_distance_m": 11,
+     "pressure": 0.46,
+     "outcome": "saved",
+     "in_box": true,
+     "club_id": "nile_fc",
+     "generated_ms": 20,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00745",
+     "evt_00751"
+    ],
+    "show_at_s": 1482,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "d38517f0f90244ee935835f61ad2bc08",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1482.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_007_club_delta_utd_en",
+    "moment_id": "mom_007",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "Let-off for Delta United",
+    "body": "Ramy Galal shoots for Nile FC from 11 m at 71 km/h.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 25,
+     "shot_speed_kmh": 71,
+     "shot_distance_m": 11,
+     "pressure": 0.46,
+     "outcome": "saved",
+     "in_box": true,
+     "club_id": "delta_utd",
+     "generated_ms": 21,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00745",
+     "evt_00751"
+    ],
+    "show_at_s": 1482,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "d38517f0f90244ee935835f61ad2bc08",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1482.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_007_club_delta_utd_ar",
+    "moment_id": "mom_007",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "خطر على مرمى دلتا يونايتد",
+    "body": "تسديدة رامي جلال لصالح نادي النيل من مسافة 11 م بسرعة 71 كم/س.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 25,
+     "shot_speed_kmh": 71,
+     "shot_distance_m": 11,
+     "pressure": 0.46,
+     "outcome": "saved",
+     "in_box": true,
+     "club_id": "delta_utd",
+     "generated_ms": 21,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00745",
+     "evt_00751"
+    ],
+    "show_at_s": 1482,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "d38517f0f90244ee935835f61ad2bc08",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
    "type": "moment",
    "game_time_s": 1501.0,
    "data": {
@@ -1449,6 +2213,422 @@
    }
   },
   {
+   "type": "overlay",
+   "game_time_s": 1625.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_008_beginner_en",
+    "moment_id": "mom_008",
+    "match_id": "match_004",
+    "persona": "beginner",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "Big chance: Ramy Galal",
+    "body": "Ramy Galal: A shot from 7 m at 50 km/h.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 28,
+     "shot_speed_kmh": 50,
+     "shot_distance_m": 7,
+     "pressure": 0.35,
+     "outcome": "off_target",
+     "in_box": true,
+     "generated_ms": 27,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00830",
+     "evt_00831"
+    ],
+    "show_at_s": 1625,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "b0ae8fb1c5374e6bbcf4d8bc0690bad2",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1625.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_008_beginner_ar",
+    "moment_id": "mom_008",
+    "match_id": "match_004",
+    "persona": "beginner",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "فرصة خطيرة: رامي جلال",
+    "body": "رامي جلال: تسديدة من مسافة 7 م بسرعة 50 كم/س.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 28,
+     "shot_speed_kmh": 50,
+     "shot_distance_m": 7,
+     "pressure": 0.35,
+     "outcome": "off_target",
+     "in_box": true,
+     "generated_ms": 27,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00830",
+     "evt_00831"
+    ],
+    "show_at_s": 1625,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "b0ae8fb1c5374e6bbcf4d8bc0690bad2",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1625.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_008_tactical_en",
+    "moment_id": "mom_008",
+    "match_id": "match_004",
+    "persona": "tactical",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "stat_card",
+    "slot": "side_panel",
+    "priority": 3,
+    "headline": "Big chance: Ramy Galal",
+    "body": "Ramy Galal: A shot from 7 m at 50 km/h.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 28,
+     "shot_speed_kmh": 50,
+     "shot_distance_m": 7,
+     "pressure": 0.35,
+     "outcome": "off_target",
+     "in_box": true,
+     "generated_ms": 28,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00830",
+     "evt_00831"
+    ],
+    "show_at_s": 1625,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "b0ae8fb1c5374e6bbcf4d8bc0690bad2",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1625.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_008_tactical_ar",
+    "moment_id": "mom_008",
+    "match_id": "match_004",
+    "persona": "tactical",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "stat_card",
+    "slot": "side_panel",
+    "priority": 3,
+    "headline": "فرصة خطيرة: رامي جلال",
+    "body": "رامي جلال: تسديدة من مسافة 7 م بسرعة 50 كم/س.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 28,
+     "shot_speed_kmh": 50,
+     "shot_distance_m": 7,
+     "pressure": 0.35,
+     "outcome": "off_target",
+     "in_box": true,
+     "generated_ms": 28,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00830",
+     "evt_00831"
+    ],
+    "show_at_s": 1625,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "b0ae8fb1c5374e6bbcf4d8bc0690bad2",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1625.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_008_player_en",
+    "moment_id": "mom_008",
+    "match_id": "match_004",
+    "persona": "player",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "player_tag",
+    "slot": "pitch",
+    "priority": 3,
+    "headline": "Big chance: Ramy Galal",
+    "body": "Ramy Galal: A shot from 7 m at 50 km/h.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 28,
+     "shot_speed_kmh": 50,
+     "shot_distance_m": 7,
+     "pressure": 0.35,
+     "outcome": "off_target",
+     "in_box": true,
+     "player_id": "nil_09",
+     "generated_ms": 28,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00830",
+     "evt_00831"
+    ],
+    "show_at_s": 1625,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "b0ae8fb1c5374e6bbcf4d8bc0690bad2",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1625.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_008_player_ar",
+    "moment_id": "mom_008",
+    "match_id": "match_004",
+    "persona": "player",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "player_tag",
+    "slot": "pitch",
+    "priority": 3,
+    "headline": "فرصة خطيرة: رامي جلال",
+    "body": "رامي جلال: تسديدة من مسافة 7 م بسرعة 50 كم/س.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 28,
+     "shot_speed_kmh": 50,
+     "shot_distance_m": 7,
+     "pressure": 0.35,
+     "outcome": "off_target",
+     "in_box": true,
+     "player_id": "nil_09",
+     "generated_ms": 29,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00830",
+     "evt_00831"
+    ],
+    "show_at_s": 1625,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "b0ae8fb1c5374e6bbcf4d8bc0690bad2",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1625.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_008_club_nile_fc_en",
+    "moment_id": "mom_008",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "So close for Nile FC!",
+    "body": "Ramy Galal shoots from 7 m at 50 km/h.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 28,
+     "shot_speed_kmh": 50,
+     "shot_distance_m": 7,
+     "pressure": 0.35,
+     "outcome": "off_target",
+     "in_box": true,
+     "club_id": "nile_fc",
+     "generated_ms": 29,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00830",
+     "evt_00831"
+    ],
+    "show_at_s": 1625,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "b0ae8fb1c5374e6bbcf4d8bc0690bad2",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1625.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_008_club_nile_fc_ar",
+    "moment_id": "mom_008",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "فرصة خطيرة لصالح نادي النيل",
+    "body": "تسديدة رامي جلال من مسافة 7 م بسرعة 50 كم/س.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 28,
+     "shot_speed_kmh": 50,
+     "shot_distance_m": 7,
+     "pressure": 0.35,
+     "outcome": "off_target",
+     "in_box": true,
+     "club_id": "nile_fc",
+     "generated_ms": 29,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00830",
+     "evt_00831"
+    ],
+    "show_at_s": 1625,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "b0ae8fb1c5374e6bbcf4d8bc0690bad2",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1625.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_008_club_delta_utd_en",
+    "moment_id": "mom_008",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "Let-off for Delta United",
+    "body": "Ramy Galal shoots for Nile FC from 7 m at 50 km/h.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 28,
+     "shot_speed_kmh": 50,
+     "shot_distance_m": 7,
+     "pressure": 0.35,
+     "outcome": "off_target",
+     "in_box": true,
+     "club_id": "delta_utd",
+     "generated_ms": 30,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00830",
+     "evt_00831"
+    ],
+    "show_at_s": 1625,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "b0ae8fb1c5374e6bbcf4d8bc0690bad2",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1625.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_008_club_delta_utd_ar",
+    "moment_id": "mom_008",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "خطر على مرمى دلتا يونايتد",
+    "body": "تسديدة رامي جلال لصالح نادي النيل من مسافة 7 م بسرعة 50 كم/س.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 28,
+     "shot_speed_kmh": 50,
+     "shot_distance_m": 7,
+     "pressure": 0.35,
+     "outcome": "off_target",
+     "in_box": true,
+     "club_id": "delta_utd",
+     "generated_ms": 30,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00830",
+     "evt_00831"
+    ],
+    "show_at_s": 1625,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "b0ae8fb1c5374e6bbcf4d8bc0690bad2",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
    "type": "moment",
    "game_time_s": 1659.0,
    "data": {
@@ -1523,6 +2703,174 @@
      "minute": 29
     },
     "rule_id": "CONTROL_TO_CHAOS_V1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1718.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_010_beginner_en",
+    "moment_id": "mom_010",
+    "match_id": "match_004",
+    "persona": "beginner",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "Play becomes unsettled",
+    "body": "The ball has changed sides 5.4 times per minute recently.",
+    "fields": {
+     "chaos_index_last_5": 66.7,
+     "turnovers_per_min_last_5": 5.4,
+     "short_possession_pct_last_5": 51.9,
+     "duels_fouls_last_5": 5,
+     "minute": 29,
+     "generated_ms": 17,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00855",
+     "evt_00865",
+     "evt_00867",
+     "evt_00873",
+     "evt_00876"
+    ],
+    "show_at_s": 1718,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "2e353b55374242d796206fe41256dd34",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1718.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_010_beginner_ar",
+    "moment_id": "mom_010",
+    "match_id": "match_004",
+    "persona": "beginner",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "تراجع الاستقرار في اللعب",
+    "body": "تتبادل الفرق الكرة بمعدل 5.4 مرة في الدقيقة مؤخراً.",
+    "fields": {
+     "chaos_index_last_5": 66.7,
+     "turnovers_per_min_last_5": 5.4,
+     "short_possession_pct_last_5": 51.9,
+     "duels_fouls_last_5": 5,
+     "minute": 29,
+     "generated_ms": 18,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00855",
+     "evt_00865",
+     "evt_00867",
+     "evt_00873",
+     "evt_00876"
+    ],
+    "show_at_s": 1718,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "2e353b55374242d796206fe41256dd34",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1718.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_010_tactical_en",
+    "moment_id": "mom_010",
+    "match_id": "match_004",
+    "persona": "tactical",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "stat_card",
+    "slot": "side_panel",
+    "priority": 3,
+    "headline": "Play becomes unsettled",
+    "body": "Chaos index 66.7; possession changes 5.4 times per minute.",
+    "fields": {
+     "chaos_index_last_5": 66.7,
+     "turnovers_per_min_last_5": 5.4,
+     "short_possession_pct_last_5": 51.9,
+     "duels_fouls_last_5": 5,
+     "minute": 29,
+     "generated_ms": 18,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00855",
+     "evt_00865",
+     "evt_00867",
+     "evt_00873",
+     "evt_00876"
+    ],
+    "show_at_s": 1718,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "2e353b55374242d796206fe41256dd34",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1718.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_010_tactical_ar",
+    "moment_id": "mom_010",
+    "match_id": "match_004",
+    "persona": "tactical",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "stat_card",
+    "slot": "side_panel",
+    "priority": 3,
+    "headline": "تراجع الاستقرار في اللعب",
+    "body": "مؤشر الفوضى 66.7، وتغير الاستحواذ 5.4 مرة/دقيقة.",
+    "fields": {
+     "chaos_index_last_5": 66.7,
+     "turnovers_per_min_last_5": 5.4,
+     "short_possession_pct_last_5": 51.9,
+     "duels_fouls_last_5": 5,
+     "minute": 29,
+     "generated_ms": 18,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00855",
+     "evt_00865",
+     "evt_00867",
+     "evt_00873",
+     "evt_00876"
+    ],
+    "show_at_s": 1718,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "2e353b55374242d796206fe41256dd34",
+    "prompt_version": "template_v1"
    }
   },
   {
@@ -1854,6 +3202,422 @@
    }
   },
   {
+   "type": "overlay",
+   "game_time_s": 1902.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_013_beginner_en",
+    "moment_id": "mom_013",
+    "match_id": "match_004",
+    "persona": "beginner",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "Big chance: Ramy Galal",
+    "body": "Ramy Galal: A shot from 7 m at 68 km/h.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 32,
+     "shot_speed_kmh": 68,
+     "shot_distance_m": 7,
+     "pressure": 0.43,
+     "outcome": "off_target",
+     "in_box": true,
+     "generated_ms": 12,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00987",
+     "evt_00996"
+    ],
+    "show_at_s": 1902,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "b40923609abf4b268fe2c37e7d3dd434",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1902.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_013_beginner_ar",
+    "moment_id": "mom_013",
+    "match_id": "match_004",
+    "persona": "beginner",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "فرصة خطيرة: رامي جلال",
+    "body": "رامي جلال: تسديدة من مسافة 7 م بسرعة 68 كم/س.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 32,
+     "shot_speed_kmh": 68,
+     "shot_distance_m": 7,
+     "pressure": 0.43,
+     "outcome": "off_target",
+     "in_box": true,
+     "generated_ms": 12,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00987",
+     "evt_00996"
+    ],
+    "show_at_s": 1902,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "b40923609abf4b268fe2c37e7d3dd434",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1902.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_013_tactical_en",
+    "moment_id": "mom_013",
+    "match_id": "match_004",
+    "persona": "tactical",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "stat_card",
+    "slot": "side_panel",
+    "priority": 3,
+    "headline": "Big chance: Ramy Galal",
+    "body": "Ramy Galal: A shot from 7 m at 68 km/h.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 32,
+     "shot_speed_kmh": 68,
+     "shot_distance_m": 7,
+     "pressure": 0.43,
+     "outcome": "off_target",
+     "in_box": true,
+     "generated_ms": 12,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00987",
+     "evt_00996"
+    ],
+    "show_at_s": 1902,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "b40923609abf4b268fe2c37e7d3dd434",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1902.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_013_tactical_ar",
+    "moment_id": "mom_013",
+    "match_id": "match_004",
+    "persona": "tactical",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "stat_card",
+    "slot": "side_panel",
+    "priority": 3,
+    "headline": "فرصة خطيرة: رامي جلال",
+    "body": "رامي جلال: تسديدة من مسافة 7 م بسرعة 68 كم/س.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 32,
+     "shot_speed_kmh": 68,
+     "shot_distance_m": 7,
+     "pressure": 0.43,
+     "outcome": "off_target",
+     "in_box": true,
+     "generated_ms": 13,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00987",
+     "evt_00996"
+    ],
+    "show_at_s": 1902,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "b40923609abf4b268fe2c37e7d3dd434",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1902.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_013_player_en",
+    "moment_id": "mom_013",
+    "match_id": "match_004",
+    "persona": "player",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "player_tag",
+    "slot": "pitch",
+    "priority": 3,
+    "headline": "Big chance: Ramy Galal",
+    "body": "Ramy Galal: A shot from 7 m at 68 km/h.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 32,
+     "shot_speed_kmh": 68,
+     "shot_distance_m": 7,
+     "pressure": 0.43,
+     "outcome": "off_target",
+     "in_box": true,
+     "player_id": "nil_09",
+     "generated_ms": 13,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00987",
+     "evt_00996"
+    ],
+    "show_at_s": 1902,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "b40923609abf4b268fe2c37e7d3dd434",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1902.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_013_player_ar",
+    "moment_id": "mom_013",
+    "match_id": "match_004",
+    "persona": "player",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "player_tag",
+    "slot": "pitch",
+    "priority": 3,
+    "headline": "فرصة خطيرة: رامي جلال",
+    "body": "رامي جلال: تسديدة من مسافة 7 م بسرعة 68 كم/س.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 32,
+     "shot_speed_kmh": 68,
+     "shot_distance_m": 7,
+     "pressure": 0.43,
+     "outcome": "off_target",
+     "in_box": true,
+     "player_id": "nil_09",
+     "generated_ms": 13,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00987",
+     "evt_00996"
+    ],
+    "show_at_s": 1902,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "b40923609abf4b268fe2c37e7d3dd434",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1902.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_013_club_nile_fc_en",
+    "moment_id": "mom_013",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "So close for Nile FC!",
+    "body": "Ramy Galal shoots from 7 m at 68 km/h.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 32,
+     "shot_speed_kmh": 68,
+     "shot_distance_m": 7,
+     "pressure": 0.43,
+     "outcome": "off_target",
+     "in_box": true,
+     "club_id": "nile_fc",
+     "generated_ms": 14,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00987",
+     "evt_00996"
+    ],
+    "show_at_s": 1902,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "b40923609abf4b268fe2c37e7d3dd434",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1902.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_013_club_nile_fc_ar",
+    "moment_id": "mom_013",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "فرصة خطيرة لصالح نادي النيل",
+    "body": "تسديدة رامي جلال من مسافة 7 م بسرعة 68 كم/س.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 32,
+     "shot_speed_kmh": 68,
+     "shot_distance_m": 7,
+     "pressure": 0.43,
+     "outcome": "off_target",
+     "in_box": true,
+     "club_id": "nile_fc",
+     "generated_ms": 14,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00987",
+     "evt_00996"
+    ],
+    "show_at_s": 1902,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "b40923609abf4b268fe2c37e7d3dd434",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1902.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_013_club_delta_utd_en",
+    "moment_id": "mom_013",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "Let-off for Delta United",
+    "body": "Ramy Galal shoots for Nile FC from 7 m at 68 km/h.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 32,
+     "shot_speed_kmh": 68,
+     "shot_distance_m": 7,
+     "pressure": 0.43,
+     "outcome": "off_target",
+     "in_box": true,
+     "club_id": "delta_utd",
+     "generated_ms": 15,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00987",
+     "evt_00996"
+    ],
+    "show_at_s": 1902,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "b40923609abf4b268fe2c37e7d3dd434",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 1902.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_013_club_delta_utd_ar",
+    "moment_id": "mom_013",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "خطر على مرمى دلتا يونايتد",
+    "body": "تسديدة رامي جلال لصالح نادي النيل من مسافة 7 م بسرعة 68 كم/س.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 32,
+     "shot_speed_kmh": 68,
+     "shot_distance_m": 7,
+     "pressure": 0.43,
+     "outcome": "off_target",
+     "in_box": true,
+     "club_id": "delta_utd",
+     "generated_ms": 15,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_00987",
+     "evt_00996"
+    ],
+    "show_at_s": 1902,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "b40923609abf4b268fe2c37e7d3dd434",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
    "type": "moment",
    "game_time_s": 2153.0,
    "data": {
@@ -2057,32 +3821,419 @@
    }
   },
   {
-   "type": "moment",
-   "game_time_s": 2342.0,
+   "type": "overlay",
+   "game_time_s": 2325.0,
    "data": {
     "schema_version": "1.0",
-    "moment_id": "mom_9001",
+    "overlay_id": "ov_mom_015_beginner_en",
+    "moment_id": "mom_015",
     "match_id": "match_004",
-    "game_clock_s": 2342,
-    "type": "goal",
-    "importance": 1.0,
-    "team_id": "nile_fc",
-    "player_id": "nil_11",
-    "evidence_event_ids": [
-     "evt_01199",
-     "evt_01200"
-    ],
-    "verified_facts": {
-     "scorer_id": "nil_11",
-     "minute": 40,
-     "home_score": 1,
-     "away_score": 0,
-     "passes_in_move": 1,
-     "shot_speed_kmh": 88,
+    "persona": "beginner",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "Big chance: Ramy Galal",
+    "body": "Ramy Galal: A shot from 11 m at 53 km/h.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 39,
+     "shot_speed_kmh": 53,
      "shot_distance_m": 11,
-     "assist_id": "nil_07"
+     "pressure": 0.36,
+     "outcome": "saved",
+     "in_box": true,
+     "generated_ms": 8,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
     },
-    "rule_id": "GOAL_TEMPLATE_V1"
+    "evidence_event_ids": [
+     "evt_01191",
+     "evt_01192"
+    ],
+    "show_at_s": 2325,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "02d4628a0c9c47d7893addd41a94e3f2",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2325.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_015_beginner_ar",
+    "moment_id": "mom_015",
+    "match_id": "match_004",
+    "persona": "beginner",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "فرصة خطيرة: رامي جلال",
+    "body": "رامي جلال: تسديدة من مسافة 11 م بسرعة 53 كم/س.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 39,
+     "shot_speed_kmh": 53,
+     "shot_distance_m": 11,
+     "pressure": 0.36,
+     "outcome": "saved",
+     "in_box": true,
+     "generated_ms": 8,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01191",
+     "evt_01192"
+    ],
+    "show_at_s": 2325,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "02d4628a0c9c47d7893addd41a94e3f2",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2325.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_015_tactical_en",
+    "moment_id": "mom_015",
+    "match_id": "match_004",
+    "persona": "tactical",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "stat_card",
+    "slot": "side_panel",
+    "priority": 3,
+    "headline": "Big chance: Ramy Galal",
+    "body": "Ramy Galal: A shot from 11 m at 53 km/h.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 39,
+     "shot_speed_kmh": 53,
+     "shot_distance_m": 11,
+     "pressure": 0.36,
+     "outcome": "saved",
+     "in_box": true,
+     "generated_ms": 9,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01191",
+     "evt_01192"
+    ],
+    "show_at_s": 2325,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "02d4628a0c9c47d7893addd41a94e3f2",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2325.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_015_tactical_ar",
+    "moment_id": "mom_015",
+    "match_id": "match_004",
+    "persona": "tactical",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "stat_card",
+    "slot": "side_panel",
+    "priority": 3,
+    "headline": "فرصة خطيرة: رامي جلال",
+    "body": "رامي جلال: تسديدة من مسافة 11 م بسرعة 53 كم/س.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 39,
+     "shot_speed_kmh": 53,
+     "shot_distance_m": 11,
+     "pressure": 0.36,
+     "outcome": "saved",
+     "in_box": true,
+     "generated_ms": 9,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01191",
+     "evt_01192"
+    ],
+    "show_at_s": 2325,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "02d4628a0c9c47d7893addd41a94e3f2",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2325.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_015_player_en",
+    "moment_id": "mom_015",
+    "match_id": "match_004",
+    "persona": "player",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "player_tag",
+    "slot": "pitch",
+    "priority": 3,
+    "headline": "Big chance: Ramy Galal",
+    "body": "Ramy Galal: A shot from 11 m at 53 km/h.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 39,
+     "shot_speed_kmh": 53,
+     "shot_distance_m": 11,
+     "pressure": 0.36,
+     "outcome": "saved",
+     "in_box": true,
+     "player_id": "nil_09",
+     "generated_ms": 9,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01191",
+     "evt_01192"
+    ],
+    "show_at_s": 2325,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "02d4628a0c9c47d7893addd41a94e3f2",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2325.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_015_player_ar",
+    "moment_id": "mom_015",
+    "match_id": "match_004",
+    "persona": "player",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "player_tag",
+    "slot": "pitch",
+    "priority": 3,
+    "headline": "فرصة خطيرة: رامي جلال",
+    "body": "رامي جلال: تسديدة من مسافة 11 م بسرعة 53 كم/س.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 39,
+     "shot_speed_kmh": 53,
+     "shot_distance_m": 11,
+     "pressure": 0.36,
+     "outcome": "saved",
+     "in_box": true,
+     "player_id": "nil_09",
+     "generated_ms": 10,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01191",
+     "evt_01192"
+    ],
+    "show_at_s": 2325,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "02d4628a0c9c47d7893addd41a94e3f2",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2325.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_015_club_nile_fc_en",
+    "moment_id": "mom_015",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "So close for Nile FC!",
+    "body": "Ramy Galal shoots from 11 m at 53 km/h.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 39,
+     "shot_speed_kmh": 53,
+     "shot_distance_m": 11,
+     "pressure": 0.36,
+     "outcome": "saved",
+     "in_box": true,
+     "club_id": "nile_fc",
+     "generated_ms": 10,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01191",
+     "evt_01192"
+    ],
+    "show_at_s": 2325,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "02d4628a0c9c47d7893addd41a94e3f2",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2325.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_015_club_nile_fc_ar",
+    "moment_id": "mom_015",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "فرصة خطيرة لصالح نادي النيل",
+    "body": "تسديدة رامي جلال من مسافة 11 م بسرعة 53 كم/س.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 39,
+     "shot_speed_kmh": 53,
+     "shot_distance_m": 11,
+     "pressure": 0.36,
+     "outcome": "saved",
+     "in_box": true,
+     "club_id": "nile_fc",
+     "generated_ms": 10,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01191",
+     "evt_01192"
+    ],
+    "show_at_s": 2325,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "02d4628a0c9c47d7893addd41a94e3f2",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2325.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_015_club_delta_utd_en",
+    "moment_id": "mom_015",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "Let-off for Delta United",
+    "body": "Ramy Galal shoots for Nile FC from 11 m at 53 km/h.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 39,
+     "shot_speed_kmh": 53,
+     "shot_distance_m": 11,
+     "pressure": 0.36,
+     "outcome": "saved",
+     "in_box": true,
+     "club_id": "delta_utd",
+     "generated_ms": 11,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01191",
+     "evt_01192"
+    ],
+    "show_at_s": 2325,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "02d4628a0c9c47d7893addd41a94e3f2",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2325.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_015_club_delta_utd_ar",
+    "moment_id": "mom_015",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "خطر على مرمى دلتا يونايتد",
+    "body": "تسديدة رامي جلال لصالح نادي النيل من مسافة 11 م بسرعة 53 كم/س.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 39,
+     "shot_speed_kmh": 53,
+     "shot_distance_m": 11,
+     "pressure": 0.36,
+     "outcome": "saved",
+     "in_box": true,
+     "club_id": "delta_utd",
+     "generated_ms": 11,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01191",
+     "evt_01192"
+    ],
+    "show_at_s": 2325,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "02d4628a0c9c47d7893addd41a94e3f2",
+    "prompt_version": "template_v1"
    }
   },
   {
@@ -2120,8 +4271,8 @@
    "game_time_s": 2342.0,
    "data": {
     "schema_version": "1.0",
-    "overlay_id": "ov_mom_9001_beginner_en",
-    "moment_id": "mom_9001",
+    "overlay_id": "ov_mom_016_beginner_en",
+    "moment_id": "mom_016",
     "match_id": "match_004",
     "persona": "beginner",
     "language": "en",
@@ -2131,39 +4282,22 @@
     "priority": 1,
     "headline": "GOAL! Nile FC",
     "body": "Adham Lotfy scores in the 40th minute. Nile FC 1-0 Delta United.",
-    "fields": {},
-    "evidence_event_ids": [
-     "evt_01199",
-     "evt_01200"
-    ],
-    "show_at_s": 2342,
-    "ttl_s": 8,
-    "verification_status": "fallback",
-    "source": "template",
-    "prompt_version": "template_v1"
-   }
-  },
-  {
-   "type": "overlay",
-   "game_time_s": 2342.0,
-   "data": {
-    "schema_version": "1.0",
-    "overlay_id": "ov_mom_9001_tactical_en",
-    "moment_id": "mom_9001",
-    "match_id": "match_004",
-    "persona": "tactical",
-    "language": "en",
-    "dir": "ltr",
-    "template_id": "lower_third",
-    "slot": "lower_third",
-    "priority": 1,
-    "headline": "Goal 40' - Nile FC",
-    "body": "Adham Lotfy scores from 11 m after a single pass. Shot speed 88 km/h. Nile FC 1-0 Delta United.",
     "fields": {
+     "scorer_id": "nil_11",
+     "minute": 40,
+     "home_score": 1,
+     "away_score": 0,
+     "passes_in_move": 1,
+     "assist_id": "nil_07",
      "shot_speed_kmh": 88,
-     "shot_distance_m": 11
+     "shot_distance_m": 11,
+     "generated_ms": 9,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
     },
     "evidence_event_ids": [
+     "evt_01198",
      "evt_01199",
      "evt_01200"
     ],
@@ -2171,6 +4305,7 @@
     "ttl_s": 8,
     "verification_status": "fallback",
     "source": "template",
+    "trace_id": "6c011ef9d3e24064b13336ecbe58c217",
     "prompt_version": "template_v1"
    }
   },
@@ -2179,39 +4314,8 @@
    "game_time_s": 2342.0,
    "data": {
     "schema_version": "1.0",
-    "overlay_id": "ov_mom_9001_player_en",
-    "moment_id": "mom_9001",
-    "match_id": "match_004",
-    "persona": "player",
-    "language": "en",
-    "dir": "ltr",
-    "template_id": "lower_third",
-    "slot": "lower_third",
-    "priority": 1,
-    "headline": "Adham Lotfy scores!",
-    "body": "Adham Lotfy's shot in the 40th minute left the boot at 88 km/h.",
-    "fields": {
-     "player_id": "nil_11",
-     "shot_speed_kmh": 88
-    },
-    "evidence_event_ids": [
-     "evt_01199",
-     "evt_01200"
-    ],
-    "show_at_s": 2342,
-    "ttl_s": 8,
-    "verification_status": "fallback",
-    "source": "template",
-    "prompt_version": "template_v1"
-   }
-  },
-  {
-   "type": "overlay",
-   "game_time_s": 2342.0,
-   "data": {
-    "schema_version": "1.0",
-    "overlay_id": "ov_mom_9001_beginner_ar",
-    "moment_id": "mom_9001",
+    "overlay_id": "ov_mom_016_beginner_ar",
+    "moment_id": "mom_016",
     "match_id": "match_004",
     "persona": "beginner",
     "language": "ar",
@@ -2221,8 +4325,22 @@
     "priority": 1,
     "headline": "هدف! نادي النيل",
     "body": "أدهم لطفي يسجل في الدقيقة 40. نادي النيل 1-0 دلتا يونايتد",
-    "fields": {},
+    "fields": {
+     "scorer_id": "nil_11",
+     "minute": 40,
+     "home_score": 1,
+     "away_score": 0,
+     "passes_in_move": 1,
+     "assist_id": "nil_07",
+     "shot_speed_kmh": 88,
+     "shot_distance_m": 11,
+     "generated_ms": 9,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
     "evidence_event_ids": [
+     "evt_01198",
      "evt_01199",
      "evt_01200"
     ],
@@ -2230,6 +4348,7 @@
     "ttl_s": 8,
     "verification_status": "fallback",
     "source": "template",
+    "trace_id": "6c011ef9d3e24064b13336ecbe58c217",
     "prompt_version": "template_v1"
    }
   },
@@ -2238,22 +4357,76 @@
    "game_time_s": 2342.0,
    "data": {
     "schema_version": "1.0",
-    "overlay_id": "ov_mom_9001_tactical_ar",
-    "moment_id": "mom_9001",
+    "overlay_id": "ov_mom_016_tactical_en",
+    "moment_id": "mom_016",
+    "match_id": "match_004",
+    "persona": "tactical",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "stat_card",
+    "slot": "side_panel",
+    "priority": 1,
+    "headline": "Goal 40' - Nile FC",
+    "body": "Adham Lotfy scores from 11 m after a single pass. Shot speed 88 km/h. Nile FC 1-0 Delta United.",
+    "fields": {
+     "scorer_id": "nil_11",
+     "minute": 40,
+     "home_score": 1,
+     "away_score": 0,
+     "passes_in_move": 1,
+     "assist_id": "nil_07",
+     "shot_speed_kmh": 88,
+     "shot_distance_m": 11,
+     "generated_ms": 10,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01198",
+     "evt_01199",
+     "evt_01200"
+    ],
+    "show_at_s": 2342,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "6c011ef9d3e24064b13336ecbe58c217",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2342.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_016_tactical_ar",
+    "moment_id": "mom_016",
     "match_id": "match_004",
     "persona": "tactical",
     "language": "ar",
     "dir": "rtl",
-    "template_id": "lower_third",
-    "slot": "lower_third",
+    "template_id": "stat_card",
+    "slot": "side_panel",
     "priority": 1,
     "headline": "هدف في الدقيقة 40 - نادي النيل",
     "body": "أدهم لطفي يسجل من مسافة 11 م بعد تمريرة واحدة. سرعة التسديدة 88 كم/س. نادي النيل 1-0 دلتا يونايتد",
     "fields": {
+     "scorer_id": "nil_11",
+     "minute": 40,
+     "home_score": 1,
+     "away_score": 0,
+     "passes_in_move": 1,
+     "assist_id": "nil_07",
      "shot_speed_kmh": 88,
-     "shot_distance_m": 11
+     "shot_distance_m": 11,
+     "generated_ms": 10,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
     },
     "evidence_event_ids": [
+     "evt_01198",
      "evt_01199",
      "evt_01200"
     ],
@@ -2261,6 +4434,7 @@
     "ttl_s": 8,
     "verification_status": "fallback",
     "source": "template",
+    "trace_id": "6c011ef9d3e24064b13336ecbe58c217",
     "prompt_version": "template_v1"
    }
   },
@@ -2269,22 +4443,34 @@
    "game_time_s": 2342.0,
    "data": {
     "schema_version": "1.0",
-    "overlay_id": "ov_mom_9001_player_ar",
-    "moment_id": "mom_9001",
+    "overlay_id": "ov_mom_016_player_en",
+    "moment_id": "mom_016",
     "match_id": "match_004",
     "persona": "player",
-    "language": "ar",
-    "dir": "rtl",
-    "template_id": "lower_third",
-    "slot": "lower_third",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "player_tag",
+    "slot": "pitch",
     "priority": 1,
-    "headline": "أدهم لطفي يسجل!",
-    "body": "تسديدة أدهم لطفي في الدقيقة 40 انطلقت بسرعة 88 كم/س.",
+    "headline": "Adham Lotfy scores!",
+    "body": "Adham Lotfy's shot in the 40th minute left the boot at 88 km/h.",
     "fields": {
+     "scorer_id": "nil_11",
+     "minute": 40,
+     "home_score": 1,
+     "away_score": 0,
+     "passes_in_move": 1,
+     "assist_id": "nil_07",
+     "shot_speed_kmh": 88,
+     "shot_distance_m": 11,
      "player_id": "nil_11",
-     "shot_speed_kmh": 88
+     "generated_ms": 11,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
     },
     "evidence_event_ids": [
+     "evt_01198",
      "evt_01199",
      "evt_01200"
     ],
@@ -2292,6 +4478,227 @@
     "ttl_s": 8,
     "verification_status": "fallback",
     "source": "template",
+    "trace_id": "6c011ef9d3e24064b13336ecbe58c217",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2342.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_016_player_ar",
+    "moment_id": "mom_016",
+    "match_id": "match_004",
+    "persona": "player",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "player_tag",
+    "slot": "pitch",
+    "priority": 1,
+    "headline": "أدهم لطفي يسجل!",
+    "body": "تسديدة أدهم لطفي في الدقيقة 40 انطلقت بسرعة 88 كم/س.",
+    "fields": {
+     "scorer_id": "nil_11",
+     "minute": 40,
+     "home_score": 1,
+     "away_score": 0,
+     "passes_in_move": 1,
+     "assist_id": "nil_07",
+     "shot_speed_kmh": 88,
+     "shot_distance_m": 11,
+     "player_id": "nil_11",
+     "generated_ms": 11,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01198",
+     "evt_01199",
+     "evt_01200"
+    ],
+    "show_at_s": 2342,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "6c011ef9d3e24064b13336ecbe58c217",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2342.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_016_club_nile_fc_en",
+    "moment_id": "mom_016",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "Goal for Nile FC!",
+    "body": "Adham Lotfy scores in minute 40. Score 1-0.",
+    "fields": {
+     "scorer_id": "nil_11",
+     "minute": 40,
+     "home_score": 1,
+     "away_score": 0,
+     "passes_in_move": 1,
+     "assist_id": "nil_07",
+     "shot_speed_kmh": 88,
+     "shot_distance_m": 11,
+     "club_id": "nile_fc",
+     "generated_ms": 11,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01198",
+     "evt_01199",
+     "evt_01200"
+    ],
+    "show_at_s": 2342,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "6c011ef9d3e24064b13336ecbe58c217",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2342.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_016_club_nile_fc_ar",
+    "moment_id": "mom_016",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "هدف لصالح نادي النيل",
+    "body": "أدهم لطفي يسجل في الدقيقة 40. النتيجة 1-0.",
+    "fields": {
+     "scorer_id": "nil_11",
+     "minute": 40,
+     "home_score": 1,
+     "away_score": 0,
+     "passes_in_move": 1,
+     "assist_id": "nil_07",
+     "shot_speed_kmh": 88,
+     "shot_distance_m": 11,
+     "club_id": "nile_fc",
+     "generated_ms": 12,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01198",
+     "evt_01199",
+     "evt_01200"
+    ],
+    "show_at_s": 2342,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "6c011ef9d3e24064b13336ecbe58c217",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2342.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_016_club_delta_utd_en",
+    "moment_id": "mom_016",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "Setback for Delta United",
+    "body": "Adham Lotfy scores for Nile FC in minute 40. Score 1-0.",
+    "fields": {
+     "scorer_id": "nil_11",
+     "minute": 40,
+     "home_score": 1,
+     "away_score": 0,
+     "passes_in_move": 1,
+     "assist_id": "nil_07",
+     "shot_speed_kmh": 88,
+     "shot_distance_m": 11,
+     "club_id": "delta_utd",
+     "generated_ms": 12,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01198",
+     "evt_01199",
+     "evt_01200"
+    ],
+    "show_at_s": 2342,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "6c011ef9d3e24064b13336ecbe58c217",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2342.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_016_club_delta_utd_ar",
+    "moment_id": "mom_016",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "هدف ضد دلتا يونايتد",
+    "body": "أدهم لطفي يسجل لصالح نادي النيل في الدقيقة 40. النتيجة 1-0.",
+    "fields": {
+     "scorer_id": "nil_11",
+     "minute": 40,
+     "home_score": 1,
+     "away_score": 0,
+     "passes_in_move": 1,
+     "assist_id": "nil_07",
+     "shot_speed_kmh": 88,
+     "shot_distance_m": 11,
+     "club_id": "delta_utd",
+     "generated_ms": 12,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01198",
+     "evt_01199",
+     "evt_01200"
+    ],
+    "show_at_s": 2342,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "6c011ef9d3e24064b13336ecbe58c217",
     "prompt_version": "template_v1"
    }
   },
@@ -2395,6 +4802,174 @@
      "minute": 43
     },
     "rule_id": "CONTROL_TO_CHAOS_V1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2520.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_017_beginner_en",
+    "moment_id": "mom_017",
+    "match_id": "match_004",
+    "persona": "beginner",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "Play becomes unsettled",
+    "body": "The ball has changed sides 4.0 times per minute recently.",
+    "fields": {
+     "chaos_index_last_5": 65.4,
+     "turnovers_per_min_last_5": 4.0,
+     "short_possession_pct_last_5": 61.9,
+     "duels_fouls_last_5": 7,
+     "minute": 43,
+     "generated_ms": 13,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01236",
+     "evt_01244",
+     "evt_01248",
+     "evt_01254",
+     "evt_01259"
+    ],
+    "show_at_s": 2520,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "3c39187eb3dd484e9864f1f2cbc8967b",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2520.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_017_beginner_ar",
+    "moment_id": "mom_017",
+    "match_id": "match_004",
+    "persona": "beginner",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "تراجع الاستقرار في اللعب",
+    "body": "تتبادل الفرق الكرة بمعدل 4.0 مرة في الدقيقة مؤخراً.",
+    "fields": {
+     "chaos_index_last_5": 65.4,
+     "turnovers_per_min_last_5": 4.0,
+     "short_possession_pct_last_5": 61.9,
+     "duels_fouls_last_5": 7,
+     "minute": 43,
+     "generated_ms": 13,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01236",
+     "evt_01244",
+     "evt_01248",
+     "evt_01254",
+     "evt_01259"
+    ],
+    "show_at_s": 2520,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "3c39187eb3dd484e9864f1f2cbc8967b",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2520.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_017_tactical_en",
+    "moment_id": "mom_017",
+    "match_id": "match_004",
+    "persona": "tactical",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "stat_card",
+    "slot": "side_panel",
+    "priority": 3,
+    "headline": "Play becomes unsettled",
+    "body": "Chaos index 65.4; possession changes 4.0 times per minute.",
+    "fields": {
+     "chaos_index_last_5": 65.4,
+     "turnovers_per_min_last_5": 4.0,
+     "short_possession_pct_last_5": 61.9,
+     "duels_fouls_last_5": 7,
+     "minute": 43,
+     "generated_ms": 14,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01236",
+     "evt_01244",
+     "evt_01248",
+     "evt_01254",
+     "evt_01259"
+    ],
+    "show_at_s": 2520,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "3c39187eb3dd484e9864f1f2cbc8967b",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2520.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_017_tactical_ar",
+    "moment_id": "mom_017",
+    "match_id": "match_004",
+    "persona": "tactical",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "stat_card",
+    "slot": "side_panel",
+    "priority": 3,
+    "headline": "تراجع الاستقرار في اللعب",
+    "body": "مؤشر الفوضى 65.4، وتغير الاستحواذ 4.0 مرة/دقيقة.",
+    "fields": {
+     "chaos_index_last_5": 65.4,
+     "turnovers_per_min_last_5": 4.0,
+     "short_possession_pct_last_5": 61.9,
+     "duels_fouls_last_5": 7,
+     "minute": 43,
+     "generated_ms": 14,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01236",
+     "evt_01244",
+     "evt_01248",
+     "evt_01254",
+     "evt_01259"
+    ],
+    "show_at_s": 2520,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "3c39187eb3dd484e9864f1f2cbc8967b",
+    "prompt_version": "template_v1"
    }
   },
   {
@@ -2648,6 +5223,422 @@
      "in_box": true
     },
     "rule_id": "BIG_CHANCE_V1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2779.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_018_beginner_en",
+    "moment_id": "mom_018",
+    "match_id": "match_004",
+    "persona": "beginner",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "Big chance: Ramy Galal",
+    "body": "Ramy Galal: A shot from 8 m at 55 km/h.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 47,
+     "shot_speed_kmh": 55,
+     "shot_distance_m": 8,
+     "pressure": 0.39,
+     "outcome": "off_target",
+     "in_box": true,
+     "generated_ms": 3,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01384",
+     "evt_01387"
+    ],
+    "show_at_s": 2779,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "456422b24688432a8a1cb00030b07d23",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2779.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_018_beginner_ar",
+    "moment_id": "mom_018",
+    "match_id": "match_004",
+    "persona": "beginner",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "فرصة خطيرة: رامي جلال",
+    "body": "رامي جلال: تسديدة من مسافة 8 م بسرعة 55 كم/س.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 47,
+     "shot_speed_kmh": 55,
+     "shot_distance_m": 8,
+     "pressure": 0.39,
+     "outcome": "off_target",
+     "in_box": true,
+     "generated_ms": 4,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01384",
+     "evt_01387"
+    ],
+    "show_at_s": 2779,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "456422b24688432a8a1cb00030b07d23",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2779.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_018_tactical_en",
+    "moment_id": "mom_018",
+    "match_id": "match_004",
+    "persona": "tactical",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "stat_card",
+    "slot": "side_panel",
+    "priority": 3,
+    "headline": "Big chance: Ramy Galal",
+    "body": "Ramy Galal: A shot from 8 m at 55 km/h.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 47,
+     "shot_speed_kmh": 55,
+     "shot_distance_m": 8,
+     "pressure": 0.39,
+     "outcome": "off_target",
+     "in_box": true,
+     "generated_ms": 4,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01384",
+     "evt_01387"
+    ],
+    "show_at_s": 2779,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "456422b24688432a8a1cb00030b07d23",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2779.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_018_tactical_ar",
+    "moment_id": "mom_018",
+    "match_id": "match_004",
+    "persona": "tactical",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "stat_card",
+    "slot": "side_panel",
+    "priority": 3,
+    "headline": "فرصة خطيرة: رامي جلال",
+    "body": "رامي جلال: تسديدة من مسافة 8 م بسرعة 55 كم/س.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 47,
+     "shot_speed_kmh": 55,
+     "shot_distance_m": 8,
+     "pressure": 0.39,
+     "outcome": "off_target",
+     "in_box": true,
+     "generated_ms": 4,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01384",
+     "evt_01387"
+    ],
+    "show_at_s": 2779,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "456422b24688432a8a1cb00030b07d23",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2779.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_018_player_en",
+    "moment_id": "mom_018",
+    "match_id": "match_004",
+    "persona": "player",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "player_tag",
+    "slot": "pitch",
+    "priority": 3,
+    "headline": "Big chance: Ramy Galal",
+    "body": "Ramy Galal: A shot from 8 m at 55 km/h.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 47,
+     "shot_speed_kmh": 55,
+     "shot_distance_m": 8,
+     "pressure": 0.39,
+     "outcome": "off_target",
+     "in_box": true,
+     "player_id": "nil_09",
+     "generated_ms": 5,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01384",
+     "evt_01387"
+    ],
+    "show_at_s": 2779,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "456422b24688432a8a1cb00030b07d23",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2779.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_018_player_ar",
+    "moment_id": "mom_018",
+    "match_id": "match_004",
+    "persona": "player",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "player_tag",
+    "slot": "pitch",
+    "priority": 3,
+    "headline": "فرصة خطيرة: رامي جلال",
+    "body": "رامي جلال: تسديدة من مسافة 8 م بسرعة 55 كم/س.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 47,
+     "shot_speed_kmh": 55,
+     "shot_distance_m": 8,
+     "pressure": 0.39,
+     "outcome": "off_target",
+     "in_box": true,
+     "player_id": "nil_09",
+     "generated_ms": 5,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01384",
+     "evt_01387"
+    ],
+    "show_at_s": 2779,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "456422b24688432a8a1cb00030b07d23",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2779.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_018_club_nile_fc_en",
+    "moment_id": "mom_018",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "So close for Nile FC!",
+    "body": "Ramy Galal shoots from 8 m at 55 km/h.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 47,
+     "shot_speed_kmh": 55,
+     "shot_distance_m": 8,
+     "pressure": 0.39,
+     "outcome": "off_target",
+     "in_box": true,
+     "club_id": "nile_fc",
+     "generated_ms": 5,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01384",
+     "evt_01387"
+    ],
+    "show_at_s": 2779,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "456422b24688432a8a1cb00030b07d23",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2779.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_018_club_nile_fc_ar",
+    "moment_id": "mom_018",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "فرصة خطيرة لصالح نادي النيل",
+    "body": "تسديدة رامي جلال من مسافة 8 م بسرعة 55 كم/س.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 47,
+     "shot_speed_kmh": 55,
+     "shot_distance_m": 8,
+     "pressure": 0.39,
+     "outcome": "off_target",
+     "in_box": true,
+     "club_id": "nile_fc",
+     "generated_ms": 6,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01384",
+     "evt_01387"
+    ],
+    "show_at_s": 2779,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "456422b24688432a8a1cb00030b07d23",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2779.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_018_club_delta_utd_en",
+    "moment_id": "mom_018",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "Let-off for Delta United",
+    "body": "Ramy Galal shoots for Nile FC from 8 m at 55 km/h.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 47,
+     "shot_speed_kmh": 55,
+     "shot_distance_m": 8,
+     "pressure": 0.39,
+     "outcome": "off_target",
+     "in_box": true,
+     "club_id": "delta_utd",
+     "generated_ms": 6,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01384",
+     "evt_01387"
+    ],
+    "show_at_s": 2779,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "456422b24688432a8a1cb00030b07d23",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 2779.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_018_club_delta_utd_ar",
+    "moment_id": "mom_018",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "خطر على مرمى دلتا يونايتد",
+    "body": "تسديدة رامي جلال لصالح نادي النيل من مسافة 8 م بسرعة 55 كم/س.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 47,
+     "shot_speed_kmh": 55,
+     "shot_distance_m": 8,
+     "pressure": 0.39,
+     "outcome": "off_target",
+     "in_box": true,
+     "club_id": "delta_utd",
+     "generated_ms": 7,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01384",
+     "evt_01387"
+    ],
+    "show_at_s": 2779,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "456422b24688432a8a1cb00030b07d23",
+    "prompt_version": "template_v1"
    }
   },
   {
@@ -2930,6 +5921,354 @@
    }
   },
   {
+   "type": "overlay",
+   "game_time_s": 3151.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_021_beginner_en",
+    "moment_id": "mom_021",
+    "match_id": "match_004",
+    "persona": "beginner",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "Pressing changes: Delta United",
+    "body": "Delta United: Pressing means trying to win the ball back: 5 recent regains in the zone.",
+    "fields": {
+     "ppda_last_5": 2.2,
+     "ppda_match": 6.3,
+     "regains_in_zone_last_5": 5,
+     "opponent_passes_in_zone_last_5": 11,
+     "possession_pct_last_5": 31.3,
+     "minute": 53,
+     "generated_ms": 9,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01444",
+     "evt_01484",
+     "evt_01518",
+     "evt_01533",
+     "evt_01537"
+    ],
+    "show_at_s": 3151,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "378277c702db40cf99e72d4fb47d7e2f",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3151.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_021_beginner_ar",
+    "moment_id": "mom_021",
+    "match_id": "match_004",
+    "persona": "beginner",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "تغير في الضغط: دلتا يونايتد",
+    "body": "دلتا يونايتد: الضغط — محاولة استعادة الكرة — شهد 5 استردادات في المنطقة مؤخراً.",
+    "fields": {
+     "ppda_last_5": 2.2,
+     "ppda_match": 6.3,
+     "regains_in_zone_last_5": 5,
+     "opponent_passes_in_zone_last_5": 11,
+     "possession_pct_last_5": 31.3,
+     "minute": 53,
+     "generated_ms": 10,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01444",
+     "evt_01484",
+     "evt_01518",
+     "evt_01533",
+     "evt_01537"
+    ],
+    "show_at_s": 3151,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "378277c702db40cf99e72d4fb47d7e2f",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3151.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_021_tactical_en",
+    "moment_id": "mom_021",
+    "match_id": "match_004",
+    "persona": "tactical",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "stat_card",
+    "slot": "side_panel",
+    "priority": 3,
+    "headline": "Pressing changes: Delta United",
+    "body": "Delta United: PPDA now 2.2 versus a match baseline of 6.3.",
+    "fields": {
+     "ppda_last_5": 2.2,
+     "ppda_match": 6.3,
+     "regains_in_zone_last_5": 5,
+     "opponent_passes_in_zone_last_5": 11,
+     "possession_pct_last_5": 31.3,
+     "minute": 53,
+     "generated_ms": 10,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01444",
+     "evt_01484",
+     "evt_01518",
+     "evt_01533",
+     "evt_01537"
+    ],
+    "show_at_s": 3151,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "378277c702db40cf99e72d4fb47d7e2f",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3151.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_021_tactical_ar",
+    "moment_id": "mom_021",
+    "match_id": "match_004",
+    "persona": "tactical",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "stat_card",
+    "slot": "side_panel",
+    "priority": 3,
+    "headline": "تغير في الضغط: دلتا يونايتد",
+    "body": "دلتا يونايتد: مؤشر PPDA الآن 2.2 مقابل 6.3 كمتوسط المباراة.",
+    "fields": {
+     "ppda_last_5": 2.2,
+     "ppda_match": 6.3,
+     "regains_in_zone_last_5": 5,
+     "opponent_passes_in_zone_last_5": 11,
+     "possession_pct_last_5": 31.3,
+     "minute": 53,
+     "generated_ms": 10,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01444",
+     "evt_01484",
+     "evt_01518",
+     "evt_01533",
+     "evt_01537"
+    ],
+    "show_at_s": 3151,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "378277c702db40cf99e72d4fb47d7e2f",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3151.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_021_club_nile_fc_en",
+    "moment_id": "mom_021",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "Delta United pressing Nile FC",
+    "body": "Delta United won the ball back 5 times in the pressing zone recently.",
+    "fields": {
+     "ppda_last_5": 2.2,
+     "ppda_match": 6.3,
+     "regains_in_zone_last_5": 5,
+     "opponent_passes_in_zone_last_5": 11,
+     "possession_pct_last_5": 31.3,
+     "minute": 53,
+     "club_id": "nile_fc",
+     "generated_ms": 11,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01444",
+     "evt_01484",
+     "evt_01518",
+     "evt_01533",
+     "evt_01537"
+    ],
+    "show_at_s": 3151,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "378277c702db40cf99e72d4fb47d7e2f",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3151.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_021_club_nile_fc_ar",
+    "moment_id": "mom_021",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "دلتا يونايتد يضغط على نادي النيل",
+    "body": "استعاد دلتا يونايتد الكرة 5 مرات في منطقة الضغط مؤخراً.",
+    "fields": {
+     "ppda_last_5": 2.2,
+     "ppda_match": 6.3,
+     "regains_in_zone_last_5": 5,
+     "opponent_passes_in_zone_last_5": 11,
+     "possession_pct_last_5": 31.3,
+     "minute": 53,
+     "club_id": "nile_fc",
+     "generated_ms": 11,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01444",
+     "evt_01484",
+     "evt_01518",
+     "evt_01533",
+     "evt_01537"
+    ],
+    "show_at_s": 3151,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "378277c702db40cf99e72d4fb47d7e2f",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3151.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_021_club_delta_utd_en",
+    "moment_id": "mom_021",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "Delta United pressing high",
+    "body": "Delta United won the ball back 5 times in the pressing zone recently.",
+    "fields": {
+     "ppda_last_5": 2.2,
+     "ppda_match": 6.3,
+     "regains_in_zone_last_5": 5,
+     "opponent_passes_in_zone_last_5": 11,
+     "possession_pct_last_5": 31.3,
+     "minute": 53,
+     "club_id": "delta_utd",
+     "generated_ms": 11,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01444",
+     "evt_01484",
+     "evt_01518",
+     "evt_01533",
+     "evt_01537"
+    ],
+    "show_at_s": 3151,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "378277c702db40cf99e72d4fb47d7e2f",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3151.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_021_club_delta_utd_ar",
+    "moment_id": "mom_021",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "دلتا يونايتد يضغط بقوة",
+    "body": "استعاد دلتا يونايتد الكرة 5 مرات في منطقة الضغط مؤخراً.",
+    "fields": {
+     "ppda_last_5": 2.2,
+     "ppda_match": 6.3,
+     "regains_in_zone_last_5": 5,
+     "opponent_passes_in_zone_last_5": 11,
+     "possession_pct_last_5": 31.3,
+     "minute": 53,
+     "club_id": "delta_utd",
+     "generated_ms": 12,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01444",
+     "evt_01484",
+     "evt_01518",
+     "evt_01533",
+     "evt_01537"
+    ],
+    "show_at_s": 3151,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "378277c702db40cf99e72d4fb47d7e2f",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
    "type": "moment",
    "game_time_s": 3166.0,
    "data": {
@@ -2980,6 +6319,90 @@
      "in_box": true
     },
     "rule_id": "BIG_CHANCE_V1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3182.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_022_player_en",
+    "moment_id": "mom_022",
+    "match_id": "match_004",
+    "persona": "player",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "player_tag",
+    "slot": "pitch",
+    "priority": 3,
+    "headline": "Big chance: Ramy Galal",
+    "body": "Ramy Galal: A shot from 11 m at 63 km/h.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 54,
+     "shot_speed_kmh": 63,
+     "shot_distance_m": 11,
+     "pressure": 0.35,
+     "outcome": "saved",
+     "in_box": true,
+     "player_id": "nil_09",
+     "generated_ms": 7,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01591",
+     "evt_01592"
+    ],
+    "show_at_s": 3182,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "291f262c122840fe975bc58b99ccb7b0",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3182.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_022_player_ar",
+    "moment_id": "mom_022",
+    "match_id": "match_004",
+    "persona": "player",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "player_tag",
+    "slot": "pitch",
+    "priority": 3,
+    "headline": "فرصة خطيرة: رامي جلال",
+    "body": "رامي جلال: تسديدة من مسافة 11 م بسرعة 63 كم/س.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 54,
+     "shot_speed_kmh": 63,
+     "shot_distance_m": 11,
+     "pressure": 0.35,
+     "outcome": "saved",
+     "in_box": true,
+     "player_id": "nil_09",
+     "generated_ms": 7,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01591",
+     "evt_01592"
+    ],
+    "show_at_s": 3182,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "291f262c122840fe975bc58b99ccb7b0",
+    "prompt_version": "template_v1"
    }
   },
   {
@@ -3336,6 +6759,422 @@
    }
   },
   {
+   "type": "overlay",
+   "game_time_s": 3618.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_024_beginner_en",
+    "moment_id": "mom_024",
+    "match_id": "match_004",
+    "persona": "beginner",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "Big chance: Ramy Galal",
+    "body": "Ramy Galal: A shot from 11 m at 70 km/h.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 61,
+     "shot_speed_kmh": 70,
+     "shot_distance_m": 11,
+     "pressure": 0.3,
+     "outcome": "saved",
+     "in_box": true,
+     "generated_ms": 25,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01819",
+     "evt_01820"
+    ],
+    "show_at_s": 3618,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "955ba0cb27884525972870290353798b",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3618.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_024_beginner_ar",
+    "moment_id": "mom_024",
+    "match_id": "match_004",
+    "persona": "beginner",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "فرصة خطيرة: رامي جلال",
+    "body": "رامي جلال: تسديدة من مسافة 11 م بسرعة 70 كم/س.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 61,
+     "shot_speed_kmh": 70,
+     "shot_distance_m": 11,
+     "pressure": 0.3,
+     "outcome": "saved",
+     "in_box": true,
+     "generated_ms": 26,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01819",
+     "evt_01820"
+    ],
+    "show_at_s": 3618,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "955ba0cb27884525972870290353798b",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3618.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_024_tactical_en",
+    "moment_id": "mom_024",
+    "match_id": "match_004",
+    "persona": "tactical",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "stat_card",
+    "slot": "side_panel",
+    "priority": 3,
+    "headline": "Big chance: Ramy Galal",
+    "body": "Ramy Galal: A shot from 11 m at 70 km/h.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 61,
+     "shot_speed_kmh": 70,
+     "shot_distance_m": 11,
+     "pressure": 0.3,
+     "outcome": "saved",
+     "in_box": true,
+     "generated_ms": 26,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01819",
+     "evt_01820"
+    ],
+    "show_at_s": 3618,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "955ba0cb27884525972870290353798b",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3618.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_024_tactical_ar",
+    "moment_id": "mom_024",
+    "match_id": "match_004",
+    "persona": "tactical",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "stat_card",
+    "slot": "side_panel",
+    "priority": 3,
+    "headline": "فرصة خطيرة: رامي جلال",
+    "body": "رامي جلال: تسديدة من مسافة 11 م بسرعة 70 كم/س.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 61,
+     "shot_speed_kmh": 70,
+     "shot_distance_m": 11,
+     "pressure": 0.3,
+     "outcome": "saved",
+     "in_box": true,
+     "generated_ms": 26,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01819",
+     "evt_01820"
+    ],
+    "show_at_s": 3618,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "955ba0cb27884525972870290353798b",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3618.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_024_player_en",
+    "moment_id": "mom_024",
+    "match_id": "match_004",
+    "persona": "player",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "player_tag",
+    "slot": "pitch",
+    "priority": 3,
+    "headline": "Big chance: Ramy Galal",
+    "body": "Ramy Galal: A shot from 11 m at 70 km/h.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 61,
+     "shot_speed_kmh": 70,
+     "shot_distance_m": 11,
+     "pressure": 0.3,
+     "outcome": "saved",
+     "in_box": true,
+     "player_id": "nil_09",
+     "generated_ms": 27,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01819",
+     "evt_01820"
+    ],
+    "show_at_s": 3618,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "955ba0cb27884525972870290353798b",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3618.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_024_player_ar",
+    "moment_id": "mom_024",
+    "match_id": "match_004",
+    "persona": "player",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "player_tag",
+    "slot": "pitch",
+    "priority": 3,
+    "headline": "فرصة خطيرة: رامي جلال",
+    "body": "رامي جلال: تسديدة من مسافة 11 م بسرعة 70 كم/س.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 61,
+     "shot_speed_kmh": 70,
+     "shot_distance_m": 11,
+     "pressure": 0.3,
+     "outcome": "saved",
+     "in_box": true,
+     "player_id": "nil_09",
+     "generated_ms": 27,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01819",
+     "evt_01820"
+    ],
+    "show_at_s": 3618,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "955ba0cb27884525972870290353798b",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3618.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_024_club_nile_fc_en",
+    "moment_id": "mom_024",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "So close for Nile FC!",
+    "body": "Ramy Galal shoots from 11 m at 70 km/h.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 61,
+     "shot_speed_kmh": 70,
+     "shot_distance_m": 11,
+     "pressure": 0.3,
+     "outcome": "saved",
+     "in_box": true,
+     "club_id": "nile_fc",
+     "generated_ms": 27,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01819",
+     "evt_01820"
+    ],
+    "show_at_s": 3618,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "955ba0cb27884525972870290353798b",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3618.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_024_club_nile_fc_ar",
+    "moment_id": "mom_024",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "فرصة خطيرة لصالح نادي النيل",
+    "body": "تسديدة رامي جلال من مسافة 11 م بسرعة 70 كم/س.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 61,
+     "shot_speed_kmh": 70,
+     "shot_distance_m": 11,
+     "pressure": 0.3,
+     "outcome": "saved",
+     "in_box": true,
+     "club_id": "nile_fc",
+     "generated_ms": 28,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01819",
+     "evt_01820"
+    ],
+    "show_at_s": 3618,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "955ba0cb27884525972870290353798b",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3618.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_024_club_delta_utd_en",
+    "moment_id": "mom_024",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "Let-off for Delta United",
+    "body": "Ramy Galal shoots for Nile FC from 11 m at 70 km/h.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 61,
+     "shot_speed_kmh": 70,
+     "shot_distance_m": 11,
+     "pressure": 0.3,
+     "outcome": "saved",
+     "in_box": true,
+     "club_id": "delta_utd",
+     "generated_ms": 28,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01819",
+     "evt_01820"
+    ],
+    "show_at_s": 3618,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "955ba0cb27884525972870290353798b",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3618.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_024_club_delta_utd_ar",
+    "moment_id": "mom_024",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "خطر على مرمى دلتا يونايتد",
+    "body": "تسديدة رامي جلال لصالح نادي النيل من مسافة 11 م بسرعة 70 كم/س.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 61,
+     "shot_speed_kmh": 70,
+     "shot_distance_m": 11,
+     "pressure": 0.3,
+     "outcome": "saved",
+     "in_box": true,
+     "club_id": "delta_utd",
+     "generated_ms": 29,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01819",
+     "evt_01820"
+    ],
+    "show_at_s": 3618,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "955ba0cb27884525972870290353798b",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
    "type": "moment",
    "game_time_s": 3631.0,
    "data": {
@@ -3536,6 +7375,422 @@
      "in_box": true
     },
     "rule_id": "BIG_CHANCE_V1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3723.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_026_beginner_en",
+    "moment_id": "mom_026",
+    "match_id": "match_004",
+    "persona": "beginner",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "Big chance: Ramy Galal",
+    "body": "Ramy Galal: A shot from 4 m at 80 km/h.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 63,
+     "shot_speed_kmh": 80,
+     "shot_distance_m": 4,
+     "pressure": 0.46,
+     "outcome": "off_target",
+     "in_box": true,
+     "generated_ms": 13,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01866",
+     "evt_01868"
+    ],
+    "show_at_s": 3723,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "dc3044f7136d426384c3404bff1a9695",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3723.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_026_beginner_ar",
+    "moment_id": "mom_026",
+    "match_id": "match_004",
+    "persona": "beginner",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "فرصة خطيرة: رامي جلال",
+    "body": "رامي جلال: تسديدة من مسافة 4 م بسرعة 80 كم/س.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 63,
+     "shot_speed_kmh": 80,
+     "shot_distance_m": 4,
+     "pressure": 0.46,
+     "outcome": "off_target",
+     "in_box": true,
+     "generated_ms": 14,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01866",
+     "evt_01868"
+    ],
+    "show_at_s": 3723,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "dc3044f7136d426384c3404bff1a9695",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3723.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_026_tactical_en",
+    "moment_id": "mom_026",
+    "match_id": "match_004",
+    "persona": "tactical",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "stat_card",
+    "slot": "side_panel",
+    "priority": 3,
+    "headline": "Big chance: Ramy Galal",
+    "body": "Ramy Galal: A shot from 4 m at 80 km/h.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 63,
+     "shot_speed_kmh": 80,
+     "shot_distance_m": 4,
+     "pressure": 0.46,
+     "outcome": "off_target",
+     "in_box": true,
+     "generated_ms": 14,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01866",
+     "evt_01868"
+    ],
+    "show_at_s": 3723,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "dc3044f7136d426384c3404bff1a9695",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3723.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_026_tactical_ar",
+    "moment_id": "mom_026",
+    "match_id": "match_004",
+    "persona": "tactical",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "stat_card",
+    "slot": "side_panel",
+    "priority": 3,
+    "headline": "فرصة خطيرة: رامي جلال",
+    "body": "رامي جلال: تسديدة من مسافة 4 م بسرعة 80 كم/س.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 63,
+     "shot_speed_kmh": 80,
+     "shot_distance_m": 4,
+     "pressure": 0.46,
+     "outcome": "off_target",
+     "in_box": true,
+     "generated_ms": 14,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01866",
+     "evt_01868"
+    ],
+    "show_at_s": 3723,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "dc3044f7136d426384c3404bff1a9695",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3723.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_026_player_en",
+    "moment_id": "mom_026",
+    "match_id": "match_004",
+    "persona": "player",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "player_tag",
+    "slot": "pitch",
+    "priority": 3,
+    "headline": "Big chance: Ramy Galal",
+    "body": "Ramy Galal: A shot from 4 m at 80 km/h.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 63,
+     "shot_speed_kmh": 80,
+     "shot_distance_m": 4,
+     "pressure": 0.46,
+     "outcome": "off_target",
+     "in_box": true,
+     "player_id": "nil_09",
+     "generated_ms": 14,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01866",
+     "evt_01868"
+    ],
+    "show_at_s": 3723,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "dc3044f7136d426384c3404bff1a9695",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3723.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_026_player_ar",
+    "moment_id": "mom_026",
+    "match_id": "match_004",
+    "persona": "player",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "player_tag",
+    "slot": "pitch",
+    "priority": 3,
+    "headline": "فرصة خطيرة: رامي جلال",
+    "body": "رامي جلال: تسديدة من مسافة 4 م بسرعة 80 كم/س.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 63,
+     "shot_speed_kmh": 80,
+     "shot_distance_m": 4,
+     "pressure": 0.46,
+     "outcome": "off_target",
+     "in_box": true,
+     "player_id": "nil_09",
+     "generated_ms": 15,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01866",
+     "evt_01868"
+    ],
+    "show_at_s": 3723,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "dc3044f7136d426384c3404bff1a9695",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3723.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_026_club_nile_fc_en",
+    "moment_id": "mom_026",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "So close for Nile FC!",
+    "body": "Ramy Galal shoots from 4 m at 80 km/h.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 63,
+     "shot_speed_kmh": 80,
+     "shot_distance_m": 4,
+     "pressure": 0.46,
+     "outcome": "off_target",
+     "in_box": true,
+     "club_id": "nile_fc",
+     "generated_ms": 15,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01866",
+     "evt_01868"
+    ],
+    "show_at_s": 3723,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "dc3044f7136d426384c3404bff1a9695",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3723.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_026_club_nile_fc_ar",
+    "moment_id": "mom_026",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "فرصة خطيرة لصالح نادي النيل",
+    "body": "تسديدة رامي جلال من مسافة 4 م بسرعة 80 كم/س.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 63,
+     "shot_speed_kmh": 80,
+     "shot_distance_m": 4,
+     "pressure": 0.46,
+     "outcome": "off_target",
+     "in_box": true,
+     "club_id": "nile_fc",
+     "generated_ms": 16,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01866",
+     "evt_01868"
+    ],
+    "show_at_s": 3723,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "dc3044f7136d426384c3404bff1a9695",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3723.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_026_club_delta_utd_en",
+    "moment_id": "mom_026",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "Let-off for Delta United",
+    "body": "Ramy Galal shoots for Nile FC from 4 m at 80 km/h.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 63,
+     "shot_speed_kmh": 80,
+     "shot_distance_m": 4,
+     "pressure": 0.46,
+     "outcome": "off_target",
+     "in_box": true,
+     "club_id": "delta_utd",
+     "generated_ms": 16,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01866",
+     "evt_01868"
+    ],
+    "show_at_s": 3723,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "dc3044f7136d426384c3404bff1a9695",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 3723.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_026_club_delta_utd_ar",
+    "moment_id": "mom_026",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "خطر على مرمى دلتا يونايتد",
+    "body": "تسديدة رامي جلال لصالح نادي النيل من مسافة 4 م بسرعة 80 كم/س.",
+    "fields": {
+     "shooter_id": "nil_09",
+     "minute": 63,
+     "shot_speed_kmh": 80,
+     "shot_distance_m": 4,
+     "pressure": 0.46,
+     "outcome": "off_target",
+     "in_box": true,
+     "club_id": "delta_utd",
+     "generated_ms": 16,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_01866",
+     "evt_01868"
+    ],
+    "show_at_s": 3723,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "dc3044f7136d426384c3404bff1a9695",
+    "prompt_version": "template_v1"
    }
   },
   {
@@ -3743,35 +7998,6 @@
    "game_time_s": 4209.0,
    "data": {
     "schema_version": "1.0",
-    "moment_id": "mom_9002",
-    "match_id": "match_004",
-    "game_clock_s": 4209,
-    "type": "goal",
-    "importance": 1.0,
-    "team_id": "delta_utd",
-    "player_id": "del_07",
-    "evidence_event_ids": [
-     "evt_02060",
-     "evt_02061"
-    ],
-    "verified_facts": {
-     "scorer_id": "del_07",
-     "minute": 71,
-     "home_score": 1,
-     "away_score": 1,
-     "passes_in_move": 3,
-     "shot_speed_kmh": 82,
-     "shot_distance_m": 11,
-     "assist_id": "del_14"
-    },
-    "rule_id": "GOAL_TEMPLATE_V1"
-   }
-  },
-  {
-   "type": "moment",
-   "game_time_s": 4209.0,
-   "data": {
-    "schema_version": "1.0",
     "moment_id": "mom_028",
     "match_id": "match_004",
     "game_clock_s": 4209,
@@ -3804,8 +8030,8 @@
    "game_time_s": 4209.0,
    "data": {
     "schema_version": "1.0",
-    "overlay_id": "ov_mom_9002_beginner_en",
-    "moment_id": "mom_9002",
+    "overlay_id": "ov_mom_028_beginner_en",
+    "moment_id": "mom_028",
     "match_id": "match_004",
     "persona": "beginner",
     "language": "en",
@@ -3815,39 +8041,24 @@
     "priority": 1,
     "headline": "GOAL! Delta United",
     "body": "Hamza Yassin scores in the 71st minute. Nile FC 1-1 Delta United.",
-    "fields": {},
-    "evidence_event_ids": [
-     "evt_02060",
-     "evt_02061"
-    ],
-    "show_at_s": 4209,
-    "ttl_s": 8,
-    "verification_status": "fallback",
-    "source": "template",
-    "prompt_version": "template_v1"
-   }
-  },
-  {
-   "type": "overlay",
-   "game_time_s": 4209.0,
-   "data": {
-    "schema_version": "1.0",
-    "overlay_id": "ov_mom_9002_tactical_en",
-    "moment_id": "mom_9002",
-    "match_id": "match_004",
-    "persona": "tactical",
-    "language": "en",
-    "dir": "ltr",
-    "template_id": "lower_third",
-    "slot": "lower_third",
-    "priority": 1,
-    "headline": "Goal 71' - Delta United",
-    "body": "Hamza Yassin scores from 11 m after a 3-pass move. Shot speed 82 km/h. Nile FC 1-1 Delta United.",
     "fields": {
+     "scorer_id": "del_07",
+     "minute": 71,
+     "home_score": 1,
+     "away_score": 1,
+     "passes_in_move": 3,
+     "assist_id": "del_14",
      "shot_speed_kmh": 82,
-     "shot_distance_m": 11
+     "shot_distance_m": 11,
+     "generated_ms": 2,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
     },
     "evidence_event_ids": [
+     "evt_02057",
+     "evt_02058",
+     "evt_02059",
      "evt_02060",
      "evt_02061"
     ],
@@ -3855,6 +8066,7 @@
     "ttl_s": 8,
     "verification_status": "fallback",
     "source": "template",
+    "trace_id": "1b8f6de9c3f549fda2ed455c1662c891",
     "prompt_version": "template_v1"
    }
   },
@@ -3863,39 +8075,8 @@
    "game_time_s": 4209.0,
    "data": {
     "schema_version": "1.0",
-    "overlay_id": "ov_mom_9002_player_en",
-    "moment_id": "mom_9002",
-    "match_id": "match_004",
-    "persona": "player",
-    "language": "en",
-    "dir": "ltr",
-    "template_id": "lower_third",
-    "slot": "lower_third",
-    "priority": 1,
-    "headline": "Hamza Yassin scores!",
-    "body": "Hamza Yassin's shot in the 71st minute left the boot at 82 km/h.",
-    "fields": {
-     "player_id": "del_07",
-     "shot_speed_kmh": 82
-    },
-    "evidence_event_ids": [
-     "evt_02060",
-     "evt_02061"
-    ],
-    "show_at_s": 4209,
-    "ttl_s": 8,
-    "verification_status": "fallback",
-    "source": "template",
-    "prompt_version": "template_v1"
-   }
-  },
-  {
-   "type": "overlay",
-   "game_time_s": 4209.0,
-   "data": {
-    "schema_version": "1.0",
-    "overlay_id": "ov_mom_9002_beginner_ar",
-    "moment_id": "mom_9002",
+    "overlay_id": "ov_mom_028_beginner_ar",
+    "moment_id": "mom_028",
     "match_id": "match_004",
     "persona": "beginner",
     "language": "ar",
@@ -3905,8 +8086,24 @@
     "priority": 1,
     "headline": "هدف! دلتا يونايتد",
     "body": "حمزة ياسين يسجل في الدقيقة 71. نادي النيل 1-1 دلتا يونايتد",
-    "fields": {},
+    "fields": {
+     "scorer_id": "del_07",
+     "minute": 71,
+     "home_score": 1,
+     "away_score": 1,
+     "passes_in_move": 3,
+     "assist_id": "del_14",
+     "shot_speed_kmh": 82,
+     "shot_distance_m": 11,
+     "generated_ms": 2,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
     "evidence_event_ids": [
+     "evt_02057",
+     "evt_02058",
+     "evt_02059",
      "evt_02060",
      "evt_02061"
     ],
@@ -3914,6 +8111,7 @@
     "ttl_s": 8,
     "verification_status": "fallback",
     "source": "template",
+    "trace_id": "1b8f6de9c3f549fda2ed455c1662c891",
     "prompt_version": "template_v1"
    }
   },
@@ -3922,22 +8120,80 @@
    "game_time_s": 4209.0,
    "data": {
     "schema_version": "1.0",
-    "overlay_id": "ov_mom_9002_tactical_ar",
-    "moment_id": "mom_9002",
+    "overlay_id": "ov_mom_028_tactical_en",
+    "moment_id": "mom_028",
+    "match_id": "match_004",
+    "persona": "tactical",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "stat_card",
+    "slot": "side_panel",
+    "priority": 1,
+    "headline": "Goal 71' - Delta United",
+    "body": "Hamza Yassin scores from 11 m after a 3-pass move. Shot speed 82 km/h. Nile FC 1-1 Delta United.",
+    "fields": {
+     "scorer_id": "del_07",
+     "minute": 71,
+     "home_score": 1,
+     "away_score": 1,
+     "passes_in_move": 3,
+     "assist_id": "del_14",
+     "shot_speed_kmh": 82,
+     "shot_distance_m": 11,
+     "generated_ms": 3,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_02057",
+     "evt_02058",
+     "evt_02059",
+     "evt_02060",
+     "evt_02061"
+    ],
+    "show_at_s": 4209,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "1b8f6de9c3f549fda2ed455c1662c891",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 4209.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_028_tactical_ar",
+    "moment_id": "mom_028",
     "match_id": "match_004",
     "persona": "tactical",
     "language": "ar",
     "dir": "rtl",
-    "template_id": "lower_third",
-    "slot": "lower_third",
+    "template_id": "stat_card",
+    "slot": "side_panel",
     "priority": 1,
     "headline": "هدف في الدقيقة 71 - دلتا يونايتد",
     "body": "حمزة ياسين يسجل من مسافة 11 م بعد هجمة من 3 تمريرات. سرعة التسديدة 82 كم/س. نادي النيل 1-1 دلتا يونايتد",
     "fields": {
+     "scorer_id": "del_07",
+     "minute": 71,
+     "home_score": 1,
+     "away_score": 1,
+     "passes_in_move": 3,
+     "assist_id": "del_14",
      "shot_speed_kmh": 82,
-     "shot_distance_m": 11
+     "shot_distance_m": 11,
+     "generated_ms": 3,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
     },
     "evidence_event_ids": [
+     "evt_02057",
+     "evt_02058",
+     "evt_02059",
      "evt_02060",
      "evt_02061"
     ],
@@ -3945,6 +8201,7 @@
     "ttl_s": 8,
     "verification_status": "fallback",
     "source": "template",
+    "trace_id": "1b8f6de9c3f549fda2ed455c1662c891",
     "prompt_version": "template_v1"
    }
   },
@@ -3953,22 +8210,36 @@
    "game_time_s": 4209.0,
    "data": {
     "schema_version": "1.0",
-    "overlay_id": "ov_mom_9002_player_ar",
-    "moment_id": "mom_9002",
+    "overlay_id": "ov_mom_028_player_en",
+    "moment_id": "mom_028",
     "match_id": "match_004",
     "persona": "player",
-    "language": "ar",
-    "dir": "rtl",
-    "template_id": "lower_third",
-    "slot": "lower_third",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "player_tag",
+    "slot": "pitch",
     "priority": 1,
-    "headline": "حمزة ياسين يسجل!",
-    "body": "تسديدة حمزة ياسين في الدقيقة 71 انطلقت بسرعة 82 كم/س.",
+    "headline": "Hamza Yassin scores!",
+    "body": "Hamza Yassin's shot in the 71st minute left the boot at 82 km/h.",
     "fields": {
+     "scorer_id": "del_07",
+     "minute": 71,
+     "home_score": 1,
+     "away_score": 1,
+     "passes_in_move": 3,
+     "assist_id": "del_14",
+     "shot_speed_kmh": 82,
+     "shot_distance_m": 11,
      "player_id": "del_07",
-     "shot_speed_kmh": 82
+     "generated_ms": 3,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
     },
     "evidence_event_ids": [
+     "evt_02057",
+     "evt_02058",
+     "evt_02059",
      "evt_02060",
      "evt_02061"
     ],
@@ -3976,6 +8247,237 @@
     "ttl_s": 8,
     "verification_status": "fallback",
     "source": "template",
+    "trace_id": "1b8f6de9c3f549fda2ed455c1662c891",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 4209.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_028_player_ar",
+    "moment_id": "mom_028",
+    "match_id": "match_004",
+    "persona": "player",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "player_tag",
+    "slot": "pitch",
+    "priority": 1,
+    "headline": "حمزة ياسين يسجل!",
+    "body": "تسديدة حمزة ياسين في الدقيقة 71 انطلقت بسرعة 82 كم/س.",
+    "fields": {
+     "scorer_id": "del_07",
+     "minute": 71,
+     "home_score": 1,
+     "away_score": 1,
+     "passes_in_move": 3,
+     "assist_id": "del_14",
+     "shot_speed_kmh": 82,
+     "shot_distance_m": 11,
+     "player_id": "del_07",
+     "generated_ms": 4,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_02057",
+     "evt_02058",
+     "evt_02059",
+     "evt_02060",
+     "evt_02061"
+    ],
+    "show_at_s": 4209,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "1b8f6de9c3f549fda2ed455c1662c891",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 4209.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_028_club_nile_fc_en",
+    "moment_id": "mom_028",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "Setback for Nile FC",
+    "body": "Hamza Yassin scores for Delta United in minute 71. Score 1-1.",
+    "fields": {
+     "scorer_id": "del_07",
+     "minute": 71,
+     "home_score": 1,
+     "away_score": 1,
+     "passes_in_move": 3,
+     "assist_id": "del_14",
+     "shot_speed_kmh": 82,
+     "shot_distance_m": 11,
+     "club_id": "nile_fc",
+     "generated_ms": 4,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_02057",
+     "evt_02058",
+     "evt_02059",
+     "evt_02060",
+     "evt_02061"
+    ],
+    "show_at_s": 4209,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "1b8f6de9c3f549fda2ed455c1662c891",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 4209.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_028_club_nile_fc_ar",
+    "moment_id": "mom_028",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "هدف ضد نادي النيل",
+    "body": "حمزة ياسين يسجل لصالح دلتا يونايتد في الدقيقة 71. النتيجة 1-1.",
+    "fields": {
+     "scorer_id": "del_07",
+     "minute": 71,
+     "home_score": 1,
+     "away_score": 1,
+     "passes_in_move": 3,
+     "assist_id": "del_14",
+     "shot_speed_kmh": 82,
+     "shot_distance_m": 11,
+     "club_id": "nile_fc",
+     "generated_ms": 4,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_02057",
+     "evt_02058",
+     "evt_02059",
+     "evt_02060",
+     "evt_02061"
+    ],
+    "show_at_s": 4209,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "1b8f6de9c3f549fda2ed455c1662c891",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 4209.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_028_club_delta_utd_en",
+    "moment_id": "mom_028",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "Goal for Delta United!",
+    "body": "Hamza Yassin scores in minute 71. Score 1-1.",
+    "fields": {
+     "scorer_id": "del_07",
+     "minute": 71,
+     "home_score": 1,
+     "away_score": 1,
+     "passes_in_move": 3,
+     "assist_id": "del_14",
+     "shot_speed_kmh": 82,
+     "shot_distance_m": 11,
+     "club_id": "delta_utd",
+     "generated_ms": 5,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_02057",
+     "evt_02058",
+     "evt_02059",
+     "evt_02060",
+     "evt_02061"
+    ],
+    "show_at_s": 4209,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "1b8f6de9c3f549fda2ed455c1662c891",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 4209.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_028_club_delta_utd_ar",
+    "moment_id": "mom_028",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 1,
+    "headline": "هدف لصالح دلتا يونايتد",
+    "body": "حمزة ياسين يسجل في الدقيقة 71. النتيجة 1-1.",
+    "fields": {
+     "scorer_id": "del_07",
+     "minute": 71,
+     "home_score": 1,
+     "away_score": 1,
+     "passes_in_move": 3,
+     "assist_id": "del_14",
+     "shot_speed_kmh": 82,
+     "shot_distance_m": 11,
+     "club_id": "delta_utd",
+     "generated_ms": 5,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_02057",
+     "evt_02058",
+     "evt_02059",
+     "evt_02060",
+     "evt_02061"
+    ],
+    "show_at_s": 4209,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "1b8f6de9c3f549fda2ed455c1662c891",
     "prompt_version": "template_v1"
    }
   },
@@ -4534,6 +9036,354 @@
    }
   },
   {
+   "type": "overlay",
+   "game_time_s": 4883.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_031_beginner_en",
+    "moment_id": "mom_031",
+    "match_id": "match_004",
+    "persona": "beginner",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "Pressing changes: Nile FC",
+    "body": "Nile FC: Pressing means trying to win the ball back: 5 recent regains in the zone.",
+    "fields": {
+     "ppda_last_5": 1.0,
+     "ppda_match": 1.9,
+     "regains_in_zone_last_5": 5,
+     "opponent_passes_in_zone_last_5": 5,
+     "possession_pct_last_5": 85.3,
+     "minute": 82,
+     "generated_ms": 25,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_02242",
+     "evt_02248",
+     "evt_02260",
+     "evt_02296",
+     "evt_02308"
+    ],
+    "show_at_s": 4883,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "284fbd9d2ead4e779f0044f08750ef2d",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 4883.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_031_beginner_ar",
+    "moment_id": "mom_031",
+    "match_id": "match_004",
+    "persona": "beginner",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "تغير في الضغط: نادي النيل",
+    "body": "نادي النيل: الضغط — محاولة استعادة الكرة — شهد 5 استردادات في المنطقة مؤخراً.",
+    "fields": {
+     "ppda_last_5": 1.0,
+     "ppda_match": 1.9,
+     "regains_in_zone_last_5": 5,
+     "opponent_passes_in_zone_last_5": 5,
+     "possession_pct_last_5": 85.3,
+     "minute": 82,
+     "generated_ms": 26,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_02242",
+     "evt_02248",
+     "evt_02260",
+     "evt_02296",
+     "evt_02308"
+    ],
+    "show_at_s": 4883,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "284fbd9d2ead4e779f0044f08750ef2d",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 4883.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_031_tactical_en",
+    "moment_id": "mom_031",
+    "match_id": "match_004",
+    "persona": "tactical",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "stat_card",
+    "slot": "side_panel",
+    "priority": 3,
+    "headline": "Pressing changes: Nile FC",
+    "body": "Nile FC: PPDA now 1.0 versus a match baseline of 1.9.",
+    "fields": {
+     "ppda_last_5": 1.0,
+     "ppda_match": 1.9,
+     "regains_in_zone_last_5": 5,
+     "opponent_passes_in_zone_last_5": 5,
+     "possession_pct_last_5": 85.3,
+     "minute": 82,
+     "generated_ms": 26,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_02242",
+     "evt_02248",
+     "evt_02260",
+     "evt_02296",
+     "evt_02308"
+    ],
+    "show_at_s": 4883,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "284fbd9d2ead4e779f0044f08750ef2d",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 4883.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_031_tactical_ar",
+    "moment_id": "mom_031",
+    "match_id": "match_004",
+    "persona": "tactical",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "stat_card",
+    "slot": "side_panel",
+    "priority": 3,
+    "headline": "تغير في الضغط: نادي النيل",
+    "body": "نادي النيل: مؤشر PPDA الآن 1.0 مقابل 1.9 كمتوسط المباراة.",
+    "fields": {
+     "ppda_last_5": 1.0,
+     "ppda_match": 1.9,
+     "regains_in_zone_last_5": 5,
+     "opponent_passes_in_zone_last_5": 5,
+     "possession_pct_last_5": 85.3,
+     "minute": 82,
+     "generated_ms": 26,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_02242",
+     "evt_02248",
+     "evt_02260",
+     "evt_02296",
+     "evt_02308"
+    ],
+    "show_at_s": 4883,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "284fbd9d2ead4e779f0044f08750ef2d",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 4883.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_031_club_nile_fc_en",
+    "moment_id": "mom_031",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "Nile FC pressing high",
+    "body": "Nile FC won the ball back 5 times in the pressing zone recently.",
+    "fields": {
+     "ppda_last_5": 1.0,
+     "ppda_match": 1.9,
+     "regains_in_zone_last_5": 5,
+     "opponent_passes_in_zone_last_5": 5,
+     "possession_pct_last_5": 85.3,
+     "minute": 82,
+     "club_id": "nile_fc",
+     "generated_ms": 27,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_02242",
+     "evt_02248",
+     "evt_02260",
+     "evt_02296",
+     "evt_02308"
+    ],
+    "show_at_s": 4883,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "284fbd9d2ead4e779f0044f08750ef2d",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 4883.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_031_club_nile_fc_ar",
+    "moment_id": "mom_031",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "نادي النيل يضغط بقوة",
+    "body": "استعاد نادي النيل الكرة 5 مرات في منطقة الضغط مؤخراً.",
+    "fields": {
+     "ppda_last_5": 1.0,
+     "ppda_match": 1.9,
+     "regains_in_zone_last_5": 5,
+     "opponent_passes_in_zone_last_5": 5,
+     "possession_pct_last_5": 85.3,
+     "minute": 82,
+     "club_id": "nile_fc",
+     "generated_ms": 27,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_02242",
+     "evt_02248",
+     "evt_02260",
+     "evt_02296",
+     "evt_02308"
+    ],
+    "show_at_s": 4883,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "284fbd9d2ead4e779f0044f08750ef2d",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 4883.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_031_club_delta_utd_en",
+    "moment_id": "mom_031",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "Nile FC pressing Delta United",
+    "body": "Nile FC won the ball back 5 times in the pressing zone recently.",
+    "fields": {
+     "ppda_last_5": 1.0,
+     "ppda_match": 1.9,
+     "regains_in_zone_last_5": 5,
+     "opponent_passes_in_zone_last_5": 5,
+     "possession_pct_last_5": 85.3,
+     "minute": 82,
+     "club_id": "delta_utd",
+     "generated_ms": 27,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_02242",
+     "evt_02248",
+     "evt_02260",
+     "evt_02296",
+     "evt_02308"
+    ],
+    "show_at_s": 4883,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "284fbd9d2ead4e779f0044f08750ef2d",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 4883.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_031_club_delta_utd_ar",
+    "moment_id": "mom_031",
+    "match_id": "match_004",
+    "persona": "club",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "نادي النيل يضغط على دلتا يونايتد",
+    "body": "استعاد نادي النيل الكرة 5 مرات في منطقة الضغط مؤخراً.",
+    "fields": {
+     "ppda_last_5": 1.0,
+     "ppda_match": 1.9,
+     "regains_in_zone_last_5": 5,
+     "opponent_passes_in_zone_last_5": 5,
+     "possession_pct_last_5": 85.3,
+     "minute": 82,
+     "club_id": "delta_utd",
+     "generated_ms": 28,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_02242",
+     "evt_02248",
+     "evt_02260",
+     "evt_02296",
+     "evt_02308"
+    ],
+    "show_at_s": 4883,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "284fbd9d2ead4e779f0044f08750ef2d",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
    "type": "moment",
    "game_time_s": 4923.0,
    "data": {
@@ -4731,6 +9581,166 @@
      "minute": 90
     },
     "rule_id": "RHYTHM_CHANGE_V1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 5397.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_033_beginner_en",
+    "moment_id": "mom_033",
+    "match_id": "match_004",
+    "persona": "beginner",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "Match rhythm changes",
+    "body": "Pass rate now 6.0 per minute; median gap 3.6 seconds.",
+    "fields": {
+     "rhythm_from": "balanced",
+     "rhythm_to": "slow_build_up",
+     "passes_per_min_last_5": 6.0,
+     "median_pass_gap_s": 3.6,
+     "minute": 90,
+     "generated_ms": 1,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_02507",
+     "evt_02509",
+     "evt_02511"
+    ],
+    "show_at_s": 5397,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "8bd646d444fb477c858e42fe52829c28",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 5397.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_033_beginner_ar",
+    "moment_id": "mom_033",
+    "match_id": "match_004",
+    "persona": "beginner",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "lower_third",
+    "slot": "lower_third",
+    "priority": 3,
+    "headline": "تغير إيقاع المباراة",
+    "body": "معدل التمريرات 6.0 في الدقيقة.",
+    "fields": {
+     "rhythm_from": "balanced",
+     "rhythm_to": "slow_build_up",
+     "passes_per_min_last_5": 6.0,
+     "median_pass_gap_s": 3.6,
+     "minute": 90,
+     "generated_ms": 2,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_02507",
+     "evt_02509",
+     "evt_02511"
+    ],
+    "show_at_s": 5397,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "8bd646d444fb477c858e42fe52829c28",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 5397.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_033_tactical_en",
+    "moment_id": "mom_033",
+    "match_id": "match_004",
+    "persona": "tactical",
+    "language": "en",
+    "dir": "ltr",
+    "template_id": "stat_card",
+    "slot": "side_panel",
+    "priority": 3,
+    "headline": "Match rhythm changes",
+    "body": "Pass rate now 6.0 per minute; median gap 3.6 seconds.",
+    "fields": {
+     "rhythm_from": "balanced",
+     "rhythm_to": "slow_build_up",
+     "passes_per_min_last_5": 6.0,
+     "median_pass_gap_s": 3.6,
+     "minute": 90,
+     "generated_ms": 2,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_02507",
+     "evt_02509",
+     "evt_02511"
+    ],
+    "show_at_s": 5397,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "8bd646d444fb477c858e42fe52829c28",
+    "prompt_version": "template_v1"
+   }
+  },
+  {
+   "type": "overlay",
+   "game_time_s": 5397.0,
+   "data": {
+    "schema_version": "1.0",
+    "overlay_id": "ov_mom_033_tactical_ar",
+    "moment_id": "mom_033",
+    "match_id": "match_004",
+    "persona": "tactical",
+    "language": "ar",
+    "dir": "rtl",
+    "template_id": "stat_card",
+    "slot": "side_panel",
+    "priority": 3,
+    "headline": "تغير إيقاع المباراة",
+    "body": "معدل التمريرات 6.0 في الدقيقة.",
+    "fields": {
+     "rhythm_from": "balanced",
+     "rhythm_to": "slow_build_up",
+     "passes_per_min_last_5": 6.0,
+     "median_pass_gap_s": 3.6,
+     "minute": 90,
+     "generated_ms": 2,
+     "budget_ms": 5500,
+     "attempts": 0,
+     "reason_codes": "OFF"
+    },
+    "evidence_event_ids": [
+     "evt_02507",
+     "evt_02509",
+     "evt_02511"
+    ],
+    "show_at_s": 5397,
+    "ttl_s": 8,
+    "verification_status": "fallback",
+    "source": "template",
+    "trace_id": "8bd646d444fb477c858e42fe52829c28",
+    "prompt_version": "template_v1"
    }
   }
  ]
