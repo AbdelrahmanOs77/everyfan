@@ -18,6 +18,8 @@ from .names import NameAllowlist, focus_player, prompt_names
 PROMPTS = Path(__file__).with_name("prompts")
 DIGITS = str.maketrans("٠١٢٣٤٥٦٧٨٩۰۱۲۳۴۵۶۷۸۹٫٬", "01234567890123456789.,")
 NUMBER = re.compile(r"(?<![\w.])[+-]?\d+(?:[.,]\d+)*(?:[eE][+-]?\d+)?\s*[%٪]?")
+# Display copy can attach Arabic conjunctions to digits; IDs use NUMBER separately.
+DISPLAY_NUMBER = re.compile(r"(?<!\d)[+-]?\d+(?:[.,]\d+)*(?:[eE][+-]?\d+)?\s*[%٪]?")
 EN_WORD = re.compile(r"\b[A-Z][A-Za-z]*(?:'[a-z]+)?\b")
 # Capitalization alone cannot distinguish names from football prose. These are
 # ordinary sentence words / metrics, never an alternate list of allowed entities.
@@ -166,7 +168,7 @@ def verify(draft: dict, brief: InsightBrief, moment: Moment, names: NameAllowlis
     text = overlay.headline + "\n" + overlay.body
     if _unsupported_shot_speed(text, brief, moment):
         return reject("UNSUPPORTED_CAUSALITY", "Shot speed classification requires a verified label.")
-    for match in NUMBER.finditer(text.translate(DIGITS)):
+    for match in DISPLAY_NUMBER.finditer(text.translate(DIGITS)):
         if not number_supported(match.group(), allowed):
             return reject("NUMBER_NOT_IN_EVIDENCE", f"Unsupported number: {match.group().strip()}")
     # Frontend-rendered field values need the same checks. IDs are checked
@@ -181,8 +183,9 @@ def verify(draft: dict, brief: InsightBrief, moment: Moment, names: NameAllowlis
             if key in moment.verified_facts:
                 key_facts.append(moment.verified_facts[key])
             candidates = numeric_values(dict(enumerate(key_facts))) if key_facts else allowed
+            pattern = NUMBER if key.endswith('_id') else DISPLAY_NUMBER
             raw_numbers = [str(value)] if isinstance(value, (int, float)) else [
-                match.group() for match in NUMBER.finditer(value.translate(DIGITS))]
+                match.group() for match in pattern.finditer(value.translate(DIGITS))]
             if any(not number_supported(raw, candidates) for raw in raw_numbers):
                 return reject("NUMBER_NOT_IN_EVIDENCE", f"Unsupported field: {key}")
     rude = _disrespectful(text)

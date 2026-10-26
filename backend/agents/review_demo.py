@@ -13,10 +13,7 @@ from backend.api.demo import DemoBundle, fingerprint
 from .names import NameAllowlist
 from .producer import produce
 from .recap import Recap, RecapText, deterministic_recap, verify_recap
-from .verifier import DIGITS, brief_from_moment, numeric_values, number_supported, verify
-
-# Arabic conjunctions can touch a digit (e.g. و7); identifiers are not display copy.
-DISPLAY_NUMBER = re.compile(r'(?<!\d)[+-]?\d+(?:[.,]\d+)*(?:[eE][+-]?\d+)?\s*[%٪]?')
+from .verifier import DIGITS, DISPLAY_NUMBER, brief_from_moment, numeric_values, number_supported, verify
 
 
 def _content_draft(raw):

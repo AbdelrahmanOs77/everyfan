@@ -6,7 +6,10 @@ demo recording, AI Arabic editorial review and the user's native Arabic signoff
 are complete. The user subsequently authorized Step 4c: ship the approved bundle
 through a pull request, then hand off merge/deployment to Owner A. See
 `docs/OWNER_C_STEP4.md` and `docs/OWNER_C_STEP4C.md` for results and handoff.
-Evaluation work beyond the required offline gate is deferred.
+Step 5's main 30-moment Foundry evaluation and result audit are complete. The
+README includes measured tables and the agents/MCP/Foundry section; Owner B's
+review remains pending. See `docs/OWNER_C_STEP5.md` for evidence, usage and limits.
+The optional paid injection and quality-judge runs were not included.
 
 ## Previous checkpoint: Step 3 Owner C
 

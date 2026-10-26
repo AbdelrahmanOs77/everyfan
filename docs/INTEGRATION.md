@@ -82,6 +82,16 @@ flowchart LR
 
 ## Quota and cost reality
 
+Step 5 evaluation preparation (Owner C): the shared `evals/` runner now retains
+raw text, the exact verified fact snapshot and raw-draft coverage; prepares
+clients before timed stages; paces Foundry slots sequentially; and distinguishes
+provider-reported tokens from conservative charges for failed calls. The
+existing numeric evaluator and Owner C's live Verifier share the display-number
+matcher, including Arabic-adjacent digits. Regressions are in
+`tests/test_agents_evaluation.py`. No Owner A API, simulator or service code,
+Owner B analytics, or frozen contracts changed. Results and Owner B's review
+handoff are recorded in `OWNER_C_STEP5.md`.
+
 `everyfan-fast` (gpt-4.1-mini) has 30k tokens/minute. One goal now fans out to 10 writers and 10 semantic
 checks (~30k tokens), so a **live** match at 20x will exceed the quota and many overlays will be checked
 templates. That is the designed, safe behaviour (nothing unverified airs). To show more live agent output:
@@ -90,8 +100,18 @@ set `AGENT_CLUB_PERSONA=0` for live. Judges use the cached demo, which costs not
 
 ## Left for people, not code
 
+Step 5 update: the completed Foundry evaluation reports 91.0% raw numeric
+faithfulness (192/211 valid first drafts) and 100.0% final faithfulness (236/236),
+including 149 approved agent drafts and 87 checked fallbacks. The README table,
+dated raw/final records and audit are ready for Owner B's independent review;
+see [OWNER_C_STEP5.md](OWNER_C_STEP5.md). Step 5 checks: 573 offline tests,
+Pyflakes clean, required stub injection gate at 100% published faithfulness.
+Foundry trace screenshots and optional model-based quality scores remain outside
+this evaluation result.
+
 - Foundry key from Owner C (step 3); Cosmos endpoint and account from Owner B.
-- Native-speaker review of the Arabic in the recorded demo (step 6).
-- Foundry eval numbers and trace screenshots for the README and video (steps 5–7).
+- Owner B's independent review of the measured Foundry results and README table.
+- Foundry trace screenshots for the README and video. The recorded demo's native
+  Arabic review is complete; see [OWNER_C_STEP4.md](OWNER_C_STEP4.md).
 - Not built (SHOULD/COULD in the plan, list as roadmap): third language, Single Metric mode, Scenario
   Director, Azure AI Speech narration, studio approval.

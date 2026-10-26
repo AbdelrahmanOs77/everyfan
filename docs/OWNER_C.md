@@ -585,7 +585,13 @@ requirements-eval.txt`). CI runs the offline gate:
 | Published numeric faithfulness, after Verifier | **100.0%** |
 | Injected invented numbers caught | 80 / 80 (all repaired) |
 
-Run the Foundry version once the key is in place and paste its table here and in the README.
+The completed Step 5 Foundry run measured **91.0% raw numeric faithfulness
+(192/211 valid first drafts) and **100.0% final faithfulness**
+(236/236). Final output includes 149 approved agent drafts and 87
+checked fallbacks; 25 initial drafts were invalid and excluded from the raw denominator.
+See [OWNER_C_STEP5.md](OWNER_C_STEP5.md) for the full table, evidence audit,
+usage, model/profile settings and Owner B review handoff; the README includes
+the measured comparison with the separate offline injection challenge.
 
 ### Demo with agents
 
@@ -595,7 +601,8 @@ a time and paces token use under the deployment quota (`AGENT_BUILD_TPM`, defaul
 `everyfan-fast`). `-Relaxed` trades honesty of the readout for more agent overlays. Review the Arabic, copy into
 `demo/`, commit.
 
-Validation: **559 tests** (129 new in `tests/test_integration.py`), pyflakes clean.
+Step 5 validation: **573 offline tests**, Pyflakes clean for backend/shared/tests/evals,
+and the required stub injection gate at **100% published numeric faithfulness**.
 
 ## Team handoff (superseded by INTEGRATION.md)
 

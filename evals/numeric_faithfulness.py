@@ -18,7 +18,7 @@ from __future__ import annotations
 import json
 import math
 
-from backend.agents.verifier import DIGITS, NUMBER, number_supported, numeric_values
+from backend.agents.verifier import DIGITS, DISPLAY_NUMBER, number_supported, numeric_values
 
 
 def allowed_numbers(facts: dict, game_clock_s: int | None = None) -> list[float]:
@@ -31,7 +31,7 @@ def allowed_numbers(facts: dict, game_clock_s: int | None = None) -> list[float]
 def numeric_faithfulness(text: str, facts: dict, game_clock_s: int | None = None) -> dict:
     """{"score": 1.0 or 0.0, "numbers": n, "unsupported": [...]} for one text."""
     allowed = allowed_numbers(facts, game_clock_s)
-    found = [m.group().strip() for m in NUMBER.finditer(text.translate(DIGITS))]
+    found = [m.group().strip() for m in DISPLAY_NUMBER.finditer(text.translate(DIGITS))]
     unsupported = [n for n in found if not number_supported(n, allowed)]
     return {"score": 0.0 if unsupported else 1.0, "numbers": len(found), "unsupported": unsupported}
 
