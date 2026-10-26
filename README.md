@@ -10,8 +10,13 @@ built on Microsoft Foundry, Agent Framework, Azure Event Hubs, Cosmos DB and Con
 Backend complete and integrated (Owners A, B, C): simulator → Event Hubs → analytics → Foundry agents
 (Producer, Analyst over MCP, persona writers, Verifier with repair, Recap) → verified overlays on WebSockets,
 a public overlay feed and match recaps. Personas: Beginner, Tactical, Player Focus, Favorite Club; English and
-Arabic. 573 offline tests. See [docs/INTEGRATION.md](docs/INTEGRATION.md); frontend contract in
-[docs/HANDOFF_OWNER_D.md](docs/HANDOFF_OWNER_D.md).
+Arabic. 573 offline tests. The React viewer now includes the tracking pitch,
+four-way comparison, Arabic RTL, evidence, measured indices, recaps and Judge
+mode. Public frontend hosting awaits a subscription permitting Azure Static Web
+Apps regions and the backend CORS update; there is no live frontend URL yet.
+See [Owner D status](docs/OWNER_D.md) and the [testing guide](docs/TESTING_GUIDE.md).
+
+![EveryFan broadcast viewer](docs/images/owner-d-viewer.png)
 
 ## Repository layout
 
@@ -39,6 +44,40 @@ python -m backend.cli serve                      # http://localhost:8000/docs
 python -m backend.cli smoke --url http://localhost:8000 --live
 pytest -q
 python -m evals.run_agent_eval --mode stub --inject 0.3    # Verifier gate, offline
+```
+
+With the API running, start the viewer in a second terminal (Node 22.12+):
+
+```bash
+cd frontend
+npm ci
+npm run dev                                    # open http://localhost:5173
+npm test
+npm run build
+npm run test:e2e                               # local off-mode API only
+```
+
+Use `AGENT_MODE=off` for local browser testing. Playwright uses installed Chrome
+on Windows and isolated Chromium in CI. **Watch demo match → Break it → switch
+to Arabic → pick a player** is the quick judge flow. Recorded demo output makes
+no model calls. Run live uses the shared live budget.
+
+## Architecture
+
+```mermaid
+flowchart LR
+  S[Synthetic simulator] --> E[Event Hubs / local bus]
+  E --> A[Analytics and evidence]
+  A --> P[Producer]
+  P --> N[Analyst via read-only MCP]
+  N --> W[Persona writers]
+  W --> V[Verifier]
+  V --> R[One repair or checked fallback]
+  R --> O[Verified overlays and recap]
+  O --> D[Delayed WebSocket picture]
+  D --> F[React viewer / Arabic RTL]
+  O --> B[Recorded demo / public feed]
+  A --> C[Cosmos DB]
 ```
 
 ## Deploy
@@ -77,7 +116,8 @@ See the [Foundry report](evals/results/latest.md),
 [raw/final Foundry records](evals/results/20261026-203019-foundry.json),
 [evidence and coverage audit](evals/results/20261026-203019-foundry.audit.json), and
 [offline injection report](evals/results/stub-injected.md).
-Owner B's independent review is pending.
+The user performed the requested review in place of Owner B and merged PR #5;
+see [the recorded review outcome](docs/OWNER_C_STEP5.md#review-outcome-and-step-6-handoff).
 
 ## Agents, MCP and Foundry
 
@@ -104,3 +144,16 @@ deployment. Cached demo overlays and recaps play without model calls. See
 - [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) — Azure deployment and judging-period runbook
 - [docs/INTEGRATION.md](docs/INTEGRATION.md) — how A, B and C fit together; go-live steps
 - [docs/HANDOFF_OWNER_D.md](docs/HANDOFF_OWNER_D.md) — everything the frontend needs
+- [docs/OWNER_D.md](docs/OWNER_D.md) — viewer, verification and Azure hosting dependency
+- [docs/TESTING_GUIDE.md](docs/TESTING_GUIDE.md) — judge walkthrough
+- [docs/OWNER_D_DELIVERY.md](docs/OWNER_D_DELIVERY.md) — English pitch, video and submission handoff
+
+## Assets and implementation disclosure
+
+Matches, names, teams, tracking and football imagery are synthetic. The viewer
+uses no real-club marks, external fonts or copyrighted match footage. React is
+MIT-licensed; Lucide icons use ISC; Vite, TypeScript, Playwright, Vitest and
+Prettier retain their upstream licenses. The frontend was implemented with
+Codex assistance. Separate GitHub Copilot Agent Mode usage, if any, must be
+documented by the team from actual work. Optional features and unverified cloud
+claims are listed explicitly in the delivery notes.

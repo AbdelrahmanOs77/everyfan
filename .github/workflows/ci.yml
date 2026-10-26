@@ -29,7 +29,71 @@ jobs:
           curl -sSL -o /tmp/bicep https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64
           chmod +x /tmp/bicep
           /tmp/bicep build deployment/azure/main.bicep --stdout > /dev/null
+          /tmp/bicep build deployment/azure/frontend.bicep --stdout > /dev/null
       - name: Exported JSON Schemas are up to date
         run: |
           python -m backend.cli export-schemas
           git diff --exit-code shared/schemas/json
+
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: pip install -r ../requirements-dev.txt
+      - run: npm ci
+      - run: npm run format:check
+      - run: npm test
+      - run: npm run build
+      - run: npm audit --audit-level=high
+      - run: npx playwright install --with-deps chromium
+      - name: Local browser acceptance (models disabled)
+        run: npm run test:e2e
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: frontend-browser-evidence
+          path: |
+            frontend/playwright-report
+            frontend/test-results
+      - uses: actions/upload-artifact@v4
+        with:
+          name: frontend-dist
+          path: frontend/dist
+
+  frontend_deploy:
+    needs: [backend, frontend]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && vars.FRONTEND_DEPLOY_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    concurrency:
+      group: everyfan-frontend-production
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: frontend-dist
+          path: frontend/dist
+      - name: Deploy verified static viewer
+        uses: Azure/static-web-apps-deploy@1a947af9992250f3bc2e68ad0754c0b0c11566c9
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          action: upload
+          app_location: frontend/dist
+          api_location: ''
+          output_location: ''
+          skip_app_build: true
+          skip_api_build: true

@@ -156,10 +156,10 @@ test('live host controls stay private and a second viewer joins read-only', asyn
   const viewer = await browser.newContext();
   const hostPage = await host.newPage();
   const viewerPage = await viewer.newPage();
-  await hostPage.goto('http://localhost:5173');
+  await hostPage.goto('http://localhost:5175');
   await hostPage.getByRole('button', { name: /^Run live/ }).click();
   await expect(hostPage.locator('.pitch-player')).toHaveCount(22, { timeout: 15000 });
-  await viewerPage.goto('http://localhost:5173');
+  await viewerPage.goto('http://localhost:5175');
   await viewerPage.getByRole('button', { name: /^Run live/ }).click();
   await expect(viewerPage.locator('.notice-banner')).toContainText('Its host controls playback');
   await expect(viewerPage.getByRole('button', { name: 'Pause', exact: true })).toBeDisabled();
