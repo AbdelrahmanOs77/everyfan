@@ -2,8 +2,8 @@
 
 Prepared 26 October 2026. The user approved this plan, completed Owner C's Foundry
 preparation in Step 3, then explicitly requested Steps 4a and 4b. The real-agent
-demo recording and AI Arabic editorial review are complete; human native-speaker
-signoff remains pending. See `docs/OWNER_C_STEP4.md` for results and artifacts.
+demo recording, AI Arabic editorial review and the user's native Arabic signoff
+are complete. See `docs/OWNER_C_STEP4.md` for results and artifacts.
 Evaluation work beyond the required offline gate is deferred.
 
 ## Previous checkpoint: Step 3 Owner C

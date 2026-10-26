@@ -101,6 +101,8 @@ Artifacts are in `.venv/demo-agents/`: `match_001.bundle.json`,
 The final bundle SHA-256 is
 `df33a43d026ec893ec31160b7eb6a70d13a57ed7c8aff977f853ba03cc3fa768`.
 
-**Review status:** AI editorial review completed. Human native-speaker signoff
-remains pending. The bundle is prepared for the Step 4b human check and subsequent
-Step 4c handoff; no production demo publication is part of this work.
+**Review status:** Steps 4a and 4b complete. The user identified themselves as an
+Arabic speaker and approved the reviewed copy with “it is good”. Human Arabic
+signoff is recorded for the bundle hash above in `native-arabic-signoff.json`.
+The approved bundle is ready for the Step 4c handoff; no production demo
+publication is part of this work.
