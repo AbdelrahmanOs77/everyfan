@@ -82,6 +82,16 @@ flowchart LR
 
 ## Quota and cost reality
 
+Step 5 evaluation preparation (Owner C): the shared `evals/` runner now retains
+raw text, the exact verified fact snapshot and raw-draft coverage; prepares
+clients before timed stages; paces Foundry slots sequentially; and distinguishes
+provider-reported tokens from conservative charges for failed calls. The
+existing numeric evaluator and Owner C's live Verifier share the display-number
+matcher, including Arabic-adjacent digits. Regressions are in
+`tests/test_agents_evaluation.py`. No Owner A API, simulator or service code,
+Owner B analytics, or frozen contracts changed. Results and Owner B's review
+handoff are recorded in `OWNER_C_STEP5.md`.
+
 `everyfan-fast` (gpt-4.1-mini) has 30k tokens/minute. One goal now fans out to 10 writers and 10 semantic
 checks (~30k tokens), so a **live** match at 20x will exceed the quota and many overlays will be checked
 templates. That is the designed, safe behaviour (nothing unverified airs). To show more live agent output:

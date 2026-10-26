@@ -51,6 +51,44 @@ DATASET = ROOT / "evals" / "moments_eval.jsonl"
 RESULTS = ROOT / "evals" / "results"
 
 
+class MeasuredModel:
+    """Retain provider-reported usage separately from conservative budget charges."""
+
+    def __init__(self, model):
+        self.model, self.name = model, model.name
+        self.requests = self.reported_tokens = self.unknown_usage_calls = 0
+
+    async def complete(self, *args, **kwargs):
+        self.requests += 1
+        try:
+            text, usage = await self.model.complete(*args, **kwargs)
+            if not isinstance(usage, int) or isinstance(usage, bool) or usage < 0:
+                raise ValueError('Invalid provider token usage')
+        except BaseException:
+            self.unknown_usage_calls += 1
+            raise
+        self.reported_tokens += usage
+        return text, usage
+
+    async def prepare(self):
+        if hasattr(self.model, 'prepare'):
+            await self.model.prepare()
+
+    async def aclose(self):
+        if hasattr(self.model, 'aclose'):
+            await self.model.aclose()
+
+
+class TokenPacer:
+    def __init__(self, budget, tpm):
+        self.budget, self.tpm, self.started = budget, tpm, time.monotonic()
+
+    async def wait(self):
+        ahead = self.budget.used / self.tpm * 60 - (time.monotonic() - self.started)
+        if ahead > 0:
+            await asyncio.sleep(ahead)
+
+
 def load_rows(limit: int | None, seed: int) -> list[dict]:
     rows = [json.loads(line) for line in DATASET.read_text(encoding="utf-8").splitlines() if line.strip()]
     if not limit or limit >= len(rows):
@@ -80,7 +118,7 @@ def text_of(overlay: dict) -> str:
     return f"{overlay['headline']}\n{overlay['body']}"
 
 
-async def eval_moment(row, *, library, tools, fast, strong, config, budget, inject, rng) -> list[dict]:
+async def eval_moment(row, *, library, tools, fast, strong, config, budget, inject, rng, pacer=None) -> list[dict]:
     moment = to_moment(row)
     match = await library.get(moment.match_id)
     names = NameAllowlist(match.metadata)
@@ -89,6 +127,8 @@ async def eval_moment(row, *, library, tools, fast, strong, config, budget, inje
         return []
     analyst_model = fast if config.analyst_model_role == "fast" else strong
     verifier_model = fast if config.verifier_model_role == "fast" else strong
+    if pacer:
+        await pacer.wait()
     t0 = time.perf_counter()
     brief = await analyze(moment, tools, analyst_model, budget, timeout_s=config.analyst_timeout_s)
     analyst_ms = (time.perf_counter() - t0) * 1000
@@ -97,7 +137,8 @@ async def eval_moment(row, *, library, tools, fast, strong, config, budget, inje
     async def slot(item) -> dict:
         record = {"match_id": moment.match_id, "moment_id": moment.moment_id, "type": moment.type,
                   "persona": item.persona, "language": item.language, "club_id": item.club_id,
-                  "analyst_ms": round(analyst_ms), "brief_confidence": brief.confidence, "injected": False}
+                  "analyst_ms": round(analyst_ms), "brief_confidence": brief.confidence, "injected": False,
+                  "facts": facts, "game_clock_s": moment.game_clock_s}
         t1 = time.perf_counter()
         result = await write_one(brief, moment, names, item, fast, budget, trace_id="eval",
                                  timeout_s=config.writer_timeout_s)
@@ -112,6 +153,7 @@ async def eval_moment(row, *, library, tools, fast, strong, config, budget, inje
                 draft, record["injected"] = make_adversarial_draft(draft), True
             raw = numeric_faithfulness(text_of(draft), facts, moment.game_clock_s)
             record["raw"], record["raw_unsupported"] = raw["score"], raw["unsupported"]
+            record["raw_headline"], record["raw_body"] = draft["headline"], draft["body"]
             for attempt in (1, 2):
                 t2 = time.perf_counter()
                 verdict = await verify_with_model(draft, brief, moment, names, item.persona, model=verifier_model,
@@ -142,6 +184,12 @@ async def eval_moment(row, *, library, tools, fast, strong, config, budget, inje
         record["headline"], record["body"] = final["headline"], final["body"]
         return record
 
+    if pacer:
+        records = []
+        for item in plan:
+            await pacer.wait()  # Outside model-stage deadlines; recording latency is reported separately.
+            records.append(await slot(item))
+        return records
     return list(await asyncio.gather(*(slot(item) for item in plan)))
 
 
@@ -163,6 +211,9 @@ def summarise(records: list[dict], meta: dict) -> dict:
         **meta,
         "moments": len({(r["match_id"], r["moment_id"]) for r in records}),
         "overlays": len(records),
+        "raw_drafts": len(raw),
+        "missing_raw_drafts": len(records) - len(raw),
+        "all_published_faithful": bool(records) and all(r['final'] == 1.0 and r.get('fallback_checked', True) for r in records),
         "raw_numeric_faithfulness_pct": rate(raw),
         "final_numeric_faithfulness_pct": rate([r["final"] for r in records]),
         "approved_pct": pct([r["outcome"] == "approved" for r in records]),
@@ -185,6 +236,7 @@ def markdown(summary: dict) -> str:
     lines = [f"# Agent evaluation — {summary['mode']} ({summary['finished_at']})", "",
              f"{summary['moments']} moments, {summary['overlays']} overlays (personas × languages × clubs).", "",
              "| Metric | Value |", "| --- | --- |",
+             f"| Valid first drafts / missing first drafts | {summary['raw_drafts']} / {summary['missing_raw_drafts']} |",
              f"| Raw writer numeric faithfulness (before Verifier) | {summary['raw_numeric_faithfulness_pct']}% |",
              f"| Published numeric faithfulness (after Verifier) | {summary['final_numeric_faithfulness_pct']}% |",
              f"| Approved agent overlays | {summary['approved_pct']}% |",
@@ -241,23 +293,31 @@ async def main_async(args) -> dict:
     config = AgentConfig.from_env()
     library = MatchLibrary(Settings().data_dir, max_loaded=2)
     tools = EvidenceTools(library)
-    fast = create_model(config, "fast")
-    strong = create_model(config, "strong") if "strong" in {config.analyst_model_role, config.verifier_model_role} else None
+    fast = MeasuredModel(create_model(config, "fast"))
+    strong = MeasuredModel(create_model(config, "strong")) if "strong" in {config.analyst_model_role, config.verifier_model_role} else None
     budget = DailyTokenBudget(args.token_cap)
     rng = random.Random(args.seed)
     rows = load_rows(args.limit, args.seed)
     records: list[dict] = []
     started = time.time()
+    tpm = getattr(args, 'tpm', 24000)
+    pacer = TokenPacer(budget, tpm) if args.mode == 'foundry' else None
+    RESULTS.mkdir(parents=True, exist_ok=True)
+    stamp = time.strftime("%Y%m%d-%H%M%S", time.gmtime())
+    out = RESULTS / f"{stamp}-{args.mode}.json"
     try:
+        for model in {fast, strong} - {None}:
+            await model.prepare()
         for i, row in enumerate(rows, 1):
             got = await eval_moment(row, library=library, tools=tools, fast=fast, strong=strong, config=config,
-                                    budget=budget, inject=args.inject, rng=rng)
-            for r in got:
-                r["facts"] = row["facts"]
+                                    budget=budget, inject=args.inject, rng=rng, pacer=pacer)
             records.extend(got)
+            if not args.no_write:
+                out.write_text(json.dumps({'complete': False, 'mode': args.mode, 'moments_completed': i,
+                                           'tokens_used': budget.used, 'records': records}, ensure_ascii=False, indent=1), encoding='utf-8')
             if not args.quiet:
                 print(f"[eval] {i}/{len(rows)} {row['match_id']} {row['moment_id']} {row['type']:16} "
-                      f"{sum(r['outcome'] == 'approved' for r in got)}/{len(got)} approved")
+                      f"{sum(r['outcome'] == 'approved' for r in got)}/{len(got)} approved; {budget.used} charged tokens", flush=True)
     finally:
         for model in {fast, strong} - {None}:
             if hasattr(model, "aclose"):
@@ -265,18 +325,23 @@ async def main_async(args) -> dict:
     meta = {"mode": args.mode, "inject": args.inject, "seed": args.seed, "limit": args.limit,
             "fast_model": getattr(fast, "name", None), "strong_model": getattr(strong, "name", None),
             "tokens_used": budget.used, "seconds": round(time.time() - started, 1),
+            "token_cap": args.token_cap, "outstanding_tokens": budget.reserved, "budget_denied_calls": budget.denied,
+            "reported_tokens": sum(m.reported_tokens for m in {fast, strong} - {None}),
+            "unknown_usage_calls": sum(m.unknown_usage_calls for m in {fast, strong} - {None}),
+            "model_requests": sum(m.requests for m in {fast, strong} - {None}),
+            "pacing_tpm": tpm if pacer else None,
+            "deadlines_s": {k: getattr(config, k + '_timeout_s') for k in ('analyst', 'writer', 'verifier')},
+            "analyst_model_role": config.analyst_model_role, "verifier_model_role": config.verifier_model_role,
+            "tools_transport": type(tools).__name__,
             "finished_at": time.strftime("%Y-%m-%d %H:%M UTC", time.gmtime())}
     summary = summarise(records, meta)
-    RESULTS.mkdir(parents=True, exist_ok=True)
-    stamp = time.strftime("%Y%m%d-%H%M%S", time.gmtime())
-    out = RESULTS / f"{stamp}-{args.mode}.json"
     if args.foundry_evaluators:
         try:
             summary["foundry_evaluators"] = run_foundry_evaluators(records, out)
         except Exception as exc:  # optional extra: never lose the main result
             summary["foundry_evaluators_error"] = f"{type(exc).__name__}: {str(exc)[:200]}"
     if not args.no_write:
-        out.write_text(json.dumps({"summary": summary, "records": records}, ensure_ascii=False, indent=1), encoding="utf-8")
+        out.write_text(json.dumps({"complete": True, "summary": summary, "records": records}, ensure_ascii=False, indent=1), encoding="utf-8")
         (RESULTS / "latest.md").write_text(markdown(summary), encoding="utf-8")
     print(markdown(summary))
     return summary
@@ -289,18 +354,24 @@ def main(argv=None) -> int:
     ap.add_argument("--inject", type=float, default=0.0, help="share of first drafts given an invented number")
     ap.add_argument("--seed", type=int, default=7)
     ap.add_argument("--token-cap", type=int, default=3_000_000)
+    ap.add_argument("--tpm", type=int, default=24000, help="charged token pacing for sequential Foundry slots")
+    ap.add_argument("--env-file", type=Path, help="private Foundry settings; values are never logged")
     ap.add_argument("--foundry-evaluators", action="store_true", help="also run azure-ai-evaluation quality evaluators")
     ap.add_argument("--no-write", action="store_true")
     ap.add_argument("--quiet", action="store_true")
     args = ap.parse_args(argv)
+    if args.token_cap <= 0 or args.tpm <= 0 or args.limit < 0 or not 0 <= args.inject <= 1:
+        ap.error('Token limits must be positive, limit non-negative, and injection between 0 and 1')
     if args.mode == "foundry":
         try:
             from dotenv import load_dotenv
             load_dotenv(ROOT / ".env")
+            if args.env_file:
+                load_dotenv(args.env_file, override=True)
         except ImportError:
             pass
     summary = asyncio.run(main_async(args))
-    return 0 if summary["final_numeric_faithfulness_pct"] == 100.0 else 1
+    return 0 if summary["all_published_faithful"] and summary['outstanding_tokens'] == 0 else 1
 
 
 if __name__ == "__main__":

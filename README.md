@@ -10,7 +10,7 @@ built on Microsoft Foundry, Agent Framework, Azure Event Hubs, Cosmos DB and Con
 Backend complete and integrated (Owners A, B, C): simulator → Event Hubs → analytics → Foundry agents
 (Producer, Analyst over MCP, persona writers, Verifier with repair, Recap) → verified overlays on WebSockets,
 a public overlay feed and match recaps. Personas: Beginner, Tactical, Player Focus, Favorite Club; English and
-Arabic. 559 offline tests. See [docs/INTEGRATION.md](docs/INTEGRATION.md); frontend contract in
+Arabic. 573 offline tests. See [docs/INTEGRATION.md](docs/INTEGRATION.md); frontend contract in
 [docs/HANDOFF_OWNER_D.md](docs/HANDOFF_OWNER_D.md).
 
 ## Repository layout
@@ -45,6 +45,22 @@ python -m evals.run_agent_eval --mode stub --inject 0.3    # Verifier gate, offl
 
 `./deployment/deploy.ps1 -Location <allowed-region> -Image ghcr.io/<owner>/<repo>-backend:latest` —
 see [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md). Images are built, smoke-tested and published by GitHub Actions.
+
+## Agents, MCP and Foundry
+
+The Producer plans overlays by persona, language and favorite club. The Analyst
+reads verified match evidence; persona writers draft the copy, and the Verifier
+checks contracts, numbers, names and evidence before its semantic check. A
+rejected draft gets one repair attempt, then a checked template fallback. Agents
+use measured facts rather than calculating football statistics.
+
+The Analyst can read the same evidence in-process or through the five read-only
+MCP tools mounted at `/mcp/` (`AGENT_TOOLS=mcp`). Microsoft Agent Framework calls
+the configured Foundry fast/strong deployments with a shared token budget;
+authentication supports Entra ID or a private resource key for cross-tenant
+deployment. Cached demo overlays and recaps play without model calls. See
+[Owner C's implementation notes](docs/OWNER_C.md) and the
+[evaluation report](docs/OWNER_C_STEP5.md) for measured results and run settings.
 
 ## Docs
 
