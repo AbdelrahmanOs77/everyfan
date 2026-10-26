@@ -53,13 +53,19 @@ def review_sample(derby, tmp_path):
     return bundle.save(tmp_path), derby
 
 
-def test_review_exports_stable_ids_and_rejects_invented_numbers(review_sample):
+@pytest.mark.parametrize('invented', ['999999', 'و999999'])
+def test_review_exports_stable_ids_and_rejects_invented_numbers(review_sample, invented):
     path, match = review_sample
     report = review_bundle(path, match, require_complete=False)
     assert report['valid']
     assert 'ov_mom_044_tactical_ar' in path.with_name('arabic_review.txt').read_text(encoding='utf-8')
     raw = json.loads(path.read_text(encoding='utf-8'))
-    next(i for i in raw['items'] if i['type'] == 'overlay')['data']['body'] = '999999'
+    diagnostic = next(i for i in raw['items'] if i['type'] == 'overlay')['data']
+    diagnostic['fields']['reason_codes'] = 'REJECTED,SCHEMA'
+    diagnostic['fields']['attempts'] = 2
+    path.write_text(json.dumps(raw), encoding='utf-8')
+    assert review_bundle(path, match, require_complete=False)['valid']
+    next(i for i in raw['items'] if i['type'] == 'overlay')['data']['body'] = invented
     path.write_text(json.dumps(raw), encoding='utf-8')
     assert any('NUMBER_NOT_IN_EVIDENCE' in error for error in review_bundle(path, match, require_complete=False)['errors'])
 

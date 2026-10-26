@@ -1,10 +1,12 @@
 # Owner C go-live plan
 
-Prepared 26 October 2026. The user approved this plan, then narrowed the active
-scope to Step 3 Owner C after Owner A completed Steps 1–2. Demo recording and
-evaluation work beyond the required offline gate are deferred.
+Prepared 26 October 2026. The user approved this plan, completed Owner C's Foundry
+preparation in Step 3, then explicitly requested Steps 4a and 4b. The real-agent
+demo recording and AI Arabic editorial review are complete; human native-speaker
+signoff remains pending. See `docs/OWNER_C_STEP4.md` for results and artifacts.
+Evaluation work beyond the required offline gate is deferred.
 
-## Active scope: Step 3 Owner C
+## Previous checkpoint: Step 3 Owner C
 
 - The team's integration is merged at `0f67460`; the local go-live branch now
   starts from that commit. Existing reports are preserved.

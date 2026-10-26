@@ -2,6 +2,7 @@
 
 import argparse
 import json
+import re
 from collections import Counter
 from pathlib import Path
 
@@ -12,7 +13,20 @@ from backend.api.demo import DemoBundle, fingerprint
 from .names import NameAllowlist
 from .producer import produce
 from .recap import Recap, RecapText, deterministic_recap, verify_recap
-from .verifier import DIGITS, NUMBER, brief_from_moment, verify
+from .verifier import DIGITS, brief_from_moment, numeric_values, number_supported, verify
+
+# Arabic conjunctions can touch a digit (e.g. و7); identifiers are not display copy.
+DISPLAY_NUMBER = re.compile(r'(?<!\d)[+-]?\d+(?:[.,]\d+)*(?:[eE][+-]?\d+)?\s*[%٪]?')
+
+
+def _content_draft(raw):
+    # Workflow.cached uses the same separation: these are code-owned diagnostics.
+    return {**raw, 'fields': {k: v for k, v in raw['fields'].items() if k not in {'reason_codes', 'attempts'}}}
+
+
+def _name_spelling(text):
+    # Accept diacritic/ya spelling repairs of the same name, never a different entity.
+    return re.sub(r'[\u064b-\u065f\u0670]', '', text).replace('ى', 'ي')
 
 
 def review_bundle(path, match, *, require_complete=True):
@@ -41,9 +55,13 @@ def review_bundle(path, match, *, require_complete=True):
         if moment is None:
             errors.append(f'{overlay.overlay_id}: unknown moment')
             continue
-        verdict = verify(overlay.model_dump(), brief_from_moment(moment), moment, names, overlay.persona)
+        verdict = verify(_content_draft(overlay.model_dump()), brief_from_moment(moment), moment, names, overlay.persona)
         if verdict.status != 'approved':
             errors.append(f'{overlay.overlay_id}: {verdict.reason_code}: {verdict.detail}')
+        allowed = numeric_values(moment.verified_facts) + [moment.game_clock_s // 60 + 1]
+        if any(not number_supported(m.group(), allowed) for m in DISPLAY_NUMBER.finditer(
+                (overlay.headline + '\n' + overlay.body).translate(DIGITS))):
+            errors.append(f'{overlay.overlay_id}: NUMBER_NOT_IN_EVIDENCE in display copy')
         if item['game_time_s'] != overlay.show_at_s:
             errors.append(f'{overlay.overlay_id}: inconsistent playback time')
         if ((overlay.source, overlay.verification_status) not in {('agent', 'approved'), ('template', 'fallback')}
@@ -96,23 +114,35 @@ def apply_arabic_edits(path, match, edits):
     names = NameAllowlist(match.metadata)
     moments = {m.moment_id: m for m in MatchEvidence(match.metadata, match.events, match.frames).moments}
     overlays = {i['data']['overlay_id']: i['data'] for i in raw['items'] if i['type'] == 'overlay'}
-    changes = []
+    targets = overlays | raw.get('recaps', {})
+    audit = path.with_name('arabic_changes.json')
+    changes = json.loads(audit.read_text(encoding='utf-8')) if audit.exists() else []
     for oid, fields in edits.items():
-        if oid not in overlays or overlays[oid]['language'] != 'ar' or not fields or set(fields) - {'headline', 'body'}:
+        if oid not in targets or targets[oid]['language'] != 'ar' or not fields or set(fields) - {'headline', 'body'}:
             raise ValueError(f'{oid}: edits must target Arabic headline/body only')
-        original = overlays[oid].copy()
+        original = targets[oid].copy()
+        if all(original.get(k) == v for k, v in fields.items()):
+            continue
         changed = original | fields
         before, after = (o['headline'] + '\n' + o['body'] for o in (original, changed))
-        numbers = lambda text: Counter(m.group().strip() for m in NUMBER.finditer(text.translate(DIGITS)))
+        numbers = lambda text: Counter(m.group().strip() for m in DISPLAY_NUMBER.finditer(text.translate(DIGITS)))
         if numbers(before) != numbers(after):
             raise ValueError(f'{oid}: edits must preserve numbers')
-        if any(before.count(name) != after.count(name) for name in names.allowed):
+        if any(_name_spelling(before).count(_name_spelling(name)) != _name_spelling(after).count(_name_spelling(name))
+               for name in names.allowed):
             raise ValueError(f'{oid}: edits must preserve metadata names')
-        moment = moments[original['moment_id']]
-        verdict = verify(changed, brief_from_moment(moment), moment, names, original['persona'])
-        if verdict.status != 'approved':
-            raise ValueError(f'{oid}: {verdict.reason_code}')
-        overlays[oid].update(fields)
+        if oid in overlays:
+            moment = moments[original['moment_id']]
+            verdict = verify(_content_draft(changed), brief_from_moment(moment), moment, names, original['persona'])
+            if verdict.status != 'approved':
+                raise ValueError(f'{oid}: {verdict.reason_code}')
+        else:
+            base = deterministic_recap(match.metadata, list(overlays.values()), persona=original['persona'],
+                                       language='ar', club_id=original.get('club_id'), until_s=original['until_s'])
+            reason = verify_recap(RecapText(headline=changed['headline'], body=changed['body']), base, names)
+            if reason:
+                raise ValueError(f'{oid}: {reason}')
+        targets[oid].update(fields)
         changes.append({'id': oid, 'before': {k: original[k] for k in fields}, 'after': fields})
     # Recap evidence excerpts follow the reviewed overlay wording; IDs and facts stay fixed.
     for recap in raw.get('recaps', {}).values():
@@ -125,7 +155,7 @@ def apply_arabic_edits(path, match, edits):
     temporary = path.with_suffix('.reviewed.tmp')
     temporary.write_text(json.dumps(raw, ensure_ascii=False, indent=1), encoding='utf-8')
     temporary.replace(path)
-    path.with_name('arabic_changes.json').write_text(json.dumps(changes, ensure_ascii=False, indent=2), encoding='utf-8')
+    audit.write_text(json.dumps(changes, ensure_ascii=False, indent=2), encoding='utf-8')
     return changes
 
 

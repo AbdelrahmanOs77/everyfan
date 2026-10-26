@@ -41,8 +41,12 @@ numbers, timing, source provenance, RTL direction and recap evidence. It exports
 `arabic_review.txt` and `arabic_review.json` with stable IDs and timestamps.
 
 Wording corrections go through `apply_arabic_edits`: only Arabic headlines and
-bodies may change. Every numeric token and metadata name must remain present
-with its original count, and each edited overlay must pass the verifier again.
+bodies may change. Every numeric token and player/team identity must remain
+present with its original count, and each edited overlay must pass the verifier
+again. Diacritic/ya spelling variants can be corrected to metadata `name_ar`;
+changing the underlying name is rejected. Digits attached to Arabic conjunctions
+are checked too. Code-owned diagnostic fields are excluded from football-copy
+entity checks, consistently with the existing workflow cache validator.
 Original copy is preserved in `match_001.pre-arabic-review.bundle.json`; the
 changes are recorded in `arabic_changes.json`. Recap evidence excerpts follow
 the reviewed overlay wording while their IDs and facts stay fixed.
@@ -50,8 +54,53 @@ the reviewed overlay wording while their IDs and facts stay fixed.
 The assistant performs an AI editorial review. Native-speaker human signoff is
 a separate review status and must not be inferred from automated checks.
 
-## Result status
+## Verified result
 
-Recording and final Arabic review are in progress. Final measured counts,
-artifact verification and local API delivery results will be recorded here
-after completion. Output remains under `.venv/demo-agents/` for review.
+| Check | Result |
+| --- | --- |
+| Match / scenario | `match_001` / `derby_balanced` |
+| Recorded moments | 209 |
+| Recorded overlays | 218 |
+| Real agent-approved overlays | 146 (67.0%) |
+| Checked template fallbacks | 72 |
+| Approved agent recaps | 10 |
+| Pipeline errors / outstanding token reservations | 0 / 0 |
+| Arabic items read | 114 (109 overlays and five recaps) |
+| Arabic items corrected | 70 (65 overlays and five recaps) |
+| Full artifact evidence checks | Passed, no errors |
+| Original-to-reviewed integrity | Numeric tokens, identities and protected fields preserved |
+| Local API feed | All 218 overlays served |
+| Local API recaps | All ten served as `agent/approved`, correct language/direction |
+| Arabic WebSocket delivery | `ov_mom_044_tactical_ar`, with inference off |
+| Full offline tests | 565 passed |
+| Pyflakes | Clean for backend/shared/tests/evals |
+| Required offline injected-number evaluation | 100.0% published numeric faithfulness |
+
+The first recap attempts exceeded the 600-character body limit. The new versioned
+`recap_v2.md` prompt targets a short character budget without relaxing validation.
+Only missing recaps were retried; the expensive overlay recording was preserved.
+The final ten recaps use `recap_v2`.
+
+Recording plus recap retries charged 548,628 tokens. Including the bounded pilot
+and the separately reported recap diagnostic call, accounting totals 577,667
+tokens, below the configured recording cap. Conservative unknown-usage charges
+are included; this is not a billing export. Recording/retry execution took
+1,363.4 seconds, excluding editorial review and local tests.
+
+Arabic corrections included grammar, natural football terminology, the distinction
+between pass difficulty and accuracy, median timing terminology, mistaken outcome
+descriptions, misleading possession wording, and unsupported offside/motivation
+claims. Numeric values, evidence IDs, persona/club identities, timing and source
+provenance were preserved. The original copy and complete correction audit remain
+available locally.
+
+Artifacts are in `.venv/demo-agents/`: `match_001.bundle.json`,
+`arabic_review.txt`, `arabic_review.json`, `arabic_changes.json`,
+`verification-report.json`, `api-verification.json`, `review-integrity.json` and
+`recording-summary.json`.
+The final bundle SHA-256 is
+`df33a43d026ec893ec31160b7eb6a70d13a57ed7c8aff977f853ba03cc3fa768`.
+
+**Review status:** AI editorial review completed. Human native-speaker signoff
+remains pending. The bundle is prepared for the Step 4b human check and subsequent
+Step 4c handoff; no production demo publication is part of this work.
