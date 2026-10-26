@@ -3,7 +3,9 @@
 Prepared 26 October 2026. The user approved this plan, completed Owner C's Foundry
 preparation in Step 3, then explicitly requested Steps 4a and 4b. The real-agent
 demo recording, AI Arabic editorial review and the user's native Arabic signoff
-are complete. See `docs/OWNER_C_STEP4.md` for results and artifacts.
+are complete. The user subsequently authorized Step 4c: ship the approved bundle
+through a pull request, then hand off merge/deployment to Owner A. See
+`docs/OWNER_C_STEP4.md` and `docs/OWNER_C_STEP4C.md` for results and handoff.
 Evaluation work beyond the required offline gate is deferred.
 
 ## Previous checkpoint: Step 3 Owner C

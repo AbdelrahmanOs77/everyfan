@@ -4,6 +4,7 @@ import asyncio
 import json
 
 import pytest
+from fastapi.testclient import TestClient
 
 from backend.agents.record_demo import RecordingContext
 from backend.api.hub import ViewerHub
@@ -12,7 +13,9 @@ from backend.agents.review_demo import apply_arabic_edits, review_bundle
 from backend.agents.names import NameAllowlist
 from backend.agents.templates import template_overlays
 from backend.api.demo import DemoBundle, fingerprint
+from backend.api.main import create_app
 from tests.test_agents_templates import ROWS, eval_moment
+from tests.test_api import make_settings
 
 
 def test_recording_drain_timeout_rejects_partial_work():
@@ -94,3 +97,21 @@ def test_review_rejects_partial_bundle_as_complete(review_sample):
     path, match = review_sample
     report = review_bundle(path, match)
     assert not report['valid'] and any('Incomplete' in error for error in report['errors'])
+
+
+def test_shipping_demo_health_and_cached_recaps(tmp_path, monkeypatch):
+    monkeypatch.setenv('AGENT_MODE', 'off')
+    with TestClient(create_app(make_settings(tmp_path))) as client:
+        health = client.get('/api/health').json()
+        demo = next(b for b in health['demo_bundles'] if b['match_id'] == 'match_001')
+        assert not demo['stale'] and demo['overlay_sources']['agent/approved'] > 0
+        bundle = client.app.state.demo.bundles['match_001']
+        assert demo['recaps'] == len(bundle.recaps) == 10
+        for stored in bundle.recaps.values():
+            assert stored['source'] == 'agent' and stored['verification_status'] == 'approved'
+            params = {'source': 'demo', 'persona': stored['persona'], 'lang': stored['language']}
+            if stored.get('club_id'):
+                params['club'] = stored['club_id']
+            response = client.get('/api/matches/match_001/recap', params=params)
+            assert response.status_code == 200 and response.json() == stored
+            assert response.json()['dir'] == ('rtl' if stored['language'] == 'ar' else 'ltr')

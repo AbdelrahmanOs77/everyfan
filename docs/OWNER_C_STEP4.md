@@ -104,5 +104,6 @@ The final bundle SHA-256 is
 **Review status:** Steps 4a and 4b complete. The user identified themselves as an
 Arabic speaker and approved the reviewed copy with “it is good”. Human Arabic
 signoff is recorded for the bundle hash above in `native-arabic-signoff.json`.
-The approved bundle is ready for the Step 4c handoff; no production demo
-publication is part of this work.
+The approved bundle is now staged for shipping in `demo/match_001.bundle.json`.
+See `OWNER_C_STEP4C.md` for validation and Owner A's merge/deployment checklist.
+Production deployment remains pending.

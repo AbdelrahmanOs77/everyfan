@@ -202,7 +202,9 @@ def test_overlay_feed_demo_then_live(client):
     assert client.get("/api/matches/match_001/overlays", params={"source": "demo"}).json()["source"] == "demo"
 
 
-def test_recap_route(client):
+def test_recap_route_without_stored_recaps(client):
+    # Exercise deterministic fallback independently of the shipped demo's cache.
+    client.app.state.demo.bundles["match_001"].recaps.clear()
     r = client.get("/api/matches/match_001/recap", params={"persona": "player", "lang": "ar"}).json()
     assert r["dir"] == "rtl" and r["final"] and r["feed_source"] == "demo" and r["source"] == "template"
     r = client.get("/api/matches/match_001/recap", params={"persona": "club", "lang": "en", "club": "nile_fc"}).json()
