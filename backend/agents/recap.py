@@ -27,7 +27,7 @@ from .templates import ALL_PERSONAS, LANGUAGES
 from .verifier import DIGITS, NUMBER, _disrespectful, _mentions, _unknown_entity, number_supported, numeric_values
 
 log = logging.getLogger(__name__)
-PROMPT = Path(__file__).with_name("prompts") / "recap_v1.md"
+PROMPT = Path(__file__).with_name("prompts") / "recap_v2.md"
 MAX_KEY_MOMENTS = 8
 
 
@@ -214,4 +214,4 @@ async def build_recap(meta: MatchMetadata, overlays: list[dict], *, persona: str
         return base.model_copy(update={"reason_code": reason})
     return base.model_copy(update={"headline": text.headline, "body": text.body, "source": "agent",
                                    "verification_status": "approved", "model": getattr(model, "name", None),
-                                   "prompt_version": "recap_v1", "reason_code": None})
+                                   "prompt_version": "recap_v2", "reason_code": None})
