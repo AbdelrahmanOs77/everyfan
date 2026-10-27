@@ -411,6 +411,8 @@ class _Track:
     speeds: list[float] = field(default_factory=list)
     distance_m: float = 0.0
     top_speed_kmh: float = 0.0
+    smoothed_speed_kmh: float | None = None
+    step_distance_m: float | None = None
 
 
 class PlayerTracker:
@@ -438,8 +440,11 @@ class PlayerTracker:
             if tr is None:
                 self.tracks[p.player_id] = _Track(p.x_m, p.y_m, f.period, f.frame)
                 continue
+            tr.smoothed_speed_kmh = None
+            tr.step_distance_m = None
             if tr.period == f.period and f.frame - tr.frame == 1:
                 d = math.dist((tr.x, tr.y), (p.x_m, p.y_m))
+                tr.step_distance_m = d
                 before = tr.distance_m
                 tr.distance_m += d
                 tr.speeds.append(d / self.dt * 3.6)
@@ -447,6 +452,7 @@ class PlayerTracker:
                     tr.speeds.pop(0)
                 if len(tr.speeds) == self.n:
                     smooth = sum(tr.speeds) / self.n
+                    tr.smoothed_speed_kmh = smooth
                     tr.top_speed_kmh = max(tr.top_speed_kmh, smooth)
                     if smooth > self.sprint_kmh and p.player_id not in self.sprinted:
                         self.sprinted.add(p.player_id)

@@ -112,7 +112,8 @@ async def advanced_match_stats(request: Request, match_id: str,
 
     _limit(request)
     ev = await get_match_evidence(request, match_id)
-    return await asyncio.to_thread(advanced_stats, ev.meta, ev.events, at_s=at_s, window_s=window_s, cfg=ev.cfg)
+    return await asyncio.to_thread(advanced_stats, ev.meta, ev.events, at_s=at_s, window_s=window_s,
+                                   cfg=ev.cfg, tracking_index=ev.tracking)
 
 
 @router.get("/api/matches/{match_id}/players/{player_id}/stats")

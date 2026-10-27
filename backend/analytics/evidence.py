@@ -25,6 +25,7 @@ from .config import load_config
 from .engine import MatchAnalytics, PlayerTracker, minute_of, r1
 from .moments import MomentDetector, rule_descriptions
 from .tracking_index import PlayerPositions
+from .advanced import TrackingMetricsIndex
 
 METRICS = ("possession_pct", "pass_accuracy_pct", "ppda", "control_index", "shots", "passes",
            "chaos_index", "turnovers_per_min", "passes_per_min")
@@ -65,12 +66,14 @@ class MatchEvidence:
         det = MomentDetector(meta, self.cfg)
         self.timelines: dict[str, _Timeline] = {}
         self.positions: dict[str, PlayerPositions] = {}
+        self.tracking = TrackingMetricsIndex(meta, self.cfg)
         last_sec = -1
         for kind, obj in replay_order(events, frames):
             if kind == "event":
                 det.update(obj)
             else:
                 det.update_tracking(obj)
+                self.tracking.append(obj, det.tracker)
                 for point in obj.players:
                     if point.player_id not in self.positions:
                         self.positions[point.player_id] = PlayerPositions()

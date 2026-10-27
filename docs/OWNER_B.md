@@ -69,6 +69,100 @@ rolling window `(t − 300 s, t]`. Every value below lives in `config.yaml`.
 | 54–67′ | 70% | 1.7 |
 | 80–90′ | 45% | 2.2 |
 
+## Selected-window tracking metrics
+
+`advanced.py` adds deterministic team shape and per-player high-intensity
+measurements to **both** `advanced-stats` and `fan-stats`, under the same
+top-level `tracking` object. Calculations use `(at_s - window_s, at_s]`; the
+whole-match tracking window (`window_s=5400`) also includes the kickoff sample.
+There is no browser-side metric calculation and no change to frozen contracts.
+
+| Metric | Formula | Configuration / unit |
+| --- | --- | --- |
+| Mean team width | For each selected frame, `max(y) - min(y)` over its observed outfield players; arithmetic mean of those frame widths | metres |
+| Mean team length | For each selected frame, `max(x) - min(x)` over its observed outfield players; arithmetic mean of those frame lengths | metres |
+| Defensive line height | Convert each outfield x-coordinate to depth from own goal: home `x`, away `pitch_length_m - x`. Average the four smallest depths per frame, then average those frame values | `metrics.team_shape.defensive_line_players: 4`; metres |
+| Distance above threshold | Sum actual frame-to-frame path displacements whose existing smoothed speed at the interval endpoint is **strictly greater than 19.8 km/h**; prorate the first qualifying interval if the window boundary cuts through it | `metrics.high_intensity.distance_threshold_kmh: 19.8`; metres |
+| Sprints | Count continuous above-25.2-km/h bouts **once** when their accumulated sampled duration first becomes **strictly greater than 1 s**, provided that qualification endpoint is in the selected window | `metrics.high_intensity.sprint_threshold_kmh: 25.2`, `sprint_min_duration_s: 1.0`; count |
+
+Goalkeepers are excluded by metadata `position == "GK"`, not by shirt number or
+coordinates. Only players actually present in a frame contribute; substituted
+or sent-off players never acquire invented positions. Frames without outfield
+players supply no shape measurement. A frame with fewer than four outfield
+players supplies width/length but no defensive-line sample. Each valid frame has
+equal weight. Home attacks toward increasing x and away toward decreasing x in
+both halves, matching the simulator's coordinate convention.
+
+High-intensity measurements reuse the **unrounded existing three-frame moving
+average** and the same frame displacement already computed by `PlayerTracker`.
+Each speed sample classifies its preceding 0.5-second interval. The first speed
+requires three consecutive valid steps (four positions); warm-up has no smoothed
+speed. Distance uses the actual path length, not smoothed speed multiplied by
+time. Only intervals ending at or before `at_s` qualify; a future interval is
+never partially consumed. Within an observed interval, its distance contribution
+is proportional to its overlap with the selected window.
+
+A speed at or below the sprint threshold, missing frame IDs, a player leaving
+the tracked frame sequence, or a period change breaks a sprint bout. After a
+gap/half change, speed smoothing warms up again. At 2 Hz, two eligible intervals
+give exactly 1 s and do **not** qualify; the third gives 1.5 s and qualifies once.
+Ongoing bouts do not require a future end frame. History before the left boundary
+is retained for continuity: a bout that qualified before the window does not
+count again, while one that first qualifies inside it counts once. This metric
+is separate from the existing once-per-player sprint badge above 30 km/h.
+
+No complete smoothed speed samples in a selected window means `null`, displayed
+as a dash; observed low-speed samples produce real zeros. The same rule applies
+to absent team-shape samples. These are measurements from synthetic tracking,
+not player ratings or predictions.
+
+Response layout:
+
+```text
+tracking
+  at_s / window_start_s / window_s
+  thresholds                       the three configured high-intensity thresholds
+  defensive_line_players
+  teams[team_id]
+    mean_width_m / mean_length_m / defensive_line_height_m
+    defensive_line_sample_count
+    evidence                       first_frame, last_frame, from_s, to_s, sample_count
+  players[player_id]
+    distance_above_threshold_m / sprints / speed_sample_count
+    window_evidence                selected frame range
+    evidence                       causal source frame range, including prior history
+```
+
+Source ranges always end at a known frame, never a future one. Player ranges
+include earlier tracking needed to reconstruct smoothing and bout continuity.
+Raw coordinates remain available through the paginated
+`/api/matches/{id}/players/{pid}/tracking-samples?at_s=&window_s=&offset=&limit=`
+endpoint; follow `next_offset` for the complete range. Team shape provides
+per-player source links and excludes the goalkeeper using match metadata.
+Frame IDs describe a bounded range, not a promise that missing frames exist.
+
+`TrackingMetricsIndex` caches compact per-frame shape means and cumulative
+intensity values during the existing evidence replay. Window queries use binary
+search and prefix differences. The sprint state is captured at each frame;
+future frames cannot retroactively qualify an earlier window.
+
+Hand-calculated checks in `tests/test_agents_tracking_metrics.py` cover mirrored
+directions, goalkeeper exclusion, strict thresholds and duration, fractional
+window overlap, multiple bouts, warm-up/gaps/half changes, left boundaries,
+missing data, both REST responses and future-frame exclusion. The UI shows a
+**Team shape** card in Tactical and **High-intensity performance** in Player,
+with selectable one-, five-, fifteen-minute or match-so-far intensity windows.
+
+Verification on 27 October 2026: the full Python suite passes **612 tests**;
+Pyflakes is clean; the frontend production build and formatting pass. The
+required stub evaluation reports **100% published numeric faithfulness (236/236)**
+and catches all **80** injected invented-number drafts without real model calls.
+All **9 browser scenarios** are verified: the original eight pass unchanged;
+the added tracking-card scenario passes after correcting its evidence-panel
+interaction. It checks both teams, all four shape/intensity windows, raw-source
+links, English/Arabic accessibility and narrow mobile layout. A local proxy
+smoke check also confirms identical tracking payloads from both endpoints.
+
 ## Badges (plan 6.2) → `player_milestone` moments
 
 | Badge (`verified_facts.badge`) | Trigger | Facts |

@@ -99,7 +99,7 @@ def test_advanced_endpoint_validates_bounds_and_returns_snapshot(derby, actions,
     async def evidence(_request, match_id):
         if match_id != "match_001":
             raise HTTPException(404, "unknown match")
-        return SimpleNamespace(meta=derby.metadata, events=actions, cfg=load_config())
+        return SimpleNamespace(meta=derby.metadata, events=actions, cfg=load_config(), tracking=None)
 
     monkeypatch.setattr(api, "get_match_evidence", evidence)
     app = FastAPI()

@@ -25,6 +25,12 @@ metrics:
   player_speed:
     frame_dt_s: 0.5          # tracking is 2 Hz
     smoothing_frames: 3      # moving average of instantaneous speeds
+  team_shape:
+    defensive_line_players: 4  # deepest outfield players, measured from own goal
+  high_intensity:
+    distance_threshold_kmh: 19.8  # strictly greater, using existing smoothed speeds
+    sprint_threshold_kmh: 25.2    # strictly greater
+    sprint_min_duration_s: 1.0    # strictly longer; count once at qualification
   possession:
     # Time is credited to the team in possession since the last possession_change / kickoff.
     method: time_since_possession_change

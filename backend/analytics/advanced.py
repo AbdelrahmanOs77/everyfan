@@ -5,13 +5,142 @@ aggregate is calculated here, not by the browser. Spatial views retain event IDs
 """
 
 from collections import defaultdict
+from array import array
+from bisect import bisect_right
 import math
 
 from shared.schemas import MatchMetadata, SyntheticEvent
 
 from .engine import MatchAnalytics, r1
 
+TRACKING_DEFINITIONS = {
+    "team_shape": "Frame-wise outfield width=max(y)-min(y), length=max(x)-min(x), "
+                  "averaged over selected frames. Defensive line=mean depth of the four deepest outfield players; "
+                  "depth=x for home and pitch_length-x for away. Fewer than four yields no line sample.",
+    "high_intensity": "Distance sums actual path steps whose existing causal smoothed speed is strictly above "
+                      "the configured threshold, clipping the first interval to the window. Sprint bouts qualify "
+                      "once their continuous above-threshold duration is strictly longer than the configured minimum; "
+                      "count qualification endpoints in the selected window. Warm-up/gaps/half changes reset bouts.",
+    "tracking_evidence": "Window frame ranges identify measured samples. Player source ranges also include earlier "
+                         "frames needed to reproduce smoothing and sprint continuity; never include future frames.",
+}
+
+
+def _bounds(times, at, window):
+    return (0 if window == 5400 else bisect_right(times, at - window)), bisect_right(times, at)
+
+
+def _frame_range(times, frames, lo, hi):
+    if lo == hi:
+        return None
+    return {"first_frame": frames[lo], "last_frame": frames[hi - 1], "from_s": times[lo],
+            "to_s": times[hi - 1], "sample_count": hi - lo}
+
+
+class _ShapeTimeline:
+    def __init__(self):
+        self.times, self.frames = array("d"), array("i")
+        self.width, self.length, self.line = (array("d", [0]) for _ in range(3))
+        self.line_count = array("i", [0])
+
+    def append(self, frame, points, length, attacks_right, deepest):
+        if not points:
+            return
+        xs, ys = [p.x_m for p in points], [p.y_m for p in points]
+        depths = sorted(x if attacks_right else length - x for x in xs)
+        line = sum(depths[:deepest]) / deepest if len(depths) >= deepest else None
+        self.times.append(frame.game_clock_s)
+        self.frames.append(frame.frame)
+        self.width.append(self.width[-1] + max(ys) - min(ys))
+        self.length.append(self.length[-1] + max(xs) - min(xs))
+        self.line.append(self.line[-1] + (line if line is not None else 0))
+        self.line_count.append(self.line_count[-1] + (line is not None))
+
+    def window(self, at, window):
+        lo, hi = _bounds(self.times, at, window)
+        count, line_count = hi - lo, self.line_count[hi] - self.line_count[lo]
+        return {"mean_width_m": round((self.width[hi] - self.width[lo]) / count, 2) if count else None,
+                "mean_length_m": round((self.length[hi] - self.length[lo]) / count, 2) if count else None,
+                "defensive_line_height_m": round((self.line[hi] - self.line[lo]) / line_count, 2) if line_count else None,
+                "defensive_line_sample_count": line_count,
+                "evidence": _frame_range(self.times, self.frames, lo, hi)}
+
+
+class _IntensityTimeline:
+    def __init__(self, thresholds, dt):
+        self.thresholds, self.dt = thresholds, dt
+        self.times, self.frames = array("d"), array("i")
+        self.distance = array("d", [0])
+        self.sprints, self.valid = array("i", [0]), array("i", [0])
+        self.run_duration, self.qualified = 0.0, False
+
+    def append(self, frame, track):
+        speed, step = track.smoothed_speed_kmh, track.step_distance_m
+        valid = speed is not None and step is not None
+        thresholds = self.thresholds
+        distance = step if valid and speed > thresholds["distance_threshold_kmh"] else 0
+        qualified = False
+        if valid and speed > thresholds["sprint_threshold_kmh"]:
+            self.run_duration += self.dt
+            if self.run_duration > thresholds["sprint_min_duration_s"] and not self.qualified:
+                qualified = True
+                self.qualified = True
+        else:
+            self.run_duration, self.qualified = 0.0, False
+        self.times.append(frame.game_clock_s)
+        self.frames.append(frame.frame)
+        self.distance.append(self.distance[-1] + distance)
+        self.sprints.append(self.sprints[-1] + qualified)
+        self.valid.append(self.valid[-1] + valid)
+
+    def window(self, at, window):
+        lo, hi = _bounds(self.times, at, window)
+        distance = self.distance[hi] - self.distance[lo]
+        # A selected endpoint may represent a step partly before the left boundary.
+        if hi > lo:
+            fraction = min(1, max(0, (max(0, at - window) - (self.times[lo] - self.dt)) / self.dt))
+            distance -= (self.distance[lo + 1] - self.distance[lo]) * fraction
+        count = self.valid[hi] - self.valid[lo]
+        return {"distance_above_threshold_m": round(distance, 2) if count else None,
+                "sprints": self.sprints[hi] - self.sprints[lo] if count else None,
+                "speed_sample_count": count,
+                "window_evidence": _frame_range(self.times, self.frames, lo, hi),
+                "evidence": _frame_range(self.times, self.frames, 0, hi)}
+
+
+class TrackingMetricsIndex:
+    """Cache causal per-frame measures once; query windows with prefix sums."""
+
+    def __init__(self, meta, cfg):
+        self.meta, self.cfg = meta, cfg
+        self.players = {p.player_id: p for t in (meta.home, meta.away) for p in t.players}
+        self.shapes = {t.team_id: _ShapeTimeline() for t in (meta.home, meta.away)}
+        self.intensity = {pid: _IntensityTimeline(cfg["metrics"]["high_intensity"],
+                                                cfg["metrics"]["player_speed"]["frame_dt_s"])
+                          for pid in self.players}
+
+    def append(self, frame, tracker):
+        outfield = defaultdict(list)
+        for point in frame.players:
+            player = self.players.get(point.player_id)
+            if player is None or player.team_id != point.team_id:
+                continue
+            self.intensity[point.player_id].append(frame, tracker.tracks[point.player_id])
+            if player.position != "GK":
+                outfield[point.team_id].append(point)
+        for tid, shape in self.shapes.items():
+            shape.append(frame, outfield[tid], self.meta.pitch_length_m, tid == self.meta.home.team_id,
+                         self.cfg["metrics"]["team_shape"]["defensive_line_players"])
+
+    def window(self, at, window):
+        return {"at_s": at, "window_s": window, "window_start_s": max(0, at - window),
+                "thresholds": dict(self.cfg["metrics"]["high_intensity"]),
+                "defensive_line_players": self.cfg["metrics"]["team_shape"]["defensive_line_players"],
+                "teams": {tid: shape.window(at, window) for tid, shape in self.shapes.items()},
+                "players": {pid: row.window(at, window) for pid, row in self.intensity.items()}}
+
 DEFINITIONS = {
+    **TRACKING_DEFINITIONS,
     "forward_passes_10m": "Completed passes gaining at least 10 m along the team's attacking x direction; not a provider-standard progressive-pass model.",
     "final_third_entries": "Completed passes or carries crossing from outside into the attacking final third.",
     "box_entries": "Completed passes or carries crossing from outside into the opponent penalty box.",
@@ -109,7 +238,7 @@ def spatial_views(analytics, events, team_id, players):
 
 
 def advanced_stats(meta: MatchMetadata, events: list[SyntheticEvent], *, at_s: float = 5400,
-                   window_s: float = 300, cfg=None) -> dict:
+                   window_s: float = 300, cfg=None, tracking_index: TrackingMetricsIndex | None = None) -> dict:
     if not 0 <= at_s <= meta.match_duration_s or not 0 < window_s <= meta.match_duration_s:
         raise ValueError("at_s and window_s must be within match duration")
     known = [e for e in events if e.game_time_s <= at_s]
@@ -137,4 +266,5 @@ def advanced_stats(meta: MatchMetadata, events: list[SyntheticEvent], *, at_s: f
     return {"match_id": meta.match_id, "at_s": at_s, "window_s": window_s,
             "window_start_s": max(0, at_s - window_s), "definitions_version": "1.0",
             "definitions": DEFINITIONS, "teams": teams,
+            "tracking": tracking_index.window(at_s, window_s) if tracking_index else None,
             "evidence_event_ids": [e.event_id for e in current]}

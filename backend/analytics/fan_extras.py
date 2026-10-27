@@ -3,8 +3,10 @@
 from bisect import bisect_right
 
 from .engine import r1
+from .advanced import TRACKING_DEFINITIONS
 
 DEFINITIONS = {
+    **TRACKING_DEFINITIONS,
     "average_positions": "Arithmetic mean of actual tracking samples in (at_s - window_s, at_s]; "
                          "window_s=5400 includes kickoff. "
                          "original pitch coordinates, home attacks +x. Sample mean, not a formation or pass-location map.",
@@ -74,4 +76,5 @@ def fan_stats(ev, at_s=5400, window_s=300):
     return {"match_id": ev.match_id, "at_s": at_s, "window_s": window_s,
             "window_start_s": max(0.0, at_s - window_s), "definitions_version": "1.0",
             "definitions": DEFINITIONS, "teams": teams, "on_top": on_top(summaries),
-            "control_window_s": a.window_s, "momentum_timeline": timeline, "evidence_event_ids": known}
+            "control_window_s": a.window_s, "momentum_timeline": timeline, "evidence_event_ids": known,
+            "tracking": ev.tracking.window(at_s, window_s)}
