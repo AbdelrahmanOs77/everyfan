@@ -108,14 +108,22 @@ test('fan extras reconcile with evidence across all Tactical windows and both la
     }
     await page.locator('.language-switch select').selectOption('en');
   }
+  // Seeks resume playback. Slow it down so the picture stays near the target
+  // while evidence loads, rather than reaching the same goal again at 20x.
+  await page.getByRole('combobox', { name: 'Replay speed', exact: true }).selectOption('1');
+  await expect(page.getByRole('button', { name: 'Play', exact: true })).toBeVisible();
+  const beforeSeek = (await page.getByTestId('viewer-clock').innerText()).split(':').map(Number);
+  const target = beforeSeek[0]! * 60 + beforeSeek[1]! - 60;
   const backwards = page.waitForResponse((r) => {
     const at = Number(new URL(r.url()).searchParams.get('at_s'));
-    // A seek emits a reset at zero before the picture reaches its requested time.
-    return r.url().includes('/fan-stats?') && r.ok() && at > 0 && at < playerData.at_s;
+    // Catch-up emits intermediate historical clocks as well as a reset at zero.
+    return r.url().includes('/fan-stats?') && r.ok() && at >= target && at <= target + 2;
   });
   await page.locator('h1').focus();
   await page.keyboard.press('ArrowLeft');
   const earlier: FanStats = await (await backwards).json();
+  await page.getByRole('button', { name: 'Pause', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Play', exact: true })).toBeVisible();
   expect(earlier.at_s).toBeLessThan(playerData.at_s);
   await expect(page.locator('.momentum-panel .data-stamp')).toContainText(
     `${Math.floor(earlier.at_s / 60)
