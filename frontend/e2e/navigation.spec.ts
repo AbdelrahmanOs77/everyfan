@@ -120,9 +120,7 @@ test('all fan interfaces are accessible and responsive in English and Arabic', a
   }
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.getByRole('button', { name: 'Tactical', exact: true }).click();
-  expect(
-    await page.locator('.screen-content').evaluate((el) => getComputedStyle(el).animationName),
-  ).toBe('none');
+  await expect(page.locator('.screen-content')).toHaveCSS('animation-name', 'none');
   await page.setViewportSize({ width: 375, height: 812 });
   await page.addStyleTag({ content: 'body {zoom:1.5}' });
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
