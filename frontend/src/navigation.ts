@@ -1,9 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
-export type Screen = 'match' | 'perspectives' | 'insights' | 'lab' | 'feed';
-const screens: Screen[] = ['match', 'perspectives', 'insights', 'lab', 'feed'];
+export type Screen = 'beginner' | 'tactical' | 'player' | 'club' | 'perspectives' | 'lab' | 'feed';
+export const isFanScreen = (view: Screen): view is 'beginner' | 'tactical' | 'player' | 'club' =>
+  ['beginner', 'tactical', 'player', 'club'].includes(view);
+const screens: Screen[] = ['beginner', 'tactical', 'player', 'club', 'perspectives', 'lab', 'feed'];
 const currentScreen = (): Screen => {
-  const candidate = location.hash.slice(2) as Screen;
-  return screens.includes(candidate) ? candidate : 'match';
+  const raw = location.hash.slice(2);
+  const candidate = (
+    raw === 'match' ? 'beginner' : raw === 'insights' ? 'tactical' : raw
+  ) as Screen;
+  return screens.includes(candidate) ? candidate : 'beginner';
 };
 export function useNavigation() {
   const [view, setView] = useState(currentScreen);
@@ -11,7 +16,8 @@ export function useNavigation() {
   const scrollPositions = useRef(new Map<Screen, number>());
   const previous = useRef(view);
   useEffect(() => {
-    if (!location.hash.startsWith('#/')) history.replaceState(null, '', '#/match');
+    if (location.hash !== `#/${currentScreen()}`)
+      history.replaceState(null, '', `#/${currentScreen()}`);
     const change = () => {
       scrollPositions.current.set(previous.current, window.scrollY);
       const next = currentScreen();
@@ -36,9 +42,11 @@ export function useNavigation() {
 }
 export const screenCopy = {
   en: {
-    match: 'Match',
+    beginner: 'Beginner',
+    tactical: 'Tactical',
+    player: 'Player',
+    club: 'My club',
     perspectives: 'Perspectives',
-    insights: 'Insights',
     lab: 'Judge Lab',
     feed: 'Overlay feed',
     tagline: 'One match. Millions of stories.',
@@ -47,31 +55,39 @@ export const screenCopy = {
     synchronized: 'One clock. Four points of view.',
     measuredOnly: 'Measured facts from the match engine.',
     eyebrow: {
-      match: 'THE MATCHROOM',
+      beginner: 'THE GAME, MADE CLEAR',
+      tactical: 'THE ANALYST DESK',
+      player: 'YOUR PLAYER. EVERY DETAIL.',
+      club: 'FROM YOUR SIDE OF THE STANDS',
       perspectives: 'A DIFFERENT WAY TO SEE IT',
-      insights: 'BEHIND THE PLAY',
       lab: 'PUT IT TO THE TEST',
       feed: 'THE PUBLISHED RECORD',
     },
     titles: {
-      match: 'Your front-row seat.',
+      beginner: 'Enjoy the game. Understand the play.',
+      tactical: 'Look beyond the scoreline.',
+      player: 'Follow the player you came for.',
+      club: 'Your club. Your matchday.',
       perspectives: 'Same moment. Different stories.',
-      insights: 'Read the shape of the game.',
       lab: 'See trust in action.',
       feed: 'Every story, backed by evidence.',
     },
     descriptions: {
-      match: 'Follow the action. Make the commentary yours.',
+      beginner: 'Simple match facts, plain-language stories, and a little help along the way.',
+      tactical: 'Pressure, progression, territory, passing connections and shot evidence.',
+      player: 'Individual contributions, physical performance and moments that matter.',
+      club: 'Club-focused commentary and the measured story of your side.',
       perspectives: 'Compare how one verified play is explained for different fans.',
-      insights: 'Explore the measured context behind every turning point.',
       lab: 'Try the recorded demo, start a live run, or challenge the Verifier.',
       feed: 'Browse the published commentary and inspect the facts behind it.',
     },
   },
   ar: {
-    match: 'المباراة',
+    beginner: 'للمبتدئ',
+    tactical: 'تكتيكي',
+    player: 'اللاعب',
+    club: 'ناديك',
     perspectives: 'المنظورات',
-    insights: 'الإحصاءات',
     lab: 'مختبر التحقق',
     feed: 'موجز التعليقات',
     tagline: 'مباراة واحدة. ملايين القصص.',
@@ -80,23 +96,29 @@ export const screenCopy = {
     synchronized: 'توقيت واحد. أربع وجهات نظر.',
     measuredOnly: 'حقائق مقاسة من محرك المباراة.',
     eyebrow: {
-      match: 'غرفة المباراة',
+      beginner: 'اللعبة ببساطة',
+      tactical: 'مكتب المحلل',
+      player: 'لاعبك. كل التفاصيل.',
+      club: 'من مدرجات ناديك',
       perspectives: 'شاهدها بطريقتك',
-      insights: 'خلف أحداث المباراة',
       lab: 'جرّب بنفسك',
       feed: 'سجل التعليقات المنشورة',
     },
     titles: {
-      match: 'مقعدك في الصف الأول.',
+      beginner: 'استمتع بالمباراة وافهم أحداثها.',
+      tactical: 'انظر إلى ما وراء النتيجة.',
+      player: 'تابع اللاعب الذي جئت من أجله.',
+      club: 'ناديك. يوم مباراتك.',
       perspectives: 'لحظة واحدة. قصص مختلفة.',
-      insights: 'اقرأ ملامح المباراة.',
       lab: 'شاهد التحقق في العمل.',
       feed: 'كل قصة تستند إلى دليل.',
     },
     descriptions: {
-      match: 'تابع اللعب واختر التعليق الذي يناسبك.',
+      beginner: 'حقائق بسيطة وتعليقات واضحة وشرح يساعدك على المتابعة.',
+      tactical: 'الضغط والتقدم والسيطرة الميدانية وروابط التمرير وأدلة التسديد.',
+      player: 'مساهمات اللاعب وأداؤه البدني ولحظاته البارزة.',
+      club: 'تعليق لناديك وقصة فريقك من الحقائق المقاسة.',
       perspectives: 'قارن شرح الحدث الموثّق نفسه من زوايا مختلفة.',
-      insights: 'استكشف السياق المقاس وراء اللحظات الحاسمة.',
       lab: 'شاهد التسجيل، أو ابدأ بثًا مباشرًا، أو اختبر المدقّق.',
       feed: 'تصفّح التعليقات المنشورة وافحص الحقائق وراءها.',
     },

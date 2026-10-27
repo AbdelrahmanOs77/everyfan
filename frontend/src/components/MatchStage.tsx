@@ -8,20 +8,22 @@ export function MatchStage({
   meta,
   match,
   preference,
-  setPreference,
+  onPlayer,
   hold,
   setHold,
   demoReady,
   onRecap,
+  showStartButton = true,
 }: {
   meta: Metadata | null;
   match: ReturnType<typeof useMatch>;
   preference: Preferences;
-  setPreference: React.Dispatch<React.SetStateAction<Preferences>>;
+  onPlayer: (player: string) => void;
   hold: boolean;
   setHold: (v: boolean) => void;
   demoReady: boolean;
   onRecap: () => void;
+  showStartButton?: boolean;
 }) {
   const t = copy[preference.language];
   const active = match.connection === 'connected';
@@ -76,7 +78,7 @@ export function MatchStage({
             selected={preference.player}
             language={preference.language}
             moments={match.stream.moments}
-            onSelect={(player) => setPreference((p) => ({ ...p, player, persona: 'player' }))}
+            onSelect={onPlayer}
           />
         ) : (
           <div className="pitch-skeleton" role="status">
@@ -90,7 +92,7 @@ export function MatchStage({
             </span>
             <h2>{t.ready}</h2>
             <p>{t.readyHint}</p>
-            {demoReady && (
+            {demoReady && showStartButton && (
               <button
                 className="primary-button"
                 onClick={() => void match.connect('demo', matchId)}

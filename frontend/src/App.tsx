@@ -1,37 +1,48 @@
 import { useEffect, useRef, useState } from 'react';
 import {
-  ArrowRight,
-  BarChart3,
   BookOpen,
-  Braces,
+  Play,
   CircleDot,
   FlaskConical,
-  Layers,
-  Play,
   RotateCcw,
   ShieldCheck,
+  Heart,
+  ScanLine,
+  UserRound,
 } from 'lucide-react';
 import { request } from './api';
 import { copy, localizedName, clockLabel } from './i18n';
 import { activeOverlays } from './stream';
 import { useMatch } from './useMatch';
 import { useFacts } from './useFacts';
-import { useNavigation, screenCopy } from './navigation';
-import type { Health, Metadata, Moment, Overlay, Preferences, Scenario, Language } from './types';
-import { PreferencesPanel, Transport } from './components/Controls';
+import { useNavigation, screenCopy, isFanScreen } from './navigation';
+import type {
+  Health,
+  Metadata,
+  Moment,
+  Overlay,
+  Preferences,
+  Scenario,
+  Language,
+  Persona,
+} from './types';
+import { Transport } from './components/Controls';
 import { EvidenceDialog, RecapDialog } from './components/Dialogs';
 import { Feed } from './components/Feed';
-import { Commentary, Indices, PlayerTicker } from './components/Insights';
+import { Commentary } from './components/Insights';
 import { MatchStage } from './components/MatchStage';
 import { Comparison } from './components/Comparison';
 import { MomentTimeline } from './components/MomentTimeline';
 import { JudgeLab } from './components/JudgeLab';
+import { BeginnerStats, PlayerDashboard, ClubStats, FanControls } from './components/FanInterfaces';
+import { TacticalDashboard } from './components/TacticalDashboard';
+import { useAdvancedFacts } from './useAdvancedFacts';
 const navIcons = {
-  match: Play,
-  perspectives: Layers,
-  insights: BarChart3,
+  beginner: BookOpen,
+  tactical: ScanLine,
+  player: UserRound,
+  club: Heart,
   lab: FlaskConical,
-  feed: Braces,
 };
 function readPreferences(): Preferences {
   const defaults: Preferences = { persona: 'beginner', language: 'en', club: '', player: '' };
@@ -83,7 +94,20 @@ export default function App() {
     preference.player,
     active,
   );
-  const overlays = activeOverlays(match.stream, preference);
+  const selectedPersona: Persona = isFanScreen(view) ? view : preference.persona;
+  const fanPreference = { ...preference, persona: selectedPersona };
+  const overlays = activeOverlays(match.stream, fanPreference);
+  const [analysisWindow, setAnalysisWindow] = useState(300);
+  const advanced = useAdvancedFacts(
+    matchId,
+    match.stream.runId,
+    match.stream.clock,
+    view === 'player' ? 5400 : analysisWindow,
+    active && (view === 'tactical' || view === 'player'),
+  );
+  useEffect(() => {
+    setPreference((p) => (p.persona === selectedPersona ? p : { ...p, persona: selectedPersona }));
+  }, [selectedPersona]);
   const demoReady = !!health?.demo_bundles.some((b) => b.match_id === matchId && !b.stale);
   useEffect(() => {
     setSelectedOverlay(null);
@@ -154,7 +178,7 @@ export default function App() {
   useEffect(() => {
     const key = (event: KeyboardEvent) => {
       if (
-        !['match', 'perspectives', 'insights'].includes(view) ||
+        !(isFanScreen(view) || view === 'perspectives') ||
         document.querySelector('dialog[open]') ||
         !(event.target instanceof HTMLElement) ||
         event.target.closest('input,select,textarea,button,a')
@@ -201,7 +225,7 @@ export default function App() {
   const labels = screenCopy[preference.language];
   const startDemo = () => {
     void match.connect('demo', matchId);
-    navigate('match');
+    navigate(preference.persona);
   };
   const transport = (
     <Transport
@@ -226,8 +250,32 @@ export default function App() {
       onJump={jump}
     />
   );
-  const preferences = (
-    <PreferencesPanel preference={preference} metadata={meta} onChange={setPreference} />
+  const stage = (
+    <MatchStage
+      meta={meta}
+      match={match}
+      preference={fanPreference}
+      onPlayer={(player) => {
+        setPreference((p) => ({ ...p, player }));
+        navigate('player');
+      }}
+      hold={hold}
+      setHold={setHold}
+      demoReady={demoReady}
+      onRecap={() => setDialog('recap')}
+      showStartButton={view === 'beginner'}
+    />
+  );
+  const fanControls = (
+    <FanControls
+      view={view}
+      metadata={meta}
+      preference={fanPreference}
+      onChange={setPreference}
+      active={active}
+      demoReady={demoReady}
+      onDemo={() => void match.connect('demo', matchId)}
+    />
   );
   return (
     <div className="app-shell">
@@ -236,7 +284,7 @@ export default function App() {
       </a>
       <header className="app-header">
         <div className="header-top">
-          <a className="brand" href="#/match" aria-label="EveryFan home">
+          <a className="brand" href="#/beginner" aria-label="EveryFan home">
             <span className="brand-symbol">
               <CircleDot size={25} />
             </span>
@@ -276,7 +324,7 @@ export default function App() {
           className="screen-nav"
           aria-label={preference.language === 'ar' ? 'التنقل الرئيسي' : 'Main navigation'}
         >
-          {(['match', 'perspectives', 'insights', 'lab', 'feed'] as const).map((id) => {
+          {(['beginner', 'tactical', 'player', 'club', 'lab'] as const).map((id) => {
             const Icon = navIcons[id];
             return (
               <button
@@ -301,16 +349,16 @@ export default function App() {
             <p>{labels.descriptions[view]}</p>
           </div>
           <span className="page-symbol" aria-hidden="true">
-            {view === 'match' ? (
-              <CircleDot />
-            ) : view === 'perspectives' ? (
-              <Layers />
-            ) : view === 'insights' ? (
-              <BarChart3 />
-            ) : view === 'lab' ? (
-              <ShieldCheck />
+            {view === 'beginner' ? (
+              <BookOpen />
+            ) : view === 'tactical' ? (
+              <ScanLine />
+            ) : view === 'player' ? (
+              <UserRound />
+            ) : view === 'club' ? (
+              <Heart />
             ) : (
-              <Braces />
+              <ShieldCheck />
             )}
           </span>
         </div>
@@ -369,41 +417,112 @@ export default function App() {
           </div>
         )}
         <div className="screen-content" key={view}>
-          {view === 'match' && (
-            <div className="watch-layout">
-              <div className="watch-main">
-                <MatchStage
-                  meta={meta}
-                  match={match}
-                  preference={preference}
-                  setPreference={setPreference}
-                  hold={hold}
-                  setHold={setHold}
-                  demoReady={demoReady}
-                  onRecap={() => setDialog('recap')}
-                />
-                <Commentary
-                  overlays={overlays}
+          {isFanScreen(view) && (
+            <div className={`fan-experience fan-${view}`}>
+              {fanControls}
+              {view === 'player' && meta && (
+                <PlayerDashboard
+                  metadata={meta}
+                  stats={facts.player}
+                  advanced={advanced.data}
                   language={preference.language}
-                  onInspect={setSelectedOverlay}
+                  selectedPlayer={preference.player}
+                  moments={moments}
+                  clock={match.stream.clock}
+                  onJump={jump}
                 />
-                <button className="destination-link" onClick={() => navigate('insights')}>
-                  <BarChart3 size={18} />
-                  {labels.exploreInsights}
-                  <ArrowRight size={18} />
-                </button>
+              )}
+              {view === 'tactical' && meta && (
+                <TacticalDashboard
+                  metadata={meta}
+                  data={advanced.data}
+                  error={advanced.error}
+                  loading={advanced.loading}
+                  language={preference.language}
+                  window={analysisWindow}
+                  onWindow={setAnalysisWindow}
+                  onRetry={advanced.refresh}
+                />
+              )}
+              <div className="fan-broadcast">
+                <div className="fan-pitch">{stage}</div>
+                <div className="fan-story">
+                  <Commentary
+                    overlays={overlays}
+                    language={preference.language}
+                    onInspect={setSelectedOverlay}
+                  />
+                  {view === 'beginner' && meta && (
+                    <BeginnerStats
+                      metadata={meta}
+                      stats={facts.stats}
+                      language={preference.language}
+                    />
+                  )}
+                </div>
               </div>
-              <div className="watch-sidebar">
-                {preferences}
-                {timeline}
-              </div>
+              {view === 'club' && meta && (
+                <ClubStats
+                  metadata={meta}
+                  stats={facts.stats}
+                  language={preference.language}
+                  club={preference.club}
+                />
+              )}
+              {view === 'beginner' && (
+                <section className="learn-panel">
+                  <span className="eyebrow">
+                    {preference.language === 'ar'
+                      ? 'تعلم أثناء المشاهدة'
+                      : 'A LITTLE HELP ALONG THE WAY'}
+                  </span>
+                  <h2>
+                    {preference.language === 'ar'
+                      ? 'المباراة، بكلمات واضحة.'
+                      : 'The game, in plain words.'}
+                  </h2>
+                  <div className="learn-grid">
+                    <article>
+                      <h3>{preference.language === 'ar' ? 'الاستحواذ' : 'Possession'}</h3>
+                      <p>
+                        {preference.language === 'ar'
+                          ? 'حصة الوقت الذي يتحكم فيه الفريق بالكرة. لا يضمن الاستحواذ التسجيل.'
+                          : 'The share of time a team controls the ball. Having more of the ball does not guarantee a goal.'}
+                      </p>
+                    </article>
+                    <article>
+                      <h3>
+                        {preference.language === 'ar' ? 'التسديدة على المرمى' : 'A shot on target'}
+                      </h3>
+                      <p>
+                        {preference.language === 'ar'
+                          ? 'تسديدة تدخل المرمى أو يتصدى لها الحارس. يوضح منظور اللاعب مساهماته الفردية.'
+                          : 'A shot that scores or is saved by the goalkeeper. Open the Player interface to explore individual contributions.'}
+                      </p>
+                    </article>
+                    <article>
+                      <h3>
+                        {preference.language === 'ar'
+                          ? 'لماذا هذا التعليق؟'
+                          : 'Why this commentary?'}
+                      </h3>
+                      <p>
+                        {preference.language === 'ar'
+                          ? 'افتح أدلة التعليق لقراءة الحقائق وقاعدة رصد الحدث.'
+                          : 'Inspect a commentary card to see its facts, detection rule and source events.'}
+                      </p>
+                    </article>
+                  </div>
+                </section>
+              )}
+              <div className="fan-timeline">{timeline}</div>
             </div>
           )}
           {view === 'perspectives' && (
             <>
               <div className="screen-toolbar">
                 <span>
-                  <Layers size={18} />
+                  <ScanLine size={18} />
                   {labels.synchronized}
                 </span>
                 {!active && (
@@ -421,77 +540,22 @@ export default function App() {
                 <div>
                   <Comparison
                     stream={match.stream}
-                    preference={preference}
+                    preference={fanPreference}
                     onInspect={setSelectedOverlay}
                   />
                   {transport}
                 </div>
                 <div className="watch-sidebar">
-                  {preferences}
+                  {fanControls}
                   {timeline}
                 </div>
-              </div>
-            </>
-          )}
-          {view === 'insights' && (
-            <>
-              <div className="screen-toolbar">
-                <span>
-                  <ShieldCheck size={18} />
-                  {labels.measuredOnly}
-                </span>
-                {!active && (
-                  <button
-                    className="primary-button"
-                    disabled={!demoReady}
-                    onClick={() => void match.connect('demo', matchId)}
-                  >
-                    <Play size={16} />
-                    {t.demo}
-                  </button>
-                )}
-              </div>
-              <div className="insights-layout">
-                <div className="insights-main">
-                  {meta && (
-                    <Indices
-                      metadata={meta}
-                      stats={facts.stats}
-                      language={preference.language}
-                      history={facts.history}
-                    />
-                  )}
-                  <section className="insight-player">
-                    <div className="section-heading">
-                      <h2>{t.player}</h2>
-                      <label>
-                        <span className="sr-only">{t.favoritePlayer}</span>
-                        <select
-                          value={preference.player}
-                          onChange={(e) => setPreference((p) => ({ ...p, player: e.target.value }))}
-                        >
-                          {meta &&
-                            [...meta.home.players, ...meta.away.players].map((p) => (
-                              <option key={p.player_id} value={p.player_id}>
-                                {localizedName(p, preference.language)}
-                              </option>
-                            ))}
-                        </select>
-                      </label>
-                    </div>
-                    <PlayerTicker stats={facts.player} language={preference.language} />
-                  </section>
-                  {facts.error && <p className="notice-banner">{t.statsUnavailable}</p>}
-                  <div className="insights-controls">{transport}</div>
-                </div>
-                {timeline}
               </div>
             </>
           )}
           {view === 'lab' && (
             <JudgeLab
               language={preference.language}
-              preference={preference}
+              preference={fanPreference}
               matchId={matchId}
               momentId={laboratoryMoment?.moment_id}
               demoReady={demoReady}
@@ -499,7 +563,7 @@ export default function App() {
               onDemo={startDemo}
               onLive={() => {
                 void match.connect('live', matchId);
-                navigate('match');
+                navigate(preference.persona);
               }}
             />
           )}
@@ -511,6 +575,14 @@ export default function App() {
               onInspect={setSelectedOverlay}
             />
           )}
+        </div>
+        <div className="support-navigation">
+          <button className="text-button" onClick={() => navigate('perspectives')}>
+            {preference.language === 'ar' ? 'قارن المنظورات' : 'Compare perspectives'}
+          </button>
+          <button className="text-button" onClick={() => navigate('feed')}>
+            {preference.language === 'ar' ? 'موجز التعليقات' : 'Overlay feed'}
+          </button>
         </div>
         <footer className="footer">
           <span>
@@ -533,7 +605,7 @@ export default function App() {
       {dialog === 'recap' && meta && (
         <RecapDialog
           language={preference.language}
-          preference={preference}
+          preference={fanPreference}
           matchId={matchId}
           mode={match.mode}
           until={
@@ -543,7 +615,7 @@ export default function App() {
           }
           onClose={() => setDialog(null)}
           onSeek={(minute) => {
-            navigate('match');
+            navigate(preference.persona);
             if (active) void match.control('seek', minute);
             else void match.connect('demo', matchId, minute);
           }}

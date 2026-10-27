@@ -102,7 +102,49 @@ export interface PlayerStats {
   distance_km: number;
   top_speed_kmh: number;
   badges: string[];
-  events: Record<string, number>;
+  events: Record<string, number | null>;
+}
+
+export interface AdvancedTeam {
+  current: Record<string, number | null>;
+  match: Record<string, number | null>;
+  deltas: Record<string, number | null>;
+  evidence_event_ids: string[];
+  pass_network: {
+    nodes: { player_id: string; x_m: number; y_m: number; evidence_event_ids: string[] }[];
+    edges: {
+      from_player_id: string;
+      to_player_id: string;
+      completed_passes: number;
+      evidence_event_ids: string[];
+    }[];
+  };
+  shot_map: {
+    event_id: string;
+    player_id: string;
+    game_time_s: number;
+    x_m: number;
+    y_m: number;
+    outcome: string;
+    distance_m: number | null;
+    speed_kmh: number | null;
+  }[];
+  territory: {
+    column: number;
+    row: number;
+    completed_passes: number;
+    evidence_event_ids: string[];
+  }[];
+}
+export interface AdvancedStats {
+  match_id: string;
+  at_s: number;
+  window_s: number;
+  window_start_s: number;
+  definitions_version: string;
+  definitions: Record<string, string>;
+  teams: Record<string, AdvancedTeam>;
+  evidence_event_ids: string[];
 }
 export interface Evidence {
   moment: Moment;

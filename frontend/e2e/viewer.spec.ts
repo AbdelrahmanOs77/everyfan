@@ -25,7 +25,7 @@ test('demo, four perspectives, evidence, Arabic, verifier, recap and feed', asyn
   await expect(page.getByRole('button', { name: 'Play', exact: true })).toBeVisible({
     timeout: 20000,
   });
-  await page.getByRole('button', { name: 'Perspectives', exact: true }).click();
+  await page.getByRole('button', { name: 'Compare perspectives', exact: true }).click();
   await expect(page.locator('.comparison-pane')).toHaveCount(4);
   await expect(page.locator('.comparison-pane .overlay-card')).toHaveCount(4);
   await page
@@ -43,8 +43,8 @@ test('demo, four perspectives, evidence, Arabic, verifier, recap and feed', asyn
   await expect(page.locator('.match-context-name')).toContainText('نادي النيل');
   await page.getByRole('combobox', { name: 'لغة التعليق', exact: true }).selectOption('en');
   expect(sockets).toBe(1);
-  await page.getByRole('button', { name: 'Match', exact: true }).click();
-  await page.getByRole('button', { name: /^Favorite club/ }).click();
+  await page.getByRole('button', { name: 'Beginner', exact: true }).click();
+  await page.getByRole('button', { name: 'My club', exact: true }).click();
   await page
     .getByRole('combobox', { name: 'Support a club', exact: true })
     .selectOption('delta_utd');
@@ -53,7 +53,7 @@ test('demo, four perspectives, evidence, Arabic, verifier, recap and feed', asyn
   await page.getByRole('button', { name: /^Break it/ }).click();
   await expect(page.locator('.rejected-panel')).toContainText('999999');
   await expect(page.locator('.approved-panel')).not.toContainText('999999');
-  await page.getByRole('button', { name: 'Match', exact: true }).click();
+  await page.getByRole('button', { name: 'Beginner', exact: true }).click();
   await page.getByRole('button', { name: 'Match story', exact: true }).first().click();
   await expect(page.locator('.recap-body')).not.toBeEmpty();
   await page.keyboard.press('Escape');
@@ -62,13 +62,13 @@ test('demo, four perspectives, evidence, Arabic, verifier, recap and feed', asyn
   expect(errors).toEqual([]);
   expect([...kinds]).toEqual(expect.arrayContaining(['tracking', 'state', 'overlay', 'reset']));
   await page.reload();
-  await page.getByRole('button', { name: 'Match', exact: true }).click();
+  await page.getByRole('button', { name: 'My club', exact: true }).click();
   await expect(page.getByRole('combobox', { name: 'Support a club', exact: true })).toHaveValue(
     'delta_utd',
   );
-  await expect(page.getByRole('button', { name: /^Favorite club/ })).toHaveAttribute(
-    'aria-pressed',
-    'true',
+  await expect(page.getByRole('button', { name: 'My club', exact: true })).toHaveAttribute(
+    'aria-current',
+    'page',
   );
 });
 

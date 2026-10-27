@@ -64,21 +64,21 @@ const goal = async () => {
 };
 await page.goto('http://localhost:5173');
 await goal();
-await page.getByRole('button', { name: 'Perspectives', exact: true }).click();
+await page.getByRole('button', { name: 'Compare perspectives', exact: true }).click();
 await page.locator('.comparison').scrollIntoViewIfNeeded();
 await until(12);
-await page.getByRole('button', { name: 'Match', exact: true }).click();
+await page.getByRole('button', { name: 'Beginner', exact: true }).click();
 await page.evaluate(() => scrollTo(0, 0));
 await until(25);
-await page.getByRole('button', { name: /^Player focus/ }).click();
+await page.getByRole('button', { name: 'Player', exact: true }).click();
 await page.getByRole('button', { name: 'Player names', exact: true }).click();
 await page.getByRole('checkbox', { name: 'Pause at goals', exact: true }).uncheck();
 await page.getByRole('combobox', { name: 'Replay speed', exact: true }).selectOption('5');
 await page.getByRole('button', { name: 'Play', exact: true }).click();
 await page.locator('.broadcast-stage').scrollIntoViewIfNeeded();
 await until(36);
-await page.getByRole('button', { name: 'Insights', exact: true }).click();
-await page.locator('.indices').scrollIntoViewIfNeeded();
+await page.getByRole('button', { name: 'Tactical', exact: true }).click();
+await page.locator('.tactical-dashboard').scrollIntoViewIfNeeded();
 await until(45);
 await page.setContent(
   `<!doctype html><html lang="en"><meta charset="utf-8"><title>EveryFan workflow</title><style>body{margin:0;padding:100px 120px;background:#101719;color:#eff4f1;font:24px 'Segoe UI',sans-serif}small{color:#c5ee70;letter-spacing:4px}h1{font-size:70px;letter-spacing:-3px;margin:20px 0 25px}p{color:#abbcaf;line-height:1.8}ol{display:grid;grid-template-columns:repeat(3,1fr);gap:25px;padding:0;list-style:none;margin-top:60px}li{border:1px solid #42543d;border-radius:12px;padding:28px;background:#1b2924;min-height:140px}b{display:block;color:#c5ee70;margin-bottom:20px;font-size:30px}span{font-size:20px;color:#c7d4ca}footer{border-top:1px solid #39473d;margin-top:35px;padding-top:25px;color:#a7bca6}</style><small>EVERYFAN / HOW VERIFICATION WORKS</small><h1>Many voices. One evidence trail.</h1><p>Recorded Foundry output in the demo. Shared facts, distinct responsibilities.</p><ol><li><b>Producer</b><span>Plans the coverage and perspectives.</span></li><li><b>Analyst + MCP</b><span>Reads measured facts and evidence.</span></li><li><b>Persona writers</b><span>Explain the play in the viewer’s language.</span></li><li><b>Verifier</b><span>Checks contracts, numbers, entities and evidence.</span></li><li><b>Repair or fallback</b><span>One repair attempt, then a checked template.</span></li><li><b>Broadcast + recap</b><span>Publishes verified stories on the match clock.</span></li></ol><footer>Simulator → Event Hubs → analytics → agents → verified overlays → viewer</footer></html>`,
@@ -89,7 +89,7 @@ await page.getByRole('button', { name: 'Judge Lab', exact: true }).click();
 await page.getByRole('button', { name: /^Break it/ }).click();
 await page.locator('.approved-panel').waitFor();
 await until(85);
-await page.getByRole('button', { name: 'Match', exact: true }).click();
+await page.getByRole('button', { name: 'Beginner', exact: true }).click();
 await goal();
 await page
   .locator('.commentary')

@@ -9,7 +9,10 @@ http://localhost:5173. All clubs, players and matches are fictional.
    without calling a model. Click a goal in **Key moments** to jump there. The
    replay pauses at goals so you can explore; use Play to continue, or uncheck
    **Pause at goals** for a continuous match. Speeds range from 1× to 60×.
-2. Use the top **Perspectives** button. Beginner, Tactical, Player Focus and Arabic describe
+2. Use the top **Beginner**, **Tactical**, **Player**, and **My club** buttons.
+   Each opens its own fan interface and selects the matching commentary persona.
+   Use **Compare perspectives** below the interface to see Beginner, Tactical,
+   Player Focus and Arabic describe
    the same play. Highlight navigation selects that moment's player so Player
    Focus has the matching perspective. Facts remain supplied by the backend.
 3. Select **Inspect evidence** on a card. Read the measured facts, detection rule
@@ -17,11 +20,14 @@ http://localhost:5173. All clubs, players and matches are fictional.
 4. Open **Judge Lab**, then select **Break it**. An intentionally invented `999999` is shown as a rejected
    draft beside the checked replacement. The draft never enters the broadcast;
    this demonstration does not call a model. The comparison appears directly in
-   Judge Lab. Use **Match** in the top navigation to return to the pitch.
+   Judge Lab. Use a fan button in the top navigation to return to its interface.
 5. Switch **Commentary language** to **العربية**. The interface and cards become
-   RTL; names come from Arabic metadata. Try **Player focus** and select a player,
-   or **Favorite club** and select your side. Preferences survive refresh.
-6. Open **Insights** for measured match indices and player statistics. Open
+   RTL; names come from Arabic metadata. Try **Player** and select a player,
+   or **My club** and select your side. Choices survive refresh.
+6. In **Tactical**, choose a team and a one-, five- or fifteen-minute window, or
+   the match so far. Inspect rates against the match baseline, PPDA components,
+   **Passing & territory**, and **Shots & actions**. In **Player**, explore the
+   individual's contributions, physical performance and shot evidence. Open
    **Match story** for a recap so far, or at full time for the final recap.
    Open **Overlay feed** for published cards, search/perspective filters, raw JSON
    and JSON Schema. Every destination has its own URL and browser history.
