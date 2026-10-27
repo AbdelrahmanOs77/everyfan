@@ -128,3 +128,18 @@ def test_named_unknown_player_requests_clarification(tiny, question):
     result = asyncio.run(answer_question(tiny, AskRequest(question=question, at_s=10, player_id="nil_06"), tools))
     assert "UNKNOWN_ENTITY" in result["reason_codes"]
     assert result["verification_status"] == "fallback" and tools.calls == []
+
+
+@pytest.mark.parametrize("interval,expected_at,expected_count", [({}, 20, 2), ({"from_s": 8, "to_s": 10}, 10, 1)])
+def test_live_structured_router_handles_phrasing_without_stub_keywords(tiny, interval, expected_at, expected_count):
+    class Router:
+        async def complete(self, system, user, json_schema=None):
+            assert json.loads(user)["entities"]["nil_06"]["name_ar"]
+            return json.dumps({"intent": "recent_events", **interval}), 0
+
+    result = asyncio.run(answer_question(tiny, AskRequest(question="Describe that sequence", at_s=20), Tools(tiny),
+                                         router_model=Router(), budget=DailyTokenBudget(100000)))
+    assert result["intent"] == "recent_events"
+    assert result["tools_used"] == ["get_recent_events"]
+    assert result["facts"]["recent_event_count"] == expected_count
+    assert result["at_s"] == expected_at

@@ -26,7 +26,7 @@ writer is connected; there is no dependency cycle in the fact providers.
 - [ ] Native Arabic editorial review (human)
 - [ ] Deployed Foundry/live smoke check (deployment environment)
 
-Verification: full pytest 696 passed, latest focused guard checks 17 passed,
+Verification: full pytest 698 passed, latest focused Ask/range checks 13 passed,
 pyflakes clean; frontend formatting, 11 unit tests, build and npm audit (zero
 vulnerabilities) pass. All 11 Chrome acceptance tests pass, including a complete
 replay and live viewer controls. The required existing agent evaluation publishes

@@ -66,6 +66,7 @@ async def write_feature(template, facts, meta, at_s, *, model=None, budget=None,
                       "Do not invent names, compute numbers, predict outcomes or claim coaching intentions. "
                       "Use the template's language/persona. Return JSON headline/body within schema and body limit " + str(limit))
             system += " Beginner: explain jargon. Tactical: precise measured observations. Player: individual contribution. Club: respectful support."
+            system += " If the facts cannot answer the question, say the match data does not show that; do not substitute an unsupported claim."
             for attempt in range(2):
                 try:
                     raw, _ = await complete_with_budget(model, system, json.dumps(payload, ensure_ascii=False),

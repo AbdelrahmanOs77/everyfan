@@ -51,7 +51,10 @@ four-item bounded history, as-of clock, source badge and evidence dialog. Demo f
 keyword routing and deterministic answers; a matching recording may be reused. Live mode uses
 the configured fast router and checked writer, bounded by the daily token budget and workflow deadline.
 Questions are untrusted data. Unsupported names request clarification, future questions and predictions
-are refused. Tools are limited to three calls and clipped at the question clock. The writer gets only
+are refused. Tools are limited to three calls and clipped at the question clock. A resolved
+historical range lowers the answer's as-of clock, and last-N-minute queries
+set the bounded evidence window. The live structured router can classify supported phrasing without
+stub keywords; hard injection/prediction guards still run before the router. The writer gets only
 resolved facts, names, persona and language. Numeric/name/tone/future/prediction/causality checks allow
 one repair before a template fallback. Deadlines return an explicit evidence-unavailable fallback.
 No free-text question is written to audit logs.
