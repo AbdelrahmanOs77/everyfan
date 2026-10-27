@@ -1,5 +1,11 @@
 # Fan-specific interfaces and advanced analytics
 
+The follow-up [fan extras](OWNER_D_FAN_EXTRAS.md) add actual tracking positions,
+team physical leaderboards, Beginner edge, club/rival summaries and a shared
+momentum chart. The complete current inventory is
+[EVERYFAN_PROJECT_AND_FAN_DATA.md](EVERYFAN_PROJECT_AND_FAN_DATA.md); the verification
+section below records the earlier interface milestone.
+
 This supersedes the earlier feature-based screen split. The user clarified that
 Beginner, Tactical and Player each need a dedicated interface and explicitly
 authorized extending the backend for advanced statistics. My Club remains a

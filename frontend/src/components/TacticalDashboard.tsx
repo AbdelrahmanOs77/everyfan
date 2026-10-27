@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { ArrowUpRight, Network, ScanLine, ShieldCheck, Target } from 'lucide-react';
 import { apiUrl } from '../api';
 import { clockLabel, displayNumber, localizedName } from '../i18n';
-import type { AdvancedStats, AdvancedTeam, Language, Metadata } from '../types';
+import type { AdvancedStats, AdvancedTeam, FanStats, Language, Metadata } from '../types';
+import { TrackingPositions } from './FanExtras';
 
 const metrics: [string, string, string, string][] = [
   ['possession_pct', 'Possession', 'الاستحواذ', '%'],
@@ -168,6 +169,7 @@ export function TacticalDashboard({
   window,
   onWindow,
   onRetry,
+  fanData,
 }: {
   metadata: Metadata;
   data: AdvancedStats | null;
@@ -177,6 +179,7 @@ export function TacticalDashboard({
   window: number;
   onWindow: (v: number) => void;
   onRetry: () => void;
+  fanData: FanStats | null;
 }) {
   const [teamId, setTeamId] = useState(metadata.home.team_id);
   const [tab, setTab] = useState<'overview' | 'passing' | 'chances'>('overview');
@@ -349,6 +352,14 @@ export function TacticalDashboard({
       )}
       {team && tab === 'passing' && (
         <div className="tactical-spatial">
+          {fanData && (
+            <TrackingPositions
+              metadata={metadata}
+              data={fanData}
+              language={language}
+              teamId={selected.team_id}
+            />
+          )}
           <section>
             <h3>{ar ? 'شبكة التمريرات المكتملة' : 'Completed-pass network'}</h3>
             <p className="plot-caption">

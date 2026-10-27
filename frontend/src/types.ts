@@ -146,6 +146,47 @@ export interface AdvancedStats {
   teams: Record<string, AdvancedTeam>;
   evidence_event_ids: string[];
 }
+export interface FanStats {
+  match_id: string;
+  at_s: number;
+  window_s: number;
+  window_start_s: number;
+  definitions: Record<string, string>;
+  control_window_s: number;
+  on_top: { status: 'leading' | 'mixed' | 'insufficient'; team_id: string | null };
+  teams: Record<
+    string,
+    {
+      summary: {
+        goals: number;
+        shots_match: number;
+        possession_pct_match: number | null;
+        pass_accuracy_pct_match: number | null;
+        ppda_match: number | null;
+        control_index_last_5: number | null;
+        momentum: number;
+      };
+      average_positions: {
+        player_id: string;
+        x_m: number;
+        y_m: number;
+        sample_count: number;
+        first_frame: number;
+        last_frame: number;
+      }[];
+      leaderboards: Record<
+        'distance_km' | 'top_speed_kmh',
+        { rank: number; player_id: string; value: number; tracking_until_s: number }[]
+      >;
+      key_moments: Moment[];
+    }
+  >;
+  momentum_timeline: {
+    at_s: number;
+    teams: Record<string, { value: number; evidence_event_ids: string[] }>;
+  }[];
+  evidence_event_ids: string[];
+}
 export interface Evidence {
   moment: Moment;
   facts: Record<string, Fact>;

@@ -1,4 +1,171 @@
 /* Fan interfaces intentionally prioritize different questions, density and evidence. */
+.extra-panel {
+  min-width: 0;
+  padding: 28px;
+  margin-block: 24px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+}
+.extra-panel h2 {
+  margin-block: 8px 12px;
+}
+.extra-panel p {
+  color: var(--muted);
+  line-height: 1.65;
+}
+.on-top {
+  border-inline-start: 4px solid var(--accent);
+}
+.on-top h2 {
+  font-size: 26px;
+}
+.extra-evidence {
+  margin-block-start: 16px;
+}
+.extra-evidence summary {
+  cursor: pointer;
+  padding-block: 12px;
+  color: var(--accent);
+  min-height: 44px;
+}
+.source-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-block: 12px;
+}
+.source-list small {
+  flex-basis: 100%;
+  color: var(--muted);
+}
+.extra-panel .data-stamp,
+.tracking-positions .data-stamp {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-block: 16px;
+}
+.momentum-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-block: 20px 4px;
+}
+.momentum-legend > span {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.line-key {
+  display: inline-block;
+  width: 24px;
+  border-block-start: 3px solid var(--accent);
+}
+.line-key.dashed {
+  border-block-start-color: var(--text);
+  border-block-start-style: dashed;
+}
+.momentum-chart {
+  display: block;
+  width: 100%;
+  max-height: 300px;
+  direction: ltr;
+}
+.momentum-data {
+  max-height: 420px;
+  overflow: auto;
+}
+.extra-panel table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.extra-panel th,
+.extra-panel td {
+  text-align: start;
+  padding: 14px 12px;
+  border-block-end: 1px solid var(--line);
+}
+.extra-panel th {
+  font-weight: 500;
+}
+.extra-panel caption {
+  text-align: start;
+  color: var(--muted);
+  padding-block: 16px;
+}
+.leaderboard .section-heading {
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.leaderboard label {
+  display: grid;
+  gap: 8px;
+  font-size: 13px;
+}
+.selected-player-row {
+  background: #ffffff08;
+}
+.tracking-positions {
+  grid-column: 1 / -1;
+  padding-block-end: 24px;
+  border-block-end: 1px solid var(--line);
+}
+.tracking-pitch {
+  max-height: 420px;
+}
+.club-key-moments {
+  margin-block-start: 24px;
+}
+.club-key-moments article {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-block: 12px;
+  border-block-end: 1px solid var(--line);
+}
+.club-key-moments button {
+  flex-wrap: wrap;
+  text-align: start;
+}
+.club-key-moments button span {
+  color: var(--muted);
+}
+.extra-status {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+@media (max-width: 600px) {
+  .extra-panel {
+    padding: 20px 16px;
+  }
+  .extra-panel th,
+  .extra-panel td {
+    padding: 12px 6px;
+    font-size: 12px;
+  }
+  .extra-panel .event-link {
+    font-size: 12px;
+  }
+  .leaderboard label {
+    width: 100%;
+  }
+  .club-key-moments article {
+    align-items: start;
+  }
+  .club-key-moments button {
+    flex: 1;
+    min-width: 0;
+  }
+  .momentum-legend {
+    gap: 12px;
+    font-size: 12px;
+  }
+}
 @keyframes screen-enter {
   from {
     transform: translateY(5px);

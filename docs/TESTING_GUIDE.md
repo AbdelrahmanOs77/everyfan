@@ -31,6 +31,12 @@ http://localhost:5173. All clubs, players and matches are fictional.
    **Match story** for a recap so far, or at full time for the final recap.
    Open **Overlay feed** for published cards, search/perspective filters, raw JSON
    and JSON Schema. Every destination has its own URL and browser history.
+7. Explore the fan extras: **Beginner** explains who has the edge; **Tactical →
+   Passing & territory** shows actual tracking averages alongside the pass network
+   and territory grid. **Player** offers top-five team distance/top-speed rankings.
+   **My club** compares your side with its rival, including PPDA and up to three
+   key moments. All four fans show a momentum timeline. Expand its data table or
+   follow Source links to inspect event and paginated tracking evidence.
 
 **Run live**, inside Judge Lab, starts a shared broadcast and can spend the live model budget.
 The starter controls it; another viewer joins read-only. Daily caps/rate limits

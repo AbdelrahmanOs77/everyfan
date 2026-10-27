@@ -15,6 +15,7 @@ export function useAdvancedFacts(
   const now = useRef(clock);
   now.current = clock;
   const refresh = useRef<() => void>(() => {});
+  const last = useRef(0);
   useEffect(() => {
     setData(null);
     setError(false);
@@ -30,8 +31,9 @@ export function useAdvancedFacts(
       controller = new AbortController();
       const signal = controller.signal;
       setLoading(true);
+      last.current = Math.floor(now.current);
       request<AdvancedStats>(
-        `/api/matches/${matchId}/advanced-stats?at_s=${Math.floor(now.current)}&window_s=${window}`,
+        `/api/matches/${matchId}/advanced-stats?at_s=${last.current}&window_s=${window}`,
         { signal },
       )
         .then((value) => {
@@ -57,5 +59,16 @@ export function useAdvancedFacts(
       refresh.current = () => {};
     };
   }, [matchId, runId, window, enabled]);
-  return { data, error, loading, refresh: () => refresh.current() };
+  useEffect(() => {
+    if (enabled && (clock < last.current || clock - last.current >= 60)) refresh.current();
+  }, [clock, enabled]);
+  return {
+    data:
+      enabled && data?.match_id === matchId && data.at_s <= clock && data.window_s === window
+        ? data
+        : null,
+    error,
+    loading,
+    refresh: () => refresh.current(),
+  };
 }

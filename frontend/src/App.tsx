@@ -37,6 +37,8 @@ import { JudgeLab } from './components/JudgeLab';
 import { BeginnerStats, PlayerDashboard, ClubStats, FanControls } from './components/FanInterfaces';
 import { TacticalDashboard } from './components/TacticalDashboard';
 import { useAdvancedFacts } from './useAdvancedFacts';
+import { useFanFacts } from './useFanFacts';
+import { ClubComparison, Leaderboard, MomentumChart, OnTop } from './components/FanExtras';
 const navIcons = {
   beginner: BookOpen,
   tactical: ScanLine,
@@ -104,6 +106,13 @@ export default function App() {
     match.stream.clock,
     view === 'player' ? 5400 : analysisWindow,
     active && (view === 'tactical' || view === 'player'),
+  );
+  const extras = useFanFacts(
+    matchId,
+    match.stream.runId,
+    match.stream.clock,
+    view === 'tactical' ? analysisWindow : 5400,
+    active && isFanScreen(view),
   );
   useEffect(() => {
     setPreference((p) => (p.persona === selectedPersona ? p : { ...p, persona: selectedPersona }));
@@ -420,6 +429,9 @@ export default function App() {
           {isFanScreen(view) && (
             <div className={`fan-experience fan-${view}`}>
               {fanControls}
+              {view === 'beginner' && meta && extras.data && (
+                <OnTop metadata={meta} data={extras.data} language={preference.language} />
+              )}
               {view === 'player' && meta && (
                 <PlayerDashboard
                   metadata={meta}
@@ -432,6 +444,15 @@ export default function App() {
                   onJump={jump}
                 />
               )}
+              {view === 'player' && meta && extras.data && (
+                <Leaderboard
+                  metadata={meta}
+                  data={extras.data}
+                  language={preference.language}
+                  playerId={preference.player}
+                  onPlayer={(id) => setPreference((p) => ({ ...p, player: id }))}
+                />
+              )}
               {view === 'tactical' && meta && (
                 <TacticalDashboard
                   metadata={meta}
@@ -442,6 +463,7 @@ export default function App() {
                   window={analysisWindow}
                   onWindow={setAnalysisWindow}
                   onRetry={advanced.refresh}
+                  fanData={extras.data}
                 />
               )}
               <div className="fan-broadcast">
@@ -461,14 +483,24 @@ export default function App() {
                   )}
                 </div>
               </div>
-              {view === 'club' && meta && (
-                <ClubStats
-                  metadata={meta}
-                  stats={facts.stats}
-                  language={preference.language}
-                  club={preference.club}
-                />
-              )}
+              {view === 'club' &&
+                meta &&
+                (extras.data ? (
+                  <ClubComparison
+                    metadata={meta}
+                    data={extras.data}
+                    language={preference.language}
+                    club={preference.club}
+                    onJump={jump}
+                  />
+                ) : (
+                  <ClubStats
+                    metadata={meta}
+                    stats={facts.stats}
+                    language={preference.language}
+                    club={preference.club}
+                  />
+                ))}
               {view === 'beginner' && (
                 <section className="learn-panel">
                   <span className="eyebrow">
@@ -514,6 +546,27 @@ export default function App() {
                     </article>
                   </div>
                 </section>
+              )}
+              {meta && extras.data && (
+                <MomentumChart metadata={meta} data={extras.data} language={preference.language} />
+              )}
+              {active && !extras.data && (
+                <div className="extra-panel extra-status" role="status">
+                  <p>
+                    {extras.error
+                      ? preference.language === 'ar'
+                        ? 'تعذر تحميل الإحصاءات الإضافية.'
+                        : 'The extra statistics could not be loaded.'
+                      : preference.language === 'ar'
+                        ? 'جارٍ تحميل الإحصاءات المدعومة بالأدلة…'
+                        : 'Loading evidence-backed extras…'}
+                  </p>
+                  {extras.error && (
+                    <button className="secondary-button" onClick={extras.refresh}>
+                      {t.retry}
+                    </button>
+                  )}
+                </div>
               )}
               <div className="fan-timeline">{timeline}</div>
             </div>
