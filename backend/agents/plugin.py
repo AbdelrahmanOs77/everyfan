@@ -22,6 +22,12 @@ class AgentsPlugin:
         self.generations: dict[str, int] = {}
         self.recaps: OrderedDict = OrderedDict()
         self._build_slots: asyncio.Semaphore | None = None
+        self.advanced_ticks = {}
+        self.advanced_notes = {}
+        self.advanced_reports = {}
+        self.advanced_pending = set()
+        from .mcp_server import EvidenceTools
+        self.advanced_tools = EvidenceTools(getattr(ctx, "library", None))
 
     def status(self) -> dict:
         def model(m):
@@ -58,9 +64,79 @@ class AgentsPlugin:
         self.names[state.match_id] = NameAllowlist(state.metadata)
         self.seen[state.match_id] = set()
         self.generations[state.match_id] = self.generations.get(state.match_id, 0) + 1
+        self.advanced_ticks[state.match_id] = None
         for key in list(self.runner.history):
             if key[0] == state.match_id:
                 del self.runner.history[key]
+
+    def on_control(self, control, state):
+        if control.action == "seeked":
+            self.advanced_ticks[state.match_id] = int(state.game_time_s // self.config.coach_interval_s)
+
+    def on_tracking(self, frame, state):
+        if getattr(self.ctx, "recording", None) is not None:
+            return  # Advanced artifacts are built separately by record_demo --advanced-only.
+        tick = int(frame.game_clock_s // self.config.coach_interval_s)
+        prior = self.advanced_ticks.get(frame.match_id)
+        self.advanced_ticks[frame.match_id] = tick
+        # The first frame after a reset/seek establishes a clock; never emit a catch-up burst.
+        if prior is None or tick <= prior or self.ctx.analytics.catching_up.get(frame.match_id):
+            return
+        self._schedule_features(state, tick * self.config.coach_interval_s)
+
+    def on_event(self, event, state):
+        if getattr(self.ctx, "recording", None) is not None:
+            return
+        if event.type == "period_end" and not self.ctx.analytics.catching_up.get(event.match_id):
+            self._schedule_features(state, event.game_time_s, "half" if event.period == 1 else "full")
+
+    def _schedule_features(self, state, at, phase=None):
+        if getattr(self.config, "mode", "stub") == "off":
+            return  # Read APIs still serve deterministic features; no background agent work.
+        key = state.match_id, self.generations.get(state.match_id), phase or "coach"
+        if key in self.advanced_pending:
+            return
+        self.advanced_pending.add(key)
+        self.ctx.spawn(self._features(state.match_id, key, at, phase))
+
+    async def _features(self, mid, key, at, phase):
+        from .coach import coach_facts, coach_notes
+        from .reports import match_report
+        from .feature_api import audit
+        try:
+            # Let immediate commentary publish before preparing heavy tactical indexes.
+            await asyncio.sleep(self.config.advanced_debounce_s)
+            if self.generations.get(mid) != key[1]:
+                return
+            ev = await self.advanced_tools._evidence(mid)
+            await asyncio.to_thread(coach_facts, ev, self.config)
+            if self.generations.get(mid) != key[1]:
+                return
+            model = self.runner.strong or self.runner.fast
+            for language in ("en", "ar"):
+                if phase:
+                    from backend.analytics.reference_pool import reference_pool
+                    from .feature_writer import write_feature
+                    reference = await reference_pool(self.ctx.library, mid)
+                    published = self.ctx.overlays(mid)[1]
+                    result = await asyncio.to_thread(lambda: asyncio.run(match_report(ev, phase, at, language=language,
+                                                             reference=reference, config=self.config, published_overlays=published)))
+                    if model is not None:
+                        result.update(await write_feature(result["answer"], result["facts"], ev.meta, result["at_s"], model=model,
+                                                          budget=self.ctx.budget, config=self.config, persona="beginner", language=language))
+                    if self.generations.get(mid) == key[1]:
+                        self.advanced_reports[mid, phase, language] = result
+                        audit(self, "report", mid, result)
+                else:
+                    cache = self.advanced_notes.setdefault((mid, language), [])
+                    notes = await coach_notes(ev, at, language, model=model, budget=self.ctx.budget,
+                                              config=self.config, exclude_ids={n["note_id"] for n in cache})
+                    if self.generations.get(mid) == key[1]:
+                        cache.extend(notes)
+                        for note in notes:
+                            audit(self, "coach", mid, note)
+        finally:
+            self.advanced_pending.discard(key)
 
     async def record_recaps(self, meta, overlays: list[dict]) -> dict[str, dict]:
         """Demo build: Recap agent output for every persona/language/club, stored in the bundle.
@@ -138,4 +214,7 @@ def register(ctx) -> None:
     plugin = AgentsPlugin(ctx)
     ctx.agents = plugin
     ctx.on_reset(plugin.reset)
+    ctx.on_control(plugin.on_control)
+    ctx.on_tracking(plugin.on_tracking)
+    ctx.on_event(plugin.on_event)
     ctx.analytics.subscribe(plugin.on_moment)

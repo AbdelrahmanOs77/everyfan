@@ -30,7 +30,8 @@ Window = Annotated[float, Field(gt=0, le=5400, allow_inf_nan=False, strict=True)
 Metric = Literal["possession_pct", "pass_accuracy_pct", "ppda", "control_index", "shots", "passes",
                  "chaos_index", "turnovers_per_min", "passes_per_min"]
 STRICT = ConfigDict(strict=True)
-TOOL_NAMES = ("get_match_state", "get_recent_events", "get_player_statistics", "get_moment_evidence", "compare_to_baseline")
+TOOL_NAMES = ("get_match_state", "get_recent_events", "get_player_statistics", "get_moment_evidence", "compare_to_baseline",
+              "get_tactical_snapshot", "get_player_profile")
 
 
 class EvidenceTools:
@@ -102,6 +103,25 @@ class EvidenceTools:
         evidence = await self._evidence(match_id)
         self._team(evidence, team_id)
         return deepcopy(await asyncio.to_thread(evidence.baseline, metric, window_s, at_s, team_id))
+
+    @validate_call(config=STRICT)
+    async def get_tactical_snapshot(self, match_id: MatchID, at_s: Clock, window_s: Window = 60) -> dict[str, JsonValue]:
+        """Selected-window causal tactics, same facts as the public tactics endpoint."""
+        from backend.analytics.live_tactics import tactical_snapshot
+        evidence = await self._evidence(match_id)
+        return deepcopy(await asyncio.to_thread(tactical_snapshot, evidence, at_s, window_s))
+
+    @validate_call(config=STRICT)
+    async def get_player_profile(self, match_id: MatchID, player_id: EntityID, at_s: Clock,
+                                  window_s: Window = 300) -> dict[str, JsonValue]:
+        """Player evidence and independent-match reference pool; no future current-match samples."""
+        from backend.analytics.player_profile import player_profile
+        from backend.analytics.reference_pool import reference_pool
+        evidence = await self._evidence(match_id)
+        if player_id not in evidence.players:
+            raise KeyError(f"Unknown player: {player_id}")
+        pool = await reference_pool(self.library, match_id)
+        return deepcopy(await asyncio.to_thread(player_profile, evidence, player_id, at_s, window_s, pool))
 
 
 class APIKeyMiddleware:

@@ -4,6 +4,7 @@ import type { Metadata, Preferences } from '../types';
 import type { useMatch } from '../useMatch';
 import { Pitch } from './Pitch';
 import { Transport } from './Controls';
+import type { ReactNode } from 'react';
 export function MatchStage({
   meta,
   match,
@@ -14,6 +15,8 @@ export function MatchStage({
   demoReady,
   onRecap,
   showStartButton = true,
+  layers,
+  badge,
 }: {
   meta: Metadata | null;
   match: ReturnType<typeof useMatch>;
@@ -24,6 +27,8 @@ export function MatchStage({
   demoReady: boolean;
   onRecap: () => void;
   showStartButton?: boolean;
+  layers?: ReactNode;
+  badge?: ReactNode;
 }) {
   const t = copy[preference.language];
   const active = match.connection === 'connected';
@@ -70,6 +75,7 @@ export function MatchStage({
             {t.recap}
           </button>
         </div>
+        {badge}
         {meta ? (
           <Pitch
             metadata={meta}
@@ -79,6 +85,7 @@ export function MatchStage({
             language={preference.language}
             moments={match.stream.moments}
             onSelect={onPlayer}
+            layers={layers}
           />
         ) : (
           <div className="pitch-skeleton" role="status">

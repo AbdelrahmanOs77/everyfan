@@ -14,6 +14,54 @@ pitch:
 
 rolling_window_s: 300        # "last 5 minutes" for every rolling metric
 
+advanced_features:
+  formation_window_s: 60
+  position_groups: {GK: GK, RB: FB, LB: FB, CB: CB, DM: MID, CM: MID, AM: AM, RW: W, LW: W, ST: ST}
+  benchmark_metrics:
+    outfield: [passes_completed, pass_accuracy_pct, distance_km, high_intensity_m, top_speed_kmh]
+    FB: [tackles_won, interceptions, duel_win_pct, recoveries]
+    CB: [tackles_won, interceptions, duel_win_pct, recoveries]
+    MID: [key_passes, forward_passes_10m, final_third_entries]
+    AM: [key_passes, forward_passes_10m, final_third_entries]
+    W: [shots, shots_on_target, box_entries, sprints]
+    ST: [shots, shots_on_target, box_entries, sprints]
+    GK: [saves, pass_accuracy_pct, distance_km]
+  benchmark_rates: [pass_accuracy_pct, duel_win_pct, top_speed_kmh]
+  lower_is_better: []
+  role_weights:
+    GK: {saves: 3, pass_accuracy_pct: 2, distance_km: 1}
+    FB: {tackles_won: 2, interceptions: 2, passes_completed: 2, high_intensity_m: 1}
+    CB: {interceptions: 3, tackles_won: 2, duel_win_pct: 2, pass_accuracy_pct: 2, recoveries: 1}
+    MID: {key_passes: 3, passes_completed: 2, forward_passes_10m: 2, pass_accuracy_pct: 1}
+    AM: {key_passes: 3, final_third_entries: 2, passes_completed: 1}
+    W: {shots_on_target: 3, shots: 2, box_entries: 2, sprints: 1, passes_completed: 1}
+    ST: {shots_on_target: 3, shots: 2, box_entries: 2, sprints: 1, passes_completed: 1}
+  phase_min_frames: 20
+  formation_four_line_margin: 0.25
+  formation_min_spread_m: 1.0
+  stable_formation_s: 180
+  history_step_s: 30
+  links_window_s: 300
+  max_links: 8
+  grid_step_m: 1.0
+  event_frame_tolerance_s: 0.5
+  line_break_players: 3
+  counter_window_s: 15
+  fast_break_s: 10
+  pressing_columns: 6
+  pressing_rows: 4
+  heatmap_columns: 21
+  heatmap_rows: 14
+  trail_s: 60
+  output_block_s: 900
+  benchmark_min_minutes: 15
+  reference_min_minutes: 30
+  off_ball_distance_m: 5
+  off_ball_speed_kmh: 18
+  off_ball_gain_m: 10
+  received_pass_s: 3
+  forward_pass_m: 10
+
 metrics:
   pass_difficulty:           # 0-1 heuristic, not xPass
     w_distance: 0.35

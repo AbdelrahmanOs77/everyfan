@@ -26,6 +26,19 @@ class AgentConfig:
     tools_transport: str = "inprocess"
     mcp_server_url: str = "http://127.0.0.1:8000/mcp/"
     club_persona: bool = True  # Favorite Club overlays, one per club (AGENT_CLUB_PERSONA=0 turns them off)
+    ask_per_minute: int = 6
+    ask_max_question: int = 300
+    ask_max_history: int = 4
+    ask_max_tools: int = 3
+    coach_interval_s: int = 30
+    coach_hold_s: int = 180
+    coach_window_s: int = 60
+    coach_cooldown_s: int = 300
+    coach_baseline_s: int = 600
+    coach_line_change_m: float = 8
+    coach_area_change_pct: float = 25
+    coach_counter_min: int = 2
+    advanced_debounce_s: float = 0.75
 
     @classmethod
     def from_env(cls) -> "AgentConfig":

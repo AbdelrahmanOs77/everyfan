@@ -55,6 +55,7 @@ class DemoBundle:
     stale: bool = False
     # Recap agent output recorded at build time, keyed "persona|language|club_id" (zero cost to serve).
     recaps: dict[str, dict] = field(default_factory=dict)
+    advanced: dict = field(default_factory=dict)  # optional report/coach/Q&A recordings, outside frozen contracts
 
     @property
     def times(self) -> list[float]:
@@ -90,7 +91,12 @@ class DemoBundle:
                 "counts": self.counts(), "items": self.items}
         if self.recaps:
             body["recaps"] = self.recaps
-        path.write_text(json.dumps(body, ensure_ascii=False, indent=1), encoding="utf-8")
+        encoded = json.dumps(body, ensure_ascii=False, indent=1)
+        if self.advanced:
+            # Recorded facts repeat across personas; compact this optional payload while
+            # retaining the existing overlay representation for readable diffs.
+            encoded = encoded[:-2] + ',\n "advanced": ' + json.dumps(self.advanced, ensure_ascii=False, separators=(",", ":")) + "\n}"
+        path.write_text(encoded, encoding="utf-8")
         return path
 
     @classmethod
@@ -98,7 +104,7 @@ class DemoBundle:
         d = json.loads(Path(path).read_text(encoding="utf-8"))
         items = sorted(d["items"], key=lambda i: (i["game_time_s"], i["type"] != "moment"))
         return cls(d["match_id"], d["scenario_id"], d["fingerprint"], d.get("plugins", []), items,
-                   d.get("created_at", ""), recaps=d.get("recaps", {}))
+                   d.get("created_at", ""), recaps=d.get("recaps", {}), advanced=d.get("advanced", {}))
 
 
 class DemoStore:

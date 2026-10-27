@@ -144,6 +144,8 @@ test('one full replay stays faithful to state, expires cards and resets cleanly'
   await page.getByRole('checkbox', { name: 'Pause at goals', exact: true }).uncheck();
   await page.getByRole('combobox', { name: 'Replay speed', exact: true }).selectOption('60');
   await expect(page.locator('.stage-mode')).toContainText('FULL TIME', { timeout: 110000 });
+  // Reports open automatically at half/full time; the match continues underneath.
+  if (await page.getByRole('dialog').count()) await page.keyboard.press('Escape');
   expect(latestState).not.toBeNull();
   await expect(page.getByTestId('score-home')).toHaveText(String(latestState!.score.nile_fc));
   await expect(page.getByTestId('score-away')).toHaveText(String(latestState!.score.delta_utd));

@@ -173,6 +173,8 @@ class StubModel:
             result = payload["brief"]
         elif task == "recap":
             result = payload["template"]
+        elif task == "route":
+            result = {"intent": payload["intent"]}
         else:
             raise ValueError(f"Unsupported stub task: {task!r}")
         return json.dumps(result, ensure_ascii=False), 0

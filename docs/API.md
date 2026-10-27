@@ -1,5 +1,24 @@
 # EveryFan API (for Owner D's frontend and Owner C's agents)
 
+## Advanced Player, Tactics and agents (28 October 2026)
+
+| Method/path | Parameters / behavior |
+| --- | --- |
+| `GET /api/matches/{id}/tactics` | `at_s=5400` (0–5400), `window_s=60` (>0–5400), optional `team_id`, `include_space=true`. Returns per-team formation/history, shape, defensive/offside lines, links, control, line-breaking passes, counters and pressing, plus definitions and event/frame evidence. `include_space=false` omits expensive grid shares for shared-pitch badges. |
+| `GET /api/matches/{id}/players/{pid}/profile` | `at_s=5400`, `window_s=300`, optional comma-separated `sections=benchmark,progress,role_index,heatmap,trail,sprints,fatigue,matchup,off_ball_runs`. Base metrics/minutes/evidence always present. Unknown player 404; unknown section 422. Other-match reference pools never include the current match. |
+| `POST /api/matches/{id}/ask` | JSON `{question, at_s, persona, language, player_id?, club_id?, history?, source?}`. Question 1–300 chars; history ≤4 `{q,a}` entries, persona beginner/tactical/player/club, language en/ar. `source=demo` default guarantees zero model calls; `live` uses configured models/budget. Six requests/minute/client, then 429 + Retry-After. Returns own-module `AskAnswer`: headline ≤60/body ≤400, verified facts, source IDs/ranges, tools, status, source, reason codes, trace ID, latency and definitions. |
+| `GET /api/matches/{id}/coach-notes` | `until_s=5400`, `persona=tactical`, `language=en`, `source=demo|live`. Returns notes with stable chronological IDs, own-model facts/evidence, before/after formations, verified text and definitions. Filters all notes at `until_s`. |
+| `GET /api/matches/{id}/report` | `phase=half|full|so_far`, `at_s=5400`, `persona`, `language`, `club_id`, `source=demo|live`. Half unavailable before 2700; full before 5400 (422, including cache hits). Club persona requires a valid club ID. Returns narrative, score/scorers, half/match tables, tactical picture, category leaders, moments, coach observations, evidence and definitions. |
+
+All clocks/windows validate bounds; unknown match is 404. Read endpoints use the existing read limiter.
+CPU-heavy providers run in worker threads. Frozen schemas are unchanged. See
+[definitions and examples](ADVANCED_FEATURES_GUIDE.md). MCP adds protected read-only
+`get_tactical_snapshot(match_id, at_s, window_s)` and `get_player_profile(match_id, player_id, at_s)`;
+their results match these REST providers, and missing/wrong API keys still receive 401.
+
+Examples: `/api/matches/match_001/tactics?at_s=3784&window_s=60` and
+`/api/matches/match_001/players/nil_09/profile?at_s=3784&sections=benchmark,sprints`.
+
 Base URL: `http://localhost:8000` locally (`python -m backend.cli serve`), `https://<app>.azurecontainerapps.io` in Azure.
 Interactive docs: `/docs`. All JSON. CORS allows only `FRONTEND_ORIGIN`.
 

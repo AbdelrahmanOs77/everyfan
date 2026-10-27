@@ -1,5 +1,17 @@
 # EveryFan — Project Overview and Fan Data Guide
 
+## Added 28 October 2026: advanced interfaces and agents
+
+The [advanced feature guide](ADVANCED_FEATURES_GUIDE.md) lists every new metric, formula, threshold,
+source and honest label. Player now adds role benchmark radar, checkpoint progress, transparent role
+heuristic, sample heatmap/trail, sprint arrows, output blocks, direct matchup and off-ball runs.
+Tactical adds the Live pitch tab with formation, hull/shape, current-position pass links, distance-only
+Voronoi space control, defensive/position-only offside lines, line-breaking passes, counters and pressing.
+The shared pitch has formation badges; Player also has movement layers. My Club compares counter totals.
+Every fan interface has evidence-backed Ask and reports; Tactical has the coach-note feed.
+All earlier statistics below remain available. Counts/distances use per-90 normalization in comparisons;
+accuracy percentages and top speeds retain natural units. Role index is explicitly a heuristic.
+
 **Documentation date:** 27 October 2026
 
 **Tagline:** One Match. Millions of Stories.

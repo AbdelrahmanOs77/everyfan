@@ -8,6 +8,7 @@ aiohttp>=3.9
 python-dotenv>=1.0
 # Owner B: analytics config + Cosmos DB persistence
 pyyaml>=6.0
+numpy==2.3.4
 azure-cosmos>=4.7
 # Owner C: official MCP SDK maintenance release exposing FastMCP.
 mcp==1.30.0

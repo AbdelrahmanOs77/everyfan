@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { copy, localizedName } from '../i18n';
 import type { Language, Metadata, Moment, Tracking } from '../types';
 
@@ -10,6 +10,7 @@ export function Pitch({
   language,
   moments,
   onSelect,
+  layers,
 }: {
   metadata: Metadata;
   frame: Tracking | null;
@@ -18,6 +19,7 @@ export function Pitch({
   language: Language;
   moments: Moment[];
   onSelect: (id: string) => void;
+  layers?: ReactNode;
 }) {
   const [names, setNames] = useState(false);
   const players = new Map(
@@ -63,6 +65,7 @@ export function Pitch({
           <circle cx="11" cy="34" r=".25" />
           <circle cx="94" cy="34" r=".25" />
         </g>
+        {layers}
         {frame?.players.map(([id, x, y]) => {
           const player = players.get(id);
           if (!player) return null;
