@@ -103,6 +103,18 @@ async def recent_events(request: Request, match_id: str, at_s: float | None = Qu
     return ev.recent_events(at_s, window_s, team_id, set(types.split(",")) if types else None, limit)
 
 
+@router.get("/api/matches/{match_id}/advanced-stats")
+async def advanced_match_stats(request: Request, match_id: str,
+                               at_s: float = Query(5400, ge=0, le=5400),
+                               window_s: float = Query(300, gt=0, le=5400)):
+    """Rolling and match-to-date team analysis, passing networks and event maps."""
+    from .advanced import advanced_stats
+
+    _limit(request)
+    ev = await get_match_evidence(request, match_id)
+    return await asyncio.to_thread(advanced_stats, ev.meta, ev.events, at_s=at_s, window_s=window_s, cfg=ev.cfg)
+
+
 @router.get("/api/matches/{match_id}/players/{player_id}/stats")
 async def player_stats(request: Request, match_id: str, player_id: str,
                        at_s: float | None = Query(None, ge=0, le=5400)):

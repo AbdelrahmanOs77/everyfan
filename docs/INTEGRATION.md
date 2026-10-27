@@ -133,3 +133,15 @@ CORS update and physical-device/mobile-network acceptance remain external
 dependencies. No policy bypass or unrelated Azure resource change was attempted.
 English pitch, recording and final account-holder actions are in
 [OWNER_D_DELIVERY.md](OWNER_D_DELIVERY.md).
+
+## Fan-specific interfaces and advanced metrics (authorized C/D/B integration)
+
+The user explicitly authorized backend enhancements for advanced fan statistics.
+`backend/analytics/advanced.py` adds deterministic rolling-window/match-to-date
+aggregates, passing networks, pass-endpoint territory and shot maps.
+`backend/analytics/api.py` mounts the additive, rate-limited `advanced-stats`
+endpoint; no Owner A Python files, frozen contracts, existing formulas or moment
+rules are changed. The frontend now offers separate Beginner, Tactical, Player
+and My Club interfaces that automatically select their commentary persona.
+See [OWNER_D_FAN_INTERFACES.md](OWNER_D_FAN_INTERFACES.md) for definitions, source
+provenance, missing-data behavior and the required backend+frontend deployment.
