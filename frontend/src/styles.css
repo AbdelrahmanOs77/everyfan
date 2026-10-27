@@ -82,12 +82,27 @@ bdi {
   font-variant-numeric: tabular-nums;
 }
 select {
+  color: var(--text);
+  color-scheme: light;
   max-width: 100%;
   border: 1px solid var(--line);
   background: #142023;
   border-radius: 7px;
   padding: 11px 27px 11px 11px;
   min-height: 44px;
+}
+/* Native popup menus may use a light OS surface inside the embedded browser. */
+select option,
+select optgroup {
+  color: #142023;
+  background-color: #f4f7f5;
+}
+select option:checked {
+  color: HighlightText;
+  background-color: Highlight;
+}
+select option:disabled {
+  color: #59655e;
 }
 input[type='checkbox'],
 input[type='range'] {
