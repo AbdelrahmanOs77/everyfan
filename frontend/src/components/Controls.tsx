@@ -41,16 +41,6 @@ export function PreferencesPanel({
         })}
       </div>
       <label className="field-label">
-        {t.language}
-        <select
-          value={preference.language}
-          onChange={(e) => onChange({ ...preference, language: e.target.value as Language })}
-        >
-          <option value="en">English</option>
-          <option value="ar">العربية</option>
-        </select>
-      </label>
-      <label className="field-label">
         {t.favoritePlayer}
         <select
           value={preference.player}

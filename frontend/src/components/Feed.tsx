@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { ArrowUpRight, Braces, RefreshCw } from 'lucide-react';
+import { ArrowUpRight, Braces, RefreshCw, Search } from 'lucide-react';
 import { apiUrl, request } from '../api';
 import { clockLabel, copy } from '../i18n';
-import type { Language, Overlay } from '../types';
+import type { Language, Overlay, Persona } from '../types';
 import { OverlayCard } from './OverlayCard';
 
 export function Feed({
@@ -20,8 +20,18 @@ export function Feed({
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(0);
+  const [persona, setPersona] = useState<Persona | ''>('');
+  const [query, setQuery] = useState('');
+  const [visible, setVisible] = useState(24);
   const t = copy[language];
   const path = `/api/matches/${matchId}/overlays?source=${mode}&limit=5000`;
+  const filtered = items.filter(
+    (o) =>
+      o.language === language &&
+      (!persona || o.persona === persona) &&
+      `${o.headline} ${o.body}`.toLocaleLowerCase().includes(query.toLocaleLowerCase()),
+  );
+  useEffect(() => setVisible(24), [matchId, language, persona, query]);
   useEffect(() => {
     const controller = new AbortController();
     setLoading(true);
@@ -63,26 +73,64 @@ export function Feed({
           </a>
         </div>
       </div>
+      <div className="feed-filters">
+        <label className="feed-search">
+          <Search size={18} />
+          <span className="sr-only">
+            {language === 'ar' ? 'ابحث في التعليقات' : 'Search commentary'}
+          </span>
+          <input
+            type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder={language === 'ar' ? 'ابحث في التعليقات…' : 'Search commentary…'}
+          />
+        </label>
+        <label>
+          <span className="sr-only">
+            {language === 'ar' ? 'تصفية حسب المنظور' : 'Filter by perspective'}
+          </span>
+          <select value={persona} onChange={(e) => setPersona(e.target.value as Persona | '')}>
+            <option value="">{language === 'ar' ? 'كل المنظورات' : 'All perspectives'}</option>
+            {(['beginner', 'tactical', 'player', 'club'] as const).map((p) => (
+              <option key={p} value={p}>
+                {t[p]}
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
       {error && (
         <p role="alert" className="error-banner">
           {error}
         </p>
       )}
       {loading && <p role="status">{t.loading}</p>}
-      {!loading && !items.length && !error && <p className="empty-commentary">{t.noMoments}</p>}
+      {!loading && !filtered.length && !error && (
+        <p className="empty-commentary">
+          {language === 'ar'
+            ? 'لا توجد تعليقات مطابقة. جرّب بحثًا آخر أو منظورًا مختلفًا.'
+            : 'No matching commentary. Try another search or perspective.'}
+        </p>
+      )}
       <div className="feed-grid">
-        {items
-          .filter((o) => o.language === language)
-          .map((o) => (
-            <div key={o.overlay_id}>
-              <div className="feed-label">
-                <bdi>{clockLabel(o.show_at_s)}</bdi>
-                <span>{t[o.persona]}</span>
-              </div>
-              <OverlayCard overlay={o} language={language} onInspect={onInspect} compact />
+        {filtered.slice(0, visible).map((o) => (
+          <div key={o.overlay_id}>
+            <div className="feed-label">
+              <bdi>{clockLabel(o.show_at_s)}</bdi>
+              <span>{t[o.persona]}</span>
             </div>
-          ))}
+            <OverlayCard overlay={o} language={language} onInspect={onInspect} compact />
+          </div>
+        ))}
       </div>
+      {filtered.length > visible && (
+        <div className="feed-more">
+          <button className="secondary-button" onClick={() => setVisible((n) => n + 24)}>
+            {language === 'ar' ? 'عرض المزيد من التعليقات' : 'Show more commentary'}
+          </button>
+        </div>
+      )}
     </section>
   );
 }

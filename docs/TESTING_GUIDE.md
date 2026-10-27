@@ -9,21 +9,36 @@ http://localhost:5173. All clubs, players and matches are fictional.
    without calling a model. Click a goal in **Key moments** to jump there. The
    replay pauses at goals so you can explore; use Play to continue, or uncheck
    **Pause at goals** for a continuous match. Speeds range from 1× to 60×.
-2. Select **Four-way view**. Beginner, Tactical, Player Focus and Arabic describe
+2. Use the top **Beginner**, **Tactical**, **Player**, and **My club** buttons.
+   Each opens its own fan interface and selects the matching commentary persona.
+   Use **Compare perspectives** below the interface to see Beginner, Tactical,
+   Player Focus and Arabic describe
    the same play. Highlight navigation selects that moment's player so Player
    Focus has the matching perspective. Facts remain supplied by the backend.
 3. Select **Inspect evidence** on a card. Read the measured facts, detection rule
    and linked source events. Copy the workflow trace ID if one is present.
-4. Select **Break it**. An intentionally invented `999999` is shown as a rejected
+4. Open **Judge Lab**, then select **Break it**. An intentionally invented `999999` is shown as a rejected
    draft beside the checked replacement. The draft never enters the broadcast;
-   this demonstration does not call a model.
+   this demonstration does not call a model. The comparison appears directly in
+   Judge Lab. Use a fan button in the top navigation to return to its interface.
 5. Switch **Commentary language** to **العربية**. The interface and cards become
-   RTL; names come from Arabic metadata. Try **Player focus** and select a player,
-   or **Favorite club** and select your side. Preferences survive refresh.
-6. Open **Match story** for a recap so far, or at full time for the final recap.
-   Open **Overlay feed** for the published cards, raw JSON and JSON Schema.
+   RTL; names come from Arabic metadata. Try **Player** and select a player,
+   or **My club** and select your side. Choices survive refresh.
+6. In **Tactical**, choose a team and a one-, five- or fifteen-minute window, or
+   the match so far. Inspect rates against the match baseline, PPDA components,
+   **Passing & territory**, and **Shots & actions**. In **Player**, explore the
+   individual's contributions, physical performance and shot evidence. Open
+   **Match story** for a recap so far, or at full time for the final recap.
+   Open **Overlay feed** for published cards, search/perspective filters, raw JSON
+   and JSON Schema. Every destination has its own URL and browser history.
+7. Explore the fan extras: **Beginner** explains who has the edge; **Tactical →
+   Passing & territory** shows actual tracking averages alongside the pass network
+   and territory grid. **Player** offers top-five team distance/top-speed rankings.
+   **My club** compares your side with its rival, including PPDA and up to three
+   key moments. All four fans show a momentum timeline. Expand its data table or
+   follow Source links to inspect event and paginated tracking evidence.
 
-**Run live** starts a shared broadcast and can spend the live model budget.
+**Run live**, inside Judge Lab, starts a shared broadcast and can spend the live model budget.
 The starter controls it; another viewer joins read-only. Daily caps/rate limits
 may produce checked template fallbacks. Use Stop live broadcast when finished.
 No model credentials or admin access are required in the viewer.

@@ -133,3 +133,49 @@ CORS update and physical-device/mobile-network acceptance remain external
 dependencies. No policy bypass or unrelated Azure resource change was attempted.
 English pitch, recording and final account-holder actions are in
 [OWNER_D_DELIVERY.md](OWNER_D_DELIVERY.md).
+
+## Fan-specific interfaces and advanced metrics (authorized C/D/B integration)
+
+The user explicitly authorized backend enhancements for advanced fan statistics.
+`backend/analytics/advanced.py` adds deterministic rolling-window/match-to-date
+aggregates, passing networks, pass-endpoint territory and shot maps.
+`backend/analytics/api.py` mounts the additive, rate-limited `advanced-stats`
+endpoint; no Owner A Python files, frozen contracts, existing formulas or moment
+rules are changed. The frontend now offers separate Beginner, Tactical, Player
+and My Club interfaces that automatically select their commentary persona.
+See [OWNER_D_FAN_INTERFACES.md](OWNER_D_FAN_INTERFACES.md) for definitions, source
+provenance, missing-data behavior and the required backend+frontend deployment.
+
+The user also requested five evidence-backed extras: team distance/top-speed
+leaderboards, actual tracking averages, a Beginner edge explanation, club/rival
+summary and important moments, and a momentum timeline for every fan. Authorized
+cross-owner changes add `backend/analytics/fan_extras.py`, `tracking_index.py`,
+read-only routes in `api.py` and compact source indexing in `evidence.py`.
+Existing metric/detector formulas are reused. Tracking timeline cutoffs now
+preserve fractional timestamps rather than exposing a sample early via integer
+truncation. Empty-event evidence is supported. Frozen contracts and Owner A source
+remain unchanged. See [OWNER_D_FAN_EXTRAS.md](OWNER_D_FAN_EXTRAS.md) and the complete
+[fan statistics inventory](EVERYFAN_PROJECT_AND_FAN_DATA.md).
+
+The next user-requested tracking extension adds selected-window team width,
+length and own-goal defensive-line height, plus high-intensity distance and
+sprint counts in `advanced.py`. `engine.py` exposes the current smoothed speed
+and path step already calculated by PlayerTracker; existing badges/formulas are
+unchanged. `evidence.py` builds a compact causal index once, and both analytics
+endpoints return identical `tracking` measurements and frame ranges. Thresholds
+live in `config.yaml`; [OWNER_B.md](OWNER_B.md) documents formulas and sprint
+qualification/window semantics. Tactical and Player cards render these facts,
+including their measurement windows and source links. No Owner A source or
+frozen contract is modified.
+
+## Continuous play-by-play (authorized C/A/D integration)
+
+The user requested commentary for routine actions as well as major moments.
+`backend/agents/play_by_play.py` renders bilingual calls from every source-event
+type. Owner A's `backend/api/feed.py` attaches the optional commentary annotation
+to the viewer envelope, leaving its frozen Contract A `data` unchanged; demo and
+live use this same adapter. `backend/api/hub.py` retains the last 50 delivered
+events for late joiners and clears them on reset. The frontend adds a timed,
+evidence-linked running feed and match-speed control in each fan interface.
+No extra model calls or bundle rebuilds are required. See
+[OWNER_C_PLAY_BY_PLAY.md](OWNER_C_PLAY_BY_PLAY.md) for timing, evidence and tests.

@@ -7,6 +7,7 @@
   --muted: #9caaa6;
   --line: #2b383b;
   --surface: #182225;
+  --text: #eff4f1;
   --grass-light: #214c3b;
   --grass-dark: #1c4435;
   --pitch-line: #86a992;
@@ -1712,11 +1713,9 @@ dialog.wide-dialog {
   }
   @keyframes appear {
     from {
-      opacity: 0.4;
       transform: translateY(3px);
     }
     to {
-      opacity: 1;
       transform: translateY(0);
     }
   }

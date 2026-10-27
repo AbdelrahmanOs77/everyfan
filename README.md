@@ -10,11 +10,24 @@ built on Microsoft Foundry, Agent Framework, Azure Event Hubs, Cosmos DB and Con
 Backend complete and integrated (Owners A, B, C): simulator → Event Hubs → analytics → Foundry agents
 (Producer, Analyst over MCP, persona writers, Verifier with repair, Recap) → verified overlays on WebSockets,
 a public overlay feed and match recaps. Personas: Beginner, Tactical, Player Focus, Favorite Club; English and
-Arabic. 573 offline tests. The React viewer now includes the tracking pitch,
+Arabic. 651 offline tests. The React viewer now includes the tracking pitch,
 four-way comparison, Arabic RTL, evidence, measured indices, recaps and Judge
 mode. Public frontend hosting awaits a subscription permitting Azure Static Web
 Apps regions and the backend CORS update; there is no live frontend URL yet.
 See [Owner D status](docs/OWNER_D.md) and the [testing guide](docs/TESTING_GUIDE.md).
+
+The latest local viewer has separate Beginner, Tactical, Player and My Club
+interfaces. Tactical adds server-calculated advanced statistics, rolling-window
+baselines, pass networks, territory and shot maps. See the
+[fan-interface/API definitions](docs/OWNER_D_FAN_INTERFACES.md); this extension
+requires deploying the updated backend along with the frontend.
+
+Fan extras add team distance/top-speed leaderboards, actual tracking average
+positions, club/rival PPDA comparisons and key moments, a plain-language Beginner
+edge explanation, and a momentum timeline for every fan. Every measurement is
+calculated in Python and linked to event or tracking evidence. See the
+[complete project and fan-statistics guide](docs/EVERYFAN_PROJECT_AND_FAN_DATA.md)
+and [fan-extras API/verification](docs/OWNER_D_FAN_EXTRAS.md).
 
 ![EveryFan broadcast viewer](docs/images/owner-d-viewer.png)
 

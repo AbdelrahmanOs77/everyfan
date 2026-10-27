@@ -9,6 +9,7 @@ from __future__ import annotations
 from shared.schemas import ControlMessage, SyntheticEvent, TrackingFrame
 
 from backend.services.consumer import MatchState
+from backend.agents.play_by_play import event_commentary
 
 from .hub import message
 
@@ -26,7 +27,9 @@ def state_msg(state: MatchState) -> dict:
 
 
 def event_msg(e: SyntheticEvent, state: MatchState) -> dict:
-    return message("event", state.match_id, state.run_id, e.game_time_s, e.model_dump(exclude_none=True))
+    # Viewer annotation sits outside data: Contract A remains exactly the source event.
+    return {**message("event", state.match_id, state.run_id, e.game_time_s, e.model_dump(exclude_none=True)),
+            "commentary": event_commentary(e, state.metadata)}
 
 
 def tracking_msg(f: TrackingFrame, state: MatchState) -> dict:

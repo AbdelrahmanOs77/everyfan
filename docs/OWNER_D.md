@@ -4,10 +4,22 @@ The user reviewed Step 5 in place of Owner B and merged PR #5. Owner C's final
 Step 6 handoff is complete: the reviewed backend contracts, demo content, evaluation
 limits and remaining cloud dependencies are recorded in
 [HANDOFF_OWNER_D.md](HANDOFF_OWNER_D.md). This change implements the React viewer
-from section 8 of the Master Implementation Plan. No frozen contract or Owner A/B
-Python source changes are needed.
+from section 8 of the Master Implementation Plan. The original viewer needed no
+Owner A/B source changes; the later advanced-statistics extension below adds an
+authorized Owner B analytics module/route. Frozen contracts remain unchanged.
 
 ## Implemented
+
+The subsequent [independent-screen redesign](OWNER_D_UI.md) replaces the original
+shared layout with top navigation for Match, Perspectives, Insights, Judge Lab
+and Overlay feed. Playback persists between destinations; the new UI can be
+tested locally before deployment. The original demo video shows the earlier UI.
+
+The user's later clarification supersedes that screen grouping: separate
+**Beginner, Tactical, Player and My Club** interfaces now select their matching
+persona automatically. [Fan interfaces and advanced stats](OWNER_D_FAN_INTERFACES.md)
+describe the new deterministic analytics endpoint, window/baseline comparisons,
+passing networks, territory and shot maps. Owner A must deploy both revisions.
 
 - Judge actions: recorded demo, shared live broadcast and deterministic Break it.
 - Real stream positions, ball, metadata team colours, player name tags and measured

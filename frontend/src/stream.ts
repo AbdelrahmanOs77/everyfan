@@ -6,6 +6,7 @@ import type {
   Preferences,
   StreamMessage,
   Tracking,
+  PlayByPlayEntry,
 } from './types';
 
 export interface StreamState {
@@ -17,6 +18,7 @@ export interface StreamState {
   overlays: Overlay[];
   moments: Moment[];
   events: string[];
+  commentary: PlayByPlayEntry[];
   playback: 'idle' | 'playing' | 'paused' | 'finished';
   speed: number;
 }
@@ -29,6 +31,7 @@ export const initialStream = (): StreamState => ({
   overlays: [],
   moments: [],
   events: [],
+  commentary: [],
   playback: 'idle',
   speed: 20,
 });
@@ -67,10 +70,23 @@ export function reduceStream(state: StreamState, message: StreamMessage): Stream
       return state.moments.some((m) => m.moment_id === message.data.moment_id)
         ? state
         : { ...state, moments: [...state.moments, message.data] };
-    case 'event':
-      return state.events.includes(message.data.event_id)
-        ? state
-        : { ...state, events: [...state.events, message.data.event_id] };
+    case 'event': {
+      if (state.events.includes(message.data.event_id)) return state;
+      const annotation = message.commentary;
+      const valid =
+        annotation &&
+        Number.isFinite(annotation.show_at_s) &&
+        annotation.show_at_s >= message.game_time_s &&
+        typeof annotation.text?.en === 'string' &&
+        typeof annotation.text?.ar === 'string';
+      return {
+        ...state,
+        events: [...state.events, message.data.event_id],
+        commentary: valid
+          ? [...state.commentary, { ...message.data, seq: message.data.seq ?? 0, ...annotation }]
+          : state.commentary,
+      };
+    }
     case 'replay':
       return {
         ...state,
@@ -103,6 +119,12 @@ export function matchesPreference(o: Overlay, p: Preferences): boolean {
     (p.persona !== 'club' || o.fields.club_id === p.club) &&
     (p.persona !== 'player' || o.fields.player_id === p.player)
   );
+}
+
+export function activeCommentary(state: StreamState): PlayByPlayEntry[] {
+  return state.commentary
+    .filter((e) => e.show_at_s <= state.clock)
+    .sort((a, b) => b.show_at_s - a.show_at_s || b.seq - a.seq);
 }
 
 export function activeOverlays(state: StreamState, preference: Preferences): Overlay[] {

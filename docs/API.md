@@ -36,6 +36,9 @@ Use demo for "Watch demo match" and live for "Run live". Both send the **same me
 | `GET /api/matches/{id}/recap?persona=&lang=&club=&until_s=&source=` | **match recap** built only from published, verified overlays | `until_s < 5400` = "so far"; `club` required for `persona=club`; 422 on a bad persona |
 | `POST /api/demo/break-it?match_id=&moment_id=&persona=&lang=&club=` | **Break it**: an invented number is rejected by the Verifier | returns `draft`, `verdict`, `repaired_or_fallback_overlay`; defaults to Hassan Nour's 63' goal |
 | `GET /api/matches/{id}/moments`, `/evidence/{moment_id}`, `/stats?at_s=`, `/players/{pid}/stats`, `/baseline` | Owner B's evidence API | see [OWNER_B.md](OWNER_B.md) |
+| `GET /api/matches/{id}/advanced-stats?at_s=&window_s=` | Rolling/match baselines, passing network, territory grid and shot map | see [fan interfaces](OWNER_D_FAN_INTERFACES.md) |
+| `GET /api/matches/{id}/fan-stats?at_s=&window_s=` | Tracking averages, physical leaderboards, club comparisons, Beginner edge and momentum timeline | see [fan extras](OWNER_D_FAN_EXTRAS.md) |
+| `GET /api/matches/{id}/players/{pid}/tracking-samples?at_s=&window_s=&offset=&limit=` | Paginated original tracking evidence, maximum page size 1000 | see [fan extras](OWNER_D_FAN_EXTRAS.md) |
 | `POST /mcp/` | MCP evidence server (Streamable HTTP, 5 read-only tools) | header `x-api-key: MCP_API_KEY` |
 
 Errors are `{"detail": "..."}` with the status codes above.
@@ -76,6 +79,12 @@ Every frame: `{"type", "match_id", "run_id", "game_time_s", "data"}`.
 | `overlay` | Overlay (Contract C) | see timing below |
 | `control` | `{action, speed}` | run_started, paused, resumed, seeked, run_finished |
 | `replay` | `{state, speed, game_time_s, progress, mode}` | every 1 s (demo) / 5 s (live) |
+
+Event envelopes also include optional root-level `commentary` with `show_at_s`
+and `text: {en, ar}`. The original Contract A event in `data` is unchanged.
+Display action calls only when the picture clock reaches `show_at_s`, which
+includes the recorded duration for passes, carries and shots. Live snapshots
+include the last 50 delivered events. See [play-by-play](OWNER_C_PLAY_BY_PLAY.md).
 
 ### Clock and overlay timing (the important part)
 

@@ -103,12 +103,51 @@ async def recent_events(request: Request, match_id: str, at_s: float | None = Qu
     return ev.recent_events(at_s, window_s, team_id, set(types.split(",")) if types else None, limit)
 
 
+@router.get("/api/matches/{match_id}/advanced-stats")
+async def advanced_match_stats(request: Request, match_id: str,
+                               at_s: float = Query(5400, ge=0, le=5400),
+                               window_s: float = Query(300, gt=0, le=5400)):
+    """Rolling and match-to-date team analysis, passing networks and event maps."""
+    from .advanced import advanced_stats
+
+    _limit(request)
+    ev = await get_match_evidence(request, match_id)
+    return await asyncio.to_thread(advanced_stats, ev.meta, ev.events, at_s=at_s, window_s=window_s,
+                                   cfg=ev.cfg, tracking_index=ev.tracking)
+
+
 @router.get("/api/matches/{match_id}/players/{player_id}/stats")
 async def player_stats(request: Request, match_id: str, player_id: str,
                        at_s: float | None = Query(None, ge=0, le=5400)):
     _limit(request)
     ev = await get_match_evidence(request, match_id)
     out = await asyncio.to_thread(ev.player_stats, player_id, at_s)
+    if out is None:
+        raise HTTPException(404, f"unknown player {player_id}")
+    return out
+
+
+@router.get("/api/matches/{match_id}/fan-stats")
+async def fan_match_stats(request: Request, match_id: str,
+                          at_s: float = Query(5400, ge=0, le=5400),
+                          window_s: float = Query(300, gt=0, le=5400)):
+    """Tracking positions, leaderboards, club summaries and source-backed momentum."""
+    from .fan_extras import fan_stats
+
+    _limit(request)
+    ev = await get_match_evidence(request, match_id)
+    return await asyncio.to_thread(fan_stats, ev, at_s=at_s, window_s=window_s)
+
+
+@router.get("/api/matches/{match_id}/players/{player_id}/tracking-samples")
+async def tracking_samples(request: Request, match_id: str, player_id: str,
+                            at_s: float = Query(5400, ge=0, le=5400),
+                            window_s: float = Query(5400, gt=0, le=5400),
+                            offset: int = Query(0, ge=0), limit: int = Query(200, ge=1, le=1000)):
+    """Original source positions, paginated within a bounded as-of time window."""
+    _limit(request)
+    ev = await get_match_evidence(request, match_id)
+    out = ev.tracking_samples(player_id, at_s, window_s, offset, limit)
     if out is None:
         raise HTTPException(404, f"unknown player {player_id}")
     return out
