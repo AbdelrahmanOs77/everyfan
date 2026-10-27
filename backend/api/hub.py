@@ -76,7 +76,8 @@ class Channel:
         self.clients: set[ViewerClient] = set()
         self.last_viewer_seen = time.monotonic()
         self.snapshot: dict = {"metadata": None, "state": None, "replay": None,
-                               "moments": deque(maxlen=200), "overlays": deque(maxlen=100)}
+                               "moments": deque(maxlen=200), "overlays": deque(maxlen=100),
+                               "events": deque(maxlen=50)}
         self._line: deque[tuple[float, dict, str]] = deque()
         self._wake = asyncio.Event()
         self._pump: asyncio.Task | None = None
@@ -94,19 +95,22 @@ class Channel:
 
     def snapshot_messages(self) -> list[dict]:
         out = [m for m in (self.snapshot["metadata"], self.snapshot["state"], self.snapshot["replay"]) if m]
-        return out + list(self.snapshot["moments"]) + list(self.snapshot["overlays"])
+        return out + list(self.snapshot["events"]) + list(self.snapshot["moments"]) + list(self.snapshot["overlays"])
 
     def _remember(self, msg: dict) -> None:
         kind = msg["type"]
         if kind == "reset":
             self.snapshot["moments"].clear()
             self.snapshot["overlays"].clear()
+            self.snapshot["events"].clear()
         elif kind in ("metadata", "state", "replay"):
             self.snapshot[kind] = msg
         elif kind == "moment":
             self.snapshot["moments"].append(msg)
         elif kind == "overlay":
             self.snapshot["overlays"].append(msg)
+        elif kind == "event":
+            self.snapshot["events"].append(msg)
 
     def _deliver(self, msg: dict, text: str) -> None:
         self._remember(msg)

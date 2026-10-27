@@ -80,6 +80,12 @@ Every frame: `{"type", "match_id", "run_id", "game_time_s", "data"}`.
 | `control` | `{action, speed}` | run_started, paused, resumed, seeked, run_finished |
 | `replay` | `{state, speed, game_time_s, progress, mode}` | every 1 s (demo) / 5 s (live) |
 
+Event envelopes also include optional root-level `commentary` with `show_at_s`
+and `text: {en, ar}`. The original Contract A event in `data` is unchanged.
+Display action calls only when the picture clock reaches `show_at_s`, which
+includes the recorded duration for passes, carries and shots. Live snapshots
+include the last 50 delivered events. See [play-by-play](OWNER_C_PLAY_BY_PLAY.md).
+
 ### Clock and overlay timing (the important part)
 
 * Drive the on-screen clock from the latest `tracking` (or `state`) `game_time_s`. It keeps moving during goal celebrations.
