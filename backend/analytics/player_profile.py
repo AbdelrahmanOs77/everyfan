@@ -266,10 +266,11 @@ class PlayerProfiles:
         target = next(d for rival, d in per_frame if rival == other)
         share = float(((target == winning) & ((matrix == winning).sum(axis=0) == 1) & shared).sum() / shared.sum() * 100)
         duels = [e for e in self.ev.events if at - window < e.game_time_s <= at and e.type in ("duel", "tackle")
-                 and {e.player_id, e.receiver_id or e.qualifiers.get("opponent_id") or e.qualifiers.get("opponent_player_id")} == {pid, other}]
-        wins = sum((e.player_id == pid and e.outcome == "won") or (e.receiver_id == pid and e.outcome == "lost") for e in duels)
+                 and {e.player_id, e.qualifiers.get("opponent_id") or e.qualifiers.get("opponent_player_id") or e.receiver_id} == {pid, other}]
+        wins = sum((e.player_id == pid and e.outcome == "won") or (e.player_id == other and e.outcome == "lost") for e in duels)
+        losses = sum((e.player_id == pid and e.outcome == "lost") or (e.player_id == other and e.outcome == "won") for e in duels)
         return {"opponent_id": other, "mean_distance_m": round(mean, 2), "nearest_share_pct": round(share, 2),
-                "shared_frames": int(shared.sum()), "duels_won": wins, "duels_lost": len(duels) - wins,
+                "shared_frames": int(shared.sum()), "duels_won": wins, "duels_lost": losses,
                 "evidence_event_ids": [e.event_id for e in duels], "frame_range": self.source(pid, at, window),
                 "player_metrics": self.per90(pid, at), "opponent_metrics": self.per90(other, at)}
 

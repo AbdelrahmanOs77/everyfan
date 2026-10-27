@@ -87,3 +87,16 @@ def test_output_block_hand_calculation_and_role_weighted_midrank(derby):
     assert benchmark["reliable"]
     assert role["value"] == 5
     assert sum(p["contribution"] for p in role["parts"]) == pytest.approx(5, abs=.002)
+
+
+def test_matchup_qualifier_opponents_are_symmetric_and_unknown_outcomes_are_not_losses(derby):
+    frames = [frame(0, [point("nil_06", "nile_fc", 20), point("del_06", "delta_utd", 22)])]
+    events = [event(1, 1, "duel", receiver="del_06", outcome="won"),
+              event(2, 2, "duel", team="delta_utd", player="del_06", receiver=None, outcome="lost").model_copy(update={"qualifiers": {"opponent_id": "nil_06"}}),
+              event(3, 3, "duel", team="delta_utd", player="del_06", receiver=None, outcome="won").model_copy(update={"qualifiers": {"opponent_player_id": "nil_06"}}),
+              event(4, 4, "duel", receiver="del_06", outcome=None)]
+    ev = MatchEvidence(derby.metadata, events, frames)
+    home = player_profile(ev, "nil_06", 5, sections=["matchup"])["matchup"]
+    away = player_profile(ev, "del_06", 5, sections=["matchup"])["matchup"]
+    assert (home["duels_won"], home["duels_lost"]) == (2, 1)
+    assert (away["duels_won"], away["duels_lost"]) == (1, 2)
