@@ -64,10 +64,10 @@ const goal = async () => {
 };
 await page.goto('http://localhost:5173');
 await goal();
-await page.getByRole('button', { name: 'Four-way view', exact: true }).click();
+await page.getByRole('button', { name: 'Perspectives', exact: true }).click();
 await page.locator('.comparison').scrollIntoViewIfNeeded();
 await until(12);
-await page.getByRole('button', { name: 'Watch', exact: true }).click();
+await page.getByRole('button', { name: 'Match', exact: true }).click();
 await page.evaluate(() => scrollTo(0, 0));
 await until(25);
 await page.getByRole('button', { name: /^Player focus/ }).click();
@@ -77,6 +77,7 @@ await page.getByRole('combobox', { name: 'Replay speed', exact: true }).selectOp
 await page.getByRole('button', { name: 'Play', exact: true }).click();
 await page.locator('.broadcast-stage').scrollIntoViewIfNeeded();
 await until(36);
+await page.getByRole('button', { name: 'Insights', exact: true }).click();
 await page.locator('.indices').scrollIntoViewIfNeeded();
 await until(45);
 await page.setContent(
@@ -84,10 +85,11 @@ await page.setContent(
 );
 await until(70);
 await page.goto('http://localhost:5173');
+await page.getByRole('button', { name: 'Judge Lab', exact: true }).click();
 await page.getByRole('button', { name: /^Break it/ }).click();
 await page.locator('.approved-panel').waitFor();
 await until(85);
-await page.keyboard.press('Escape');
+await page.getByRole('button', { name: 'Match', exact: true }).click();
 await goal();
 await page
   .locator('.commentary')
@@ -97,7 +99,7 @@ await page
 await page.locator('.facts-grid').waitFor();
 await until(100);
 await page.keyboard.press('Escape');
-await page.getByRole('button', { name: 'Match story', exact: true }).click();
+await page.getByRole('button', { name: 'Match story', exact: true }).first().click();
 await page.locator('.recap-body').waitFor();
 await until(108);
 await page.keyboard.press('Escape');

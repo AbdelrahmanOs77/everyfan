@@ -9,6 +9,11 @@ Python source changes are needed.
 
 ## Implemented
 
+The subsequent [independent-screen redesign](OWNER_D_UI.md) replaces the original
+shared layout with top navigation for Match, Perspectives, Insights, Judge Lab
+and Overlay feed. Playback persists between destinations; the new UI can be
+tested locally before deployment. The original demo video shows the earlier UI.
+
 - Judge actions: recorded demo, shared live broadcast and deterministic Break it.
 - Real stream positions, ball, metadata team colours, player name tags and measured
   milestone badges. Score and clock come from state/tracking; no client football

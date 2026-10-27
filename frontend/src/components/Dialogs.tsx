@@ -161,18 +161,16 @@ export function EvidenceDialog({
   );
 }
 
-export function BreakDialog({
+export function BreakExperiment({
   language,
   preference,
   matchId,
   momentId,
-  onClose,
 }: {
   language: Language;
   preference: Preferences;
   matchId: string;
   momentId: string;
-  onClose: () => void;
 }) {
   const [data, setData] = useState<BreakResult | null>(null);
   const [error, setError] = useState('');
@@ -197,7 +195,7 @@ export function BreakDialog({
     return () => controller.abort();
   }, [matchId, momentId, preference.persona, preference.club, language]);
   return (
-    <Dialog title={t.verifier} language={language} onClose={onClose} wide>
+    <>
       <div className="dialog-body">
         <p className="dialog-lede">{t.breakIntro}</p>
         <small className="muted">{t.noModel}</small>
@@ -236,7 +234,7 @@ export function BreakDialog({
           </>
         )}
       </div>
-    </Dialog>
+    </>
   );
 }
 
