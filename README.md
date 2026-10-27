@@ -1,5 +1,9 @@
 # EveryFan — One Match. Millions of Stories.
 
+**▶ Try it live: https://everyfanviewer8414.z1.web.core.windows.net**
+· API: https://everyfan-api.graybay-511bafbd.uaenorth.azurecontainerapps.io/docs
+· Demo video: link pending
+
 Synthetic football events → verified match intelligence → personalised, timed broadcast overlays,
 built on Microsoft Foundry, Agent Framework, Azure Event Hubs, Cosmos DB and Container Apps.
 
@@ -12,8 +16,7 @@ Backend complete and integrated (Owners A, B, C): simulator → Event Hubs → a
 a public overlay feed and match recaps. Personas: Beginner, Tactical, Player Focus, Favorite Club; English and
 Arabic. 651 offline tests. The React viewer now includes the tracking pitch,
 four-way comparison, Arabic RTL, evidence, measured indices, recaps and Judge
-mode. Public frontend hosting awaits a subscription permitting Azure Static Web
-Apps regions and the backend CORS update; there is no live frontend URL yet.
+mode.
 See [Owner D status](docs/OWNER_D.md) and the [testing guide](docs/TESTING_GUIDE.md).
 
 The latest local viewer has separate Beginner, Tactical, Player and My Club

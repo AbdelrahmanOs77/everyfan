@@ -19,8 +19,7 @@ The measured 30-moment Foundry evaluation reports 91.0% raw numeric faithfulness
 and 100.0% published numeric faithfulness across 236 outputs, including 87
 template fallbacks. These are numeric-token measurements, not overall quality
 scores. Model-based quality judges and trace ingestion screenshots were not
-verified. The React viewer is implemented; public Static Web Apps hosting awaits
-a subscription permitting its supported regions and the backend CORS update.
+verified.
 
 ## Demo recording
 
