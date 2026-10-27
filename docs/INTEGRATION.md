@@ -1,5 +1,24 @@
 # Integration of Owners A, B and C
 
+## Advanced cross-owner integration — 28 October 2026
+
+The user explicitly authorized the full advanced-feature specification. This requires additive changes
+across Owner B analytics, Owner C agents/MCP, Owner A route/bundle integration and Owner D UI.
+
+- Owner B: new possession/tactics/profile/reference providers; additive routes/config; `evidence.py`
+  builds the compact index and exposes state event-source IDs. Existing advanced/intensity providers are reused.
+- Owner A: `backend/api/main.py` mounts specific advanced POST routes before the generic replay-control
+  route; `backend/api/demo.py` retains an optional packed advanced recording field, preserving old items,
+  fingerprints and existing playback contracts. No simulator/service files were changed.
+- Owner C: seven MCP tools, bounded Ask, stable-ID coach evaluation on tracking/period-end callbacks,
+  reports with checked writing, audit/brief queues and offline recording/evaluation.
+- Owner D: additive pitch layers, Player analysis, chat/evidence drawer, coach feed and report overlay;
+  source cutoffs are hidden after backward seeks. All new UI copy is bilingual, with RTL/name_ar.
+- CI runs the offline bilingual Ask evaluation alongside the existing agent faithfulness gate.
+
+No frozen contracts changed. Pipeline order remains analytics → agents, without template_plugin.
+See [the guide](ADVANCED_FEATURES_GUIDE.md) for definitions and remaining native Arabic/live deployment checks.
+
 Owners A, B and C are complete and integrated: one deterministic pipeline turns a synthetic match into
 moments, verified agent overlays, recaps and a public feed, and every seam between owners is tested.
 Owner D's viewer is implemented against [HANDOFF_OWNER_D.md](HANDOFF_OWNER_D.md).
@@ -16,7 +35,7 @@ flowchart LR
     CON --> AN[B: analytics plugin<br/>metrics, moments]
     AN -->|moment, importance >= 0.5| PR[C: Producer<br/>air plan per persona, language, club]
     PR --> ANL[C: Analyst]
-    ANL -->|MCP Streamable HTTP| MCP[C: MCP server /mcp<br/>5 read-only tools over B's evidence]
+    ANL -->|MCP Streamable HTTP| MCP[C: MCP server /mcp<br/>7 read-only tools over B's evidence]
     ANL --> WR[C: writers x persona x language x club]
     WR --> VE[C: Verifier<br/>code checks + semantic]
     VE -->|rejected once| WR

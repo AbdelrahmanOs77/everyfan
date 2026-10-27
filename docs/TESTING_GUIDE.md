@@ -1,5 +1,21 @@
 # Try EveryFan
 
+## Advanced features
+
+Start a demo, choose Tactical → **Live pitch**, then toggle each layer. Inspect current/window/match
+shape values, space-control shares, formation/line histories, source links, counters and pressing cells.
+Switch to Player: choose a player and high-intensity window, then expand the benchmark, role formula,
+progress, heatmap/trail, sprint/off-ball lists, output blocks and matchup. Run lists seek the replay.
+Open **Ask the match**, try a suggestion, inspect its evidence, then ask “Who will win?” or
+“What happened in minute 63?” before that minute; neither may publish a prediction/future fact.
+Use **Report so far**, and test automatic dismissable half/full-time reports. Switch language to Arabic
+and use a 375 px viewport. [Full metric definitions](ADVANCED_FEATURES_GUIDE.md).
+
+Automated checks: Python pytest/pyflakes, required `evals.run_agent_eval` stub faithfulness gate,
+`evals.run_ask_eval --mode stub --inject 0.3`, and frontend `format:check`, `test`, `build`, `test:e2e`.
+The repository has no lint script; format:check is its existing formatting gate. New browser coverage is
+`frontend/e2e/advanced-features.spec.ts`. Rebuild optional recordings using the command in the guide.
+
 The public frontend URL is pending Azure region/account access; see
 [Owner D deployment status](OWNER_D.md#azure-deployment-dependency).
 For local access follow [Owner D setup](OWNER_D.md#local-setup), then open

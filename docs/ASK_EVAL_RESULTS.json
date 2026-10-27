@@ -1,0 +1,13 @@
+{
+  "mode": "stub",
+  "questions": 44,
+  "provider_warmup_ms": 7508.42,
+  "raw_drafts": 34,
+  "raw_numeric_faithfulness_pct": 64.71,
+  "published_numeric_faithfulness_pct": 100.0,
+  "refusal_correctness_pct": 100.0,
+  "expected_facts_pct": 100.0,
+  "p50_ms": 5.42,
+  "p95_ms": 16.03,
+  "model_calls_are_offline": true
+}
