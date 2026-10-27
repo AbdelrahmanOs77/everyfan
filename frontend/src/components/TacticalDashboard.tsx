@@ -5,6 +5,10 @@ import { clockLabel, displayNumber, localizedName } from '../i18n';
 import type { AdvancedStats, AdvancedTeam, FanStats, Language, Metadata } from '../types';
 import { TrackingPositions } from './FanExtras';
 import { TeamShapeCard } from './TrackingMetrics';
+import { LivePitch } from './tactics/LivePitch';
+import type { Tactics } from '../advancedTypes';
+import type { Tracking } from '../types';
+import { advancedCopy } from '../i18n';
 
 const metrics: [string, string, string, string][] = [
   ['possession_pct', 'Possession', 'الاستحواذ', '%'],
@@ -171,6 +175,9 @@ export function TacticalDashboard({
   onWindow,
   onRetry,
   fanData,
+  tactics,
+  frame,
+  onSeek,
 }: {
   metadata: Metadata;
   data: AdvancedStats | null;
@@ -181,9 +188,12 @@ export function TacticalDashboard({
   onWindow: (v: number) => void;
   onRetry: () => void;
   fanData: FanStats | null;
+  tactics: Tactics | null;
+  frame: Tracking | null;
+  onSeek: (at: number) => void;
 }) {
   const [teamId, setTeamId] = useState(metadata.home.team_id);
-  const [tab, setTab] = useState<'overview' | 'passing' | 'chances'>('overview');
+  const [tab, setTab] = useState<'overview' | 'passing' | 'chances' | 'live'>('overview');
   const ar = language === 'ar';
   const selected =
     [metadata.home, metadata.away].find((t) => t.team_id === teamId) || metadata.home;
@@ -232,6 +242,9 @@ export function TacticalDashboard({
         role="group"
         aria-label={ar ? 'أقسام التحليل' : 'Analysis sections'}
       >
+        <button aria-pressed={tab === 'live'} onClick={() => setTab('live')}>
+          {advancedCopy[language].livePitch}
+        </button>
         {(['overview', 'passing', 'chances'] as const).map((v, i) => {
           const Icon = [ScanLine, Network, Target][i]!;
           return (
@@ -252,6 +265,15 @@ export function TacticalDashboard({
           );
         })}
       </div>
+      {tab === 'live' && tactics && (
+        <LivePitch
+          metadata={metadata}
+          frame={frame}
+          data={tactics}
+          language={language}
+          onSeek={onSeek}
+        />
+      )}
       <div className="analysis-status" role="status">
         <ShieldCheck size={15} />
         {data ? (

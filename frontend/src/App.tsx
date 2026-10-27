@@ -11,7 +11,7 @@ import {
   UserRound,
 } from 'lucide-react';
 import { request } from './api';
-import { copy, localizedName, clockLabel } from './i18n';
+import { advancedCopy, copy, localizedName, clockLabel } from './i18n';
 import { activeOverlays, activeCommentary } from './stream';
 import { useMatch } from './useMatch';
 import { useFacts } from './useFacts';
@@ -41,6 +41,12 @@ import { useFanFacts } from './useFanFacts';
 import { HighIntensityCard } from './components/TrackingMetrics';
 import { ClubComparison, Leaderboard, MomentumChart, OnTop } from './components/FanExtras';
 import { PlayByPlay } from './components/PlayByPlay';
+import { useAdvancedResource } from './useAdvancedResource';
+import type { Profile, Tactics } from './advancedTypes';
+import { PlayerAnalysis, PlayerMovementLayer } from './components/player/PlayerAnalysis';
+import { FormationBadge } from './components/tactics/PitchLayers';
+import { AgentFeatures } from './components/agents/AgentFeatures';
+import './advanced.css';
 const navIcons = {
   beginner: BookOpen,
   tactical: ScanLine,
@@ -115,6 +121,18 @@ export default function App() {
     match.stream.clock,
     view === 'tactical' || view === 'player' ? analysisWindow : 5400,
     active && isFanScreen(view),
+  );
+  const tactics = useAdvancedResource<Tactics>(
+    `/api/matches/${matchId}/tactics?window_s=${analysisWindow}&include_space=${view === 'tactical'}`,
+    match.stream.runId,
+    match.stream.clock,
+    active && isFanScreen(view),
+  );
+  const profile = useAdvancedResource<Profile>(
+    `/api/matches/${matchId}/players/${preference.player}/profile?window_s=${analysisWindow}`,
+    match.stream.runId,
+    match.stream.clock,
+    active && view === 'player' && !!preference.player,
   );
   useEffect(() => {
     setPreference((p) => (p.persona === selectedPersona ? p : { ...p, persona: selectedPersona }));
@@ -275,6 +293,15 @@ export default function App() {
       demoReady={demoReady}
       onRecap={() => setDialog('recap')}
       showStartButton={view === 'beginner'}
+      badge={
+        meta &&
+        tactics.data && (
+          <FormationBadge data={tactics.data} metadata={meta} language={preference.language} />
+        )
+      }
+      layers={
+        view === 'player' && profile.data ? <PlayerMovementLayer data={profile.data} /> : undefined
+      }
     />
   );
   const fanControls = (
@@ -476,6 +503,36 @@ export default function App() {
                   onWindow={setAnalysisWindow}
                   onRetry={advanced.refresh}
                   fanData={extras.data}
+                  tactics={tactics.data}
+                  frame={match.stream.frame}
+                  onSeek={(at) => void match.control('seek', at / 60)}
+                />
+              )}
+              {active &&
+                ((view === 'player' && !profile.data) ||
+                  (view === 'tactical' && !tactics.data)) && (
+                  <div className="extra-panel" role="status">
+                    <p>
+                      {(view === 'player' ? profile.error : tactics.error)
+                        ? advancedCopy[preference.language].failed
+                        : advancedCopy[preference.language].loading}
+                    </p>
+                    {(view === 'player' ? profile.error : tactics.error) && (
+                      <button
+                        className="secondary-button"
+                        onClick={view === 'player' ? profile.refresh : tactics.refresh}
+                      >
+                        {t.retry}
+                      </button>
+                    )}
+                  </div>
+                )}
+              {view === 'player' && meta && profile.data && (
+                <PlayerAnalysis
+                  data={profile.data}
+                  metadata={meta}
+                  language={preference.language}
+                  onSeek={(at) => void match.control('seek', at / 60)}
                 />
               )}
               <div className="fan-broadcast">
@@ -523,6 +580,22 @@ export default function App() {
                     club={preference.club}
                   />
                 ))}
+              {view === 'club' && meta && tactics.data && (
+                <section className="extra-panel">
+                  <h2>
+                    {advancedCopy[preference.language].counters} ·{' '}
+                    {advancedCopy[preference.language].matchSoFar}
+                  </h2>
+                  <dl className="tracking-metric-grid">
+                    {[meta.home, meta.away].map((team) => (
+                      <div key={team.team_id}>
+                        <dt>{localizedName(team, preference.language)}</dt>
+                        <dd>{tactics.data!.teams[team.team_id]?.counters.match_count}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </section>
+              )}
               {view === 'beginner' && (
                 <section className="learn-panel">
                   <span className="eyebrow">
@@ -589,6 +662,20 @@ export default function App() {
                     </button>
                   )}
                 </div>
+              )}
+              {meta && isFanScreen(view) && (
+                <AgentFeatures
+                  metadata={meta}
+                  clock={match.stream.clock}
+                  runId={match.stream.runId}
+                  active={active}
+                  mode={match.mode || 'demo'}
+                  preference={fanPreference}
+                  onSeek={(at) => {
+                    if (active && match.canControl) void match.control('seek', at / 60);
+                    else if (match.mode !== 'live') void match.connect('demo', matchId, at / 60);
+                  }}
+                />
               )}
               <div className="fan-timeline">{timeline}</div>
             </div>
