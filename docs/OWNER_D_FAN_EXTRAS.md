@@ -104,6 +104,12 @@ The full fan/statistics inventory is in
 - Required stub evaluation: **100% published numeric faithfulness (236/236)**;
   all **80** injected invented-number drafts caught. No real models or Azure calls.
 
+CI also exposed transient low contrast during the existing commentary-card fade.
+Card entrance motion now uses translation at full opacity, preserving readable
+text throughout the animation. The seek regression waits for the requested
+positive as-of time rather than mistaking the replay's intermediate zero reset
+for the completed seek. Both accessibility and numeric evidence checks stay enabled.
+
 `tests/test_agents_fan_extras.py` checks hand-calculated coordinate means and
 physical measurements, source pagination, stable top-five ties, absent tracking,
 fractional cutoffs, inactive-player behavior, all on-top decision states,

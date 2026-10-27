@@ -108,7 +108,11 @@ test('fan extras reconcile with evidence across all Tactical windows and both la
     }
     await page.locator('.language-switch select').selectOption('en');
   }
-  const backwards = page.waitForResponse((r) => r.url().includes('/fan-stats?') && r.ok());
+  const backwards = page.waitForResponse((r) => {
+    const at = Number(new URL(r.url()).searchParams.get('at_s'));
+    // A seek emits a reset at zero before the picture reaches its requested time.
+    return r.url().includes('/fan-stats?') && r.ok() && at > 0 && at < playerData.at_s;
+  });
   await page.locator('h1').focus();
   await page.keyboard.press('ArrowLeft');
   const earlier: FanStats = await (await backwards).json();
