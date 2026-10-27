@@ -122,7 +122,7 @@ def test_tool_inventory_and_mcp_wire_call(derby, evidence):
         assert response.status_code == 200
         headers["MCP-Protocol-Version"] = response.json()["result"]["protocolVersion"]
         listed = rpc(client, "tools/list", headers=headers).json()["result"]["tools"]
-        assert {t["name"] for t in listed} == {"get_match_state", "get_recent_events", "get_player_statistics", "get_moment_evidence", "compare_to_baseline"}
+        assert {t["name"] for t in listed} == {"get_match_state", "get_recent_events", "get_player_statistics", "get_moment_evidence", "compare_to_baseline", "get_tactical_snapshot", "get_player_profile"}
         assert all(t["annotations"]["readOnlyHint"] for t in listed)
         baseline = next(t for t in listed if t["name"] == "compare_to_baseline")
         assert set(baseline["inputSchema"]["properties"]["metric"]["enum"]) == set(METRICS)
@@ -174,7 +174,7 @@ def test_mount_into_actual_api_initializes_mcp_lifespan(tmp_path, monkeypatch):
         assert rpc(client, "tools/list", path="/mcp/").status_code == 401
         response = rpc(client, "tools/list", path="/mcp/", headers={"x-api-key": "mount-key"})
         assert response.status_code == 200
-        assert len(response.json()["result"]["tools"]) == 5
+        assert len(response.json()["result"]["tools"]) == 7
         assert client.app.state.mcp_tools.library is client.app.state.library
 
 

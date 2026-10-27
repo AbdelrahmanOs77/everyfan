@@ -244,7 +244,7 @@ def test_mcp_client_matches_in_process_tools(derby, monkeypatch):
                                                          base_url="http://testserver", headers=headers)
             tools = McpEvidenceTools("http://testserver/", "k", http_client_factory=factory("k"))
             try:
-                assert len(await tools.list_tools()) == 5
+                assert len(await tools.list_tools()) == 7
                 assert await tools.get_moment_evidence("match_001", "mom_044") == evidence.evidence("mom_044")
                 assert await tools.get_match_state("match_001", 3783) == evidence.state_at(3783)
                 assert await tools.get_recent_events("match_001", 3783, 300) == evidence.recent_events(3783, 300, limit=50)

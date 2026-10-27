@@ -141,7 +141,7 @@ def annotate(**values):
 class TracedTools:
     """Trace only the five known evidence operations, without exporting arguments/results."""
     names = frozenset({"get_moment_evidence", "get_match_state", "get_recent_events",
-                       "get_player_statistics", "compare_to_baseline"})
+                         "get_player_statistics", "compare_to_baseline", "get_tactical_snapshot", "get_player_profile"})
 
     def __init__(self, tools):
         self.tools = tools

@@ -1,5 +1,30 @@
 # Owner C — agents
 
+## Advanced agents, 28 October 2026
+
+Implemented Ask the Match, tactical coach notes, half/full/so-far reports and two new protected MCP
+tools. [Implementation guide](ADVANCED_FEATURES_GUIDE.md) covers guard/router/tool/writer/verifier/repair/
+fallback behavior, deadlines/budget, stable coach triggers, phase caches, audit/brief writes and offline
+recordings. Specific POST routes are mounted before generic replay controls so `/ask` is reachable.
+New notes/reports/answers use own-module models, not frozen contracts or invented MomentTypes.
+
+The 44-question bilingual [Ask dataset](../evals/ask_eval.jsonl) covers every supported intent,
+prompt injection, future questions, predictions and entity resolution. `run_ask_eval` corrupts selected
+first drafts with an unsupported number, then measures what the checked workflow publishes.
+
+| Offline stub eval, injection 0.3 | Result |
+| --- | --- |
+| Raw draft numeric faithfulness | 64.71% (34 first drafts, selected drafts corrupted) |
+| Published numeric faithfulness | 100% |
+| Refusal correctness | 100% |
+| Expected facts/intents | 100% |
+| Latency p50/p95 | 5.42 / 16.03 ms after 7.5 s provider warm-up; see [saved results](ASK_EVAL_RESULTS.json) |
+
+This proves the deterministic guard/check/fallback behavior on the dataset; it is not an evaluation of
+Foundry linguistic quality. All four demo bundles contain the advanced recordings with zero model calls
+at playback. Arabic is implemented and automatically checked; **native-speaker editorial review remains
+pending**. A live deployment smoke test also remains external to offline validation.
+
 ## Current status (26 Oct, integration)
 
 **All Owner C phases are implemented, including Phase 7 (Azure) and Phase 8 (SHOULD items).** See

@@ -79,6 +79,9 @@ def create_app(settings: Settings | None = None) -> FastAPI:
                   description="Synthetic football match intelligence: replay control, live and cached feeds.")
     app.add_middleware(CORSMiddleware, allow_origins=settings.frontend_origins, allow_methods=["GET", "POST"],
                        allow_headers=["Content-Type", "X-Control-Token", "X-Admin-Token"], max_age=3600)
+    # Register specific POSTs before the generic /{action} replay-control route.
+    from backend.agents.feature_api import router as feature_router
+    app.include_router(feature_router)
 
     # ------------------------------------------------------------- helpers
 

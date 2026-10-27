@@ -96,9 +96,16 @@ def main():
     parser.add_argument('--env-file', type=Path)
     parser.add_argument('--relaxed', action='store_true')
     parser.add_argument('--recaps-only', action='store_true')
+    parser.add_argument('--advanced-only', action='store_true', help='Add all-match advanced reports, coach notes and Q&A; stub mode only')
     parser.add_argument('--token-cap', type=int, default=3000000)
     parser.add_argument('--tpm', type=int, default=24000)
     args = parser.parse_args()
+    if args.advanced_only:
+        if args.mode != 'stub':
+            parser.error('--advanced-only requires --mode stub (zero Azure calls)')
+        from .advanced_demo import record_advanced
+        asyncio.run(record_advanced(args.out, args.mode))
+        return 0
     if args.tpm <= 0 or args.token_cap <= 0:
         parser.error('Token limits must be positive')
     load_dotenv(ROOT / '.env')

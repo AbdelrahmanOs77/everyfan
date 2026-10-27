@@ -114,6 +114,12 @@ class McpEvidenceTools:
         session = await self._connect()
         return [t.name for t in (await session.list_tools()).tools]
 
+    async def get_tactical_snapshot(self, match_id, at_s, window_s=60):
+        return await self._call("get_tactical_snapshot", {"match_id": match_id, "at_s": at_s, "window_s": window_s})
+
+    async def get_player_profile(self, match_id, player_id, at_s, window_s=300):
+        return await self._call("get_player_profile", {"match_id": match_id, "player_id": player_id, "at_s": at_s, "window_s": window_s})
+
     async def aclose(self) -> None:
         runner, self._runner = self._runner, None
         if self._stop is not None:
