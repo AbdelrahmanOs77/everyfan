@@ -156,6 +156,20 @@ export function PitchLayers({
           livePoints.length >= 3
             ? Array.from(Delaunay.from(livePoints).hull).map((i) => livePoints[i]!)
             : livePoints;
+        // Current-frame drawing geometry only; all displayed measurements remain backend facts.
+        const orderedX = livePoints
+          .map((p) => p[0])
+          .sort((a, b) => (team.team_id === metadata.home.team_id ? a - b : b - a));
+        const lineX =
+          orderedX.length >= data.defensive_line_players
+            ? orderedX.slice(0, data.defensive_line_players).reduce((sum, x) => sum + x, 0) /
+              data.defensive_line_players
+            : null;
+        const defenders = frame.players
+          .filter(([id]) => players.get(id)?.team_id === team.team_id)
+          .map(([, x]) => x)
+          .sort((a, b) => (team.team_id === metadata.home.team_id ? a - b : b - a));
+        const offsideX = defenders[1];
         return (
           <g key={team.team_id} stroke={team.primary_color} fill={team.primary_color}>
             {layers.includes('shape') && liveHull.length > 2 && (
@@ -195,33 +209,21 @@ export function PitchLayers({
                   />
                 ) : null;
               })}
-            {layers.includes('lines') && facts.lines.current?.offside_x_m != null && (
-              <line
-                x1={facts.lines.current.offside_x_m}
-                x2={facts.lines.current.offside_x_m}
-                y1="0"
-                y2="68"
-                strokeDasharray="2 1"
-                strokeWidth=".6"
-              />
-            )}
-            {layers.includes('lines') && facts.shape.defensive_line_height_m != null && (
-              <line
-                x1={
-                  team.team_id === metadata.home.team_id
-                    ? facts.shape.defensive_line_height_m
-                    : 105 - facts.shape.defensive_line_height_m
-                }
-                x2={
-                  team.team_id === metadata.home.team_id
-                    ? facts.shape.defensive_line_height_m
-                    : 105 - facts.shape.defensive_line_height_m
-                }
-                y1="0"
-                y2="68"
-                strokeDasharray="4 2"
-                strokeWidth=".6"
-              />
+            {layers.includes('lines') &&
+              data.team_in_possession &&
+              data.team_in_possession !== team.team_id &&
+              offsideX != null && (
+                <line
+                  x1={offsideX}
+                  x2={offsideX}
+                  y1="0"
+                  y2="68"
+                  strokeDasharray="2 1"
+                  strokeWidth=".6"
+                />
+              )}
+            {layers.includes('lines') && lineX != null && (
+              <line x1={lineX} x2={lineX} y1="0" y2="68" strokeDasharray="4 2" strokeWidth=".6" />
             )}
             {layers.includes('breaking') &&
               facts.line_breaking.passes.map((e) => (

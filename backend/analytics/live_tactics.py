@@ -25,6 +25,8 @@ class TacticalSnapshot(BaseModel):
     match_id: str
     at_s: float
     window_s: float
+    team_in_possession: str | None = None
+    defensive_line_players: int = 4
     teams: dict[str, dict]
     definitions: dict[str, str] = Field(default_factory=lambda: DEFINITIONS)
     evidence: dict
@@ -236,6 +238,8 @@ class LiveTactics:
                                      "fast_breaks": sum(c["fast_break"] for c in selected_counters), "items": selected_counters},
                         "pressing": {"cells": list(cells.values()), "ppda": advanced["teams"][tid]["current"]["ppda"]}}
         return TacticalSnapshot(match_id=ev.match_id, at_s=at, window_s=window, teams=out,
+                                team_in_possession=idx.possession.team_in_possession(at),
+                                defensive_line_players=ev.cfg["metrics"]["team_shape"]["defensive_line_players"],
                                 evidence={"frame_range": idx.evidence(at, window), "match_frame_range": idx.evidence(at),
                                           "evidence_event_ids": [e.event_id for e in ev.events if e.game_time_s <= at]}).model_dump(mode="json")
 

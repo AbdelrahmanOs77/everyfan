@@ -567,6 +567,38 @@ export function AgentFeatures({
                             language,
                           )}{' '}
                         · <bdi>{clockLabel(n.game_clock_s)}</bdi>
+                        {'counter_count' in n.facts ? (
+                          <>
+                            {' '}
+                            · {t.counters}: <bdi>{String(n.facts.counter_count)}</bdi>
+                          </>
+                        ) : (
+                          <>
+                            {' · '}
+                            {t.before}:{' '}
+                            <bdi>
+                              {String(
+                                n.facts.before_label ??
+                                  n.facts.before_m ??
+                                  n.facts.before_m2 ??
+                                  n.facts.before_column ??
+                                  '—',
+                              )}
+                            </bdi>
+                            {' → '}
+                            {t.after}:{' '}
+                            <bdi>
+                              {String(
+                                n.facts.after_label ??
+                                  n.facts.after_m ??
+                                  n.facts.after_m2 ??
+                                  n.facts.after_column ??
+                                  '—',
+                              )}
+                            </bdi>
+                            {n.facts.after_m != null ? ' m' : n.facts.after_m2 != null ? ' m²' : ''}
+                          </>
+                        )}
                       </p>
                     ))}
                   </>

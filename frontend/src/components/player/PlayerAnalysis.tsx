@@ -11,6 +11,19 @@ export function PlayerMovementLayer({ data }: { data: Profile }) {
       stroke="var(--accent)"
       transform="translate(0 68) scale(1 -1)"
     >
+      <defs>
+        <marker
+          id="player-live-arrow"
+          viewBox="0 0 6 6"
+          refX="5"
+          refY="3"
+          markerWidth="4"
+          markerHeight="4"
+          orient="auto"
+        >
+          <path d="M0 0L6 3L0 6Z" fill="context-stroke" />
+        </marker>
+      </defs>
       {data.trail.slice(1).map((p, i) => (
         <line
           key={p.at_s}
@@ -28,6 +41,7 @@ export function PlayerMovementLayer({ data }: { data: Profile }) {
           d={`M${run.start_xy.join(' ')}L${run.end_xy.join(' ')}`}
           stroke={run.period === 1 ? 'var(--accent)' : 'white'}
           strokeWidth=".7"
+          markerEnd="url(#player-live-arrow)"
         />
       ))}
       {data.off_ball_runs.items.map((run, i) => (
@@ -36,6 +50,7 @@ export function PlayerMovementLayer({ data }: { data: Profile }) {
           d={`M${run.start_xy.join(' ')}L${run.end_xy.join(' ')}`}
           strokeDasharray="1 .8"
           strokeWidth=".6"
+          markerEnd="url(#player-live-arrow)"
         />
       ))}
     </g>
@@ -82,6 +97,19 @@ export function PlayerAnalysis({
         aria-label={off ? t.offBall : t.sprints}
       >
         <rect width="105" height="68" fill="var(--grass-dark)" />
+        <defs>
+          <marker
+            id={off ? 'off-ball-arrow' : 'sprint-arrow'}
+            viewBox="0 0 6 6"
+            refX="5"
+            refY="3"
+            markerWidth="4"
+            markerHeight="4"
+            orient="auto"
+          >
+            <path d="M0 0L6 3L0 6Z" fill="context-stroke" />
+          </marker>
+        </defs>
         {items.map((run, i) => (
           <g key={i}>
             <path
@@ -89,6 +117,7 @@ export function PlayerAnalysis({
               stroke={run.period === 1 ? 'var(--accent)' : 'white'}
               strokeWidth=".6"
               strokeDasharray={off ? '1 .7' : undefined}
+              markerEnd={`url(#${off ? 'off-ball-arrow' : 'sprint-arrow'})`}
             />
             <circle cx={run.end_xy[0]} cy={68 - run.end_xy[1]!} r=".8" fill="var(--accent)" />
           </g>
@@ -269,7 +298,19 @@ export function PlayerAnalysis({
             <polyline
               key={r.metric}
               fill="none"
-              stroke={j % 2 ? 'var(--text)' : 'var(--accent)'}
+              stroke={
+                [
+                  '#c5ee70',
+                  '#a3d8f4',
+                  '#efcc8c',
+                  '#e7a3ba',
+                  '#c3b1ef',
+                  '#80d4be',
+                  '#f1aa80',
+                  '#d6e9a6',
+                  '#b4c5df',
+                ][j % 9]
+              }
               strokeDasharray={j % 2 ? '4 2' : undefined}
               points={data.progress
                 .map(
@@ -277,7 +318,18 @@ export function PlayerAnalysis({
                     `${10 + (p.at_s / Math.max(1, data.at_s)) * 580},${130 - (p.benchmark.rows.find((x) => x.metric === r.metric)?.percentile ?? 0) * 1.2}`,
                 )
                 .join(' ')}
-            />
+            >
+              <title>
+                {name(r.metric) +
+                  '\n' +
+                  data.progress
+                    .map((p) => {
+                      const row = p.benchmark.rows.find((x) => x.metric === r.metric);
+                      return `${clockLabel(p.at_s)}: ${displayNumber(row?.value)} · ${displayNumber(row?.percentile)}%`;
+                    })
+                    .join('\n')}
+              </title>
+            </polyline>
           ))}
         </svg>
         <div className="table-scroll">

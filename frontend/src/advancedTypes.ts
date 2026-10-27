@@ -87,6 +87,8 @@ export interface TacticalTeam {
 }
 export interface Tactics {
   match_id: string;
+  team_in_possession: string | null;
+  defensive_line_players: number;
   at_s: number;
   window_s: number;
   teams: Record<string, TacticalTeam>;
