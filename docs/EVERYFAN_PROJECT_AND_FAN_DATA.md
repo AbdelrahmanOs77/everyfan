@@ -1,7 +1,9 @@
 # EveryFan — Project Overview and Fan Data Guide
 
-**Documentation date:** 27 October 2026  
-**Tagline:** One Match. Millions of Stories.  
+**Documentation date:** 27 October 2026
+
+**Tagline:** One Match. Millions of Stories.
+
 **Repository:** [AbdelrahmanOs77/everyfan](https://github.com/AbdelrahmanOs77/everyfan)
 
 This document describes the implemented project and the information currently
@@ -131,7 +133,8 @@ commentary persona for each fan interface.
 
 ## 5. Beginner interface
 
-**Route:** `/#/beginner`  
+**Route:** `/#/beginner`
+
 **Goal:** make the match understandable without overwhelming the viewer.
 
 ### Statistics displayed
@@ -157,7 +160,8 @@ The Beginner interface deliberately omits the detailed tactical workbench.
 
 ## 6. Tactical interface
 
-**Route:** `/#/tactical`  
+**Route:** `/#/tactical`
+
 **Goal:** explain team performance, pressure, progression and territory in detail.
 
 ### Controls and comparison scopes
@@ -234,7 +238,8 @@ shots hitting the post. The shot map has a textual evidence table as well.
 
 ## 7. Player interface
 
-**Route:** `/#/player`  
+**Route:** `/#/player`
+
 **Goal:** follow one player's contribution and physical performance.
 
 ### Profile and selection
@@ -276,7 +281,8 @@ an empty commentary state rather than another player's story.
 
 ## 8. My Club interface
 
-**Route:** `/#/club`  
+**Route:** `/#/club`
+
 **Goal:** show the match from the selected club's perspective.
 
 | Statistic | Meaning |
