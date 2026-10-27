@@ -61,6 +61,36 @@ async def analytics_config():
     return {"config": cfg, "rules": rule_descriptions(cfg)}
 
 
+@router.get("/api/matches/{match_id}/tactics")
+async def tactics_snapshot(request: Request, match_id: str, at_s: float = Query(5400, ge=0, le=5400),
+                           window_s: float = Query(60, gt=0, le=5400), team_id: str | None = None,
+                           include_space: bool = True):
+    from .live_tactics import tactical_snapshot
+    _limit(request)
+    ev = await get_match_evidence(request, match_id)
+    if team_id is not None and team_id not in ev.teams:
+        raise HTTPException(404, "unknown team")
+    return await asyncio.to_thread(tactical_snapshot, ev, at_s, window_s, team_id, include_space)
+
+
+@router.get("/api/matches/{match_id}/players/{player_id}/profile")
+async def profile_snapshot(request: Request, match_id: str, player_id: str,
+                           at_s: float = Query(5400, ge=0, le=5400),
+                           window_s: float = Query(300, gt=0, le=5400), sections: str | None = None):
+    from .player_profile import player_profile
+    from .reference_pool import reference_pool
+    _limit(request)
+    ev = await get_match_evidence(request, match_id)
+    if player_id not in ev.players:
+        raise HTTPException(404, "unknown player")
+    selected = sections.split(",") if sections else None
+    reference = await reference_pool(request.app.state.library, match_id) if selected is None or set(selected) & {"benchmark", "progress", "role_index"} else ()
+    try:
+        return await asyncio.to_thread(player_profile, ev, player_id, at_s, window_s, reference, selected)
+    except ValueError as exc:
+        raise HTTPException(422, str(exc))
+
+
 @router.get("/api/analytics/status")
 async def analytics_status(request: Request):
     ctx = getattr(request.app.state, "ctx", None)

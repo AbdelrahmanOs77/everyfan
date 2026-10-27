@@ -1,5 +1,17 @@
 # Owner B: Match Intelligence & Evidence
 
+## Advanced Player/Tactical integration, 28 October 2026
+
+[Advanced feature definitions](ADVANCED_FEATURES_GUIDE.md) document P1–P8 and T1–T8, including
+formation separation, hull/line geometry, nearest-player grid shares, event/frame alignment,
+line-breaking passes, counters/pressing, minutes/per-90 normalization, peer percentiles, weighted role
+index, output blocks, explicit pair matchups and off-ball runs. All thresholds live in config.yaml;
+the existing smoothing/intensity and pitch configuration remains canonical. New modules are
+`possession_index.py`, `tactics_index.py`, `geometry.py`, `live_tactics.py`, `player_profile.py`,
+and `reference_pool.py`. `MatchEvidence` builds the compact tracking index beside existing indexes.
+New response models return definitions and causal source evidence. Cross-owner edits are recorded in
+[INTEGRATION.md](INTEGRATION.md). Measured endpoint timings: [ADVANCED_PERFORMANCE.json](ADVANCED_PERFORMANCE.json).
+
 Every number on screen comes from here: deterministic Python over the event and tracking stream.
 The analytics run as a pipeline plugin, so Owner A's code is untouched except one guarded line that
 mounts the evidence API in `backend/api/main.py`.

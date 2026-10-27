@@ -26,6 +26,7 @@ from .engine import MatchAnalytics, PlayerTracker, minute_of, r1
 from .moments import MomentDetector, rule_descriptions
 from .tracking_index import PlayerPositions
 from .advanced import TrackingMetricsIndex
+from .tactics_index import TacticsIndex
 
 METRICS = ("possession_pct", "pass_accuracy_pct", "ppda", "control_index", "shots", "passes",
            "chaos_index", "turnovers_per_min", "passes_per_min")
@@ -67,6 +68,7 @@ class MatchEvidence:
         self.timelines: dict[str, _Timeline] = {}
         self.positions: dict[str, PlayerPositions] = {}
         self.tracking = TrackingMetricsIndex(meta, self.cfg)
+        self.tactics = TacticsIndex(meta, events)
         last_sec = -1
         for kind, obj in replay_order(events, frames):
             if kind == "event":
@@ -74,6 +76,7 @@ class MatchEvidence:
             else:
                 det.update_tracking(obj)
                 self.tracking.append(obj, det.tracker)
+                self.tactics.append(obj, det.tracker)
                 for point in obj.players:
                     if point.player_id not in self.positions:
                         self.positions[point.player_id] = PlayerPositions()
@@ -177,6 +180,7 @@ class MatchEvidence:
         snap["match_id"] = self.match_id
         snap["period"] = 1 if t < 2700 else 2
         snap["moments_so_far"] = sum(1 for m in self.moments if m.game_clock_s <= t)
+        snap["evidence_event_ids"] = [e.event_id for e in self.events if e.game_time_s <= t]
         return snap
 
     def recent_events(self, at_s: float | None = None, window_s: float = 60, team_id: str | None = None,
