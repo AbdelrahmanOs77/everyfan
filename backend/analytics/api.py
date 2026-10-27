@@ -126,6 +126,32 @@ async def player_stats(request: Request, match_id: str, player_id: str,
     return out
 
 
+@router.get("/api/matches/{match_id}/fan-stats")
+async def fan_match_stats(request: Request, match_id: str,
+                          at_s: float = Query(5400, ge=0, le=5400),
+                          window_s: float = Query(300, gt=0, le=5400)):
+    """Tracking positions, leaderboards, club summaries and source-backed momentum."""
+    from .fan_extras import fan_stats
+
+    _limit(request)
+    ev = await get_match_evidence(request, match_id)
+    return await asyncio.to_thread(fan_stats, ev, at_s=at_s, window_s=window_s)
+
+
+@router.get("/api/matches/{match_id}/players/{player_id}/tracking-samples")
+async def tracking_samples(request: Request, match_id: str, player_id: str,
+                            at_s: float = Query(5400, ge=0, le=5400),
+                            window_s: float = Query(5400, gt=0, le=5400),
+                            offset: int = Query(0, ge=0), limit: int = Query(200, ge=1, le=1000)):
+    """Original source positions, paginated within a bounded as-of time window."""
+    _limit(request)
+    ev = await get_match_evidence(request, match_id)
+    out = ev.tracking_samples(player_id, at_s, window_s, offset, limit)
+    if out is None:
+        raise HTTPException(404, f"unknown player {player_id}")
+    return out
+
+
 @router.get("/api/matches/{match_id}/baseline")
 async def baseline(request: Request, match_id: str, metric: str = Query(..., description=", ".join(METRICS)),
                    window_s: float = Query(300, gt=0, le=5400), at_s: float | None = Query(None, ge=0, le=5400),

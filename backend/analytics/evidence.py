@@ -24,6 +24,7 @@ from shared.schemas import MatchMetadata, Moment, SyntheticEvent, TrackingFrame
 from .config import load_config
 from .engine import MatchAnalytics, PlayerTracker, minute_of, r1
 from .moments import MomentDetector, rule_descriptions
+from .tracking_index import PlayerPositions
 
 METRICS = ("possession_pct", "pass_accuracy_pct", "ppda", "control_index", "shots", "passes",
            "chaos_index", "turnovers_per_min", "passes_per_min")
@@ -43,10 +44,10 @@ class _Timeline:
     __slots__ = ("secs", "dist_m", "top_kmh")
 
     def __init__(self) -> None:
-        self.secs, self.dist_m, self.top_kmh = array("i"), array("f"), array("f")
+        self.secs, self.dist_m, self.top_kmh = array("d"), array("f"), array("f")
 
     def at(self, t: float) -> tuple[float, float] | None:
-        i = bisect.bisect_right(self.secs, int(t)) - 1
+        i = bisect.bisect_right(self.secs, t) - 1
         return None if i < 0 else (self.dist_m[i], self.top_kmh[i])
 
 
@@ -63,22 +64,27 @@ class MatchEvidence:
 
         det = MomentDetector(meta, self.cfg)
         self.timelines: dict[str, _Timeline] = {}
+        self.positions: dict[str, PlayerPositions] = {}
         last_sec = -1
         for kind, obj in replay_order(events, frames):
             if kind == "event":
                 det.update(obj)
             else:
                 det.update_tracking(obj)
+                for point in obj.players:
+                    if point.player_id not in self.positions:
+                        self.positions[point.player_id] = PlayerPositions()
+                    self.positions[point.player_id].append(obj, point)
                 sec = int(obj.game_clock_s)
                 if sec != last_sec:
                     last_sec = sec
-                    self._sample(det.tracker, sec)
+                    self._sample(det.tracker, obj.game_clock_s)
         self._detected: list[Moment] = list(det.moments)  # detection order = live publish order
         self.moments: list[Moment] = sorted(det.moments, key=lambda m: (m.game_clock_s, m.moment_id))
         self.moment_by_id = {m.moment_id: m for m in self.moments}
         self.final = det.a
 
-    def _sample(self, tracker: PlayerTracker, sec: int) -> None:
+    def _sample(self, tracker: PlayerTracker, sec: float) -> None:
         for pid, tr in tracker.tracks.items():
             tl = self.timelines.get(pid)
             if tl is None:
@@ -90,7 +96,7 @@ class MatchEvidence:
     # ------------------------------------------------------------ helpers
 
     def _analytics_at(self, at_s: float | None) -> MatchAnalytics:
-        if at_s is None or at_s >= self.times[-1]:
+        if not self.times or at_s is None or at_s >= self.times[-1]:
             return self.final
         a = MatchAnalytics(self.meta, self.cfg)
         for e in self.events[:bisect.bisect_right(self.times, at_s)]:
@@ -99,7 +105,7 @@ class MatchEvidence:
         return a
 
     def _clip(self, at_s: float | None) -> float:
-        return self.times[-1] if at_s is None else max(0.0, min(float(at_s), 5400.0))
+        return (self.times[-1] if self.times else 0.0) if at_s is None else max(0.0, min(float(at_s), 5400.0))
 
     def _event_view(self, e: SyntheticEvent) -> dict:
         d = e.model_dump(mode="json", exclude_none=True)
@@ -109,6 +115,15 @@ class MatchEvidence:
         return d
 
     # ------------------------------------------------------------- queries
+
+    def tracking_samples(self, player_id: str, at_s: float = 5400, window_s: float = 5400,
+                         offset: int = 0, limit: int = 200) -> dict | None:
+        if player_id not in self.players:
+            return None
+        positions = self.positions.get(player_id)
+        return {"match_id": self.match_id, "player_id": player_id, "at_s": at_s, "window_s": window_s,
+                **(positions.samples(at_s, window_s, offset, limit) if positions else
+                   {"total": 0, "offset": offset, "next_offset": None, "samples": []})}
 
     def moments_in_publish_order(self) -> list[Moment]:
         return list(self._detected)

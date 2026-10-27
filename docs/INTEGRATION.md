@@ -145,3 +145,14 @@ rules are changed. The frontend now offers separate Beginner, Tactical, Player
 and My Club interfaces that automatically select their commentary persona.
 See [OWNER_D_FAN_INTERFACES.md](OWNER_D_FAN_INTERFACES.md) for definitions, source
 provenance, missing-data behavior and the required backend+frontend deployment.
+
+The user also requested five evidence-backed extras: team distance/top-speed
+leaderboards, actual tracking averages, a Beginner edge explanation, club/rival
+summary and important moments, and a momentum timeline for every fan. Authorized
+cross-owner changes add `backend/analytics/fan_extras.py`, `tracking_index.py`,
+read-only routes in `api.py` and compact source indexing in `evidence.py`.
+Existing metric/detector formulas are reused. Tracking timeline cutoffs now
+preserve fractional timestamps rather than exposing a sample early via integer
+truncation. Empty-event evidence is supported. Frozen contracts and Owner A source
+remain unchanged. See [OWNER_D_FAN_EXTRAS.md](OWNER_D_FAN_EXTRAS.md) and the complete
+[fan statistics inventory](EVERYFAN_PROJECT_AND_FAN_DATA.md).
