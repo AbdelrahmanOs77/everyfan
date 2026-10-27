@@ -126,6 +126,7 @@ test('one full replay stays faithful to state, expires cards and resets cleanly'
   let latestState: { score: Record<string, number> } | null = null;
   let latestClock = 0;
   const seen = new Set<string>();
+  const narrated = new Set<string>();
   page.on('websocket', (ws) =>
     ws.on('framereceived', (frame) => {
       const message = JSON.parse(String(frame.payload));
@@ -133,6 +134,8 @@ test('one full replay stays faithful to state, expires cards and resets cleanly'
       if (message.type === 'tracking' || message.type === 'state')
         latestClock = message.game_time_s;
       if (message.type === 'overlay') seen.add(message.data.overlay_id);
+      if (message.type === 'event' && message.commentary?.text.en && message.commentary?.text.ar)
+        narrated.add(message.data.event_id);
     }),
   );
   await page.goto('/');
@@ -146,6 +149,17 @@ test('one full replay stays faithful to state, expires cards and resets cleanly'
   await expect(page.getByTestId('score-away')).toHaveText(String(latestState!.score.delta_utd));
   expect(latestClock).toBeGreaterThanOrEqual(5399);
   expect(seen.size).toBeGreaterThan(100);
+  const expectedActions = new Set<string>();
+  for (let from = 0; from < 5400; from += 900) {
+    const events = await (
+      await page.request.get(
+        `/api/matches/match_001/events?from_s=${from}&to_s=${from + 900}&limit=2000`,
+      )
+    ).json();
+    expect(events.length).toBeLessThan(2000);
+    for (const event of events) expectedActions.add(event.event_id);
+  }
+  expect(narrated).toEqual(expectedActions);
   await expect(page.locator('.commentary .overlay-card')).toHaveCount(0);
   await page.getByRole('button', { name: 'Match story', exact: true }).first().click();
   await expect(page.getByRole('dialog')).toContainText('Full time');

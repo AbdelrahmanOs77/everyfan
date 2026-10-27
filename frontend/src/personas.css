@@ -1,4 +1,135 @@
 /* Fan interfaces intentionally prioritize different questions, density and evidence. */
+.play-by-play {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  padding: 24px;
+  margin-block-end: 24px;
+  min-width: 0;
+}
+.play-by-play .section-heading {
+  align-items: start;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.play-by-play .eyebrow {
+  font-size: 11px;
+  margin-block-end: 8px;
+}
+.play-caption {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-block: 12px 20px;
+}
+.play-latest {
+  border-inline-start: 3px solid var(--accent);
+  padding: 4px 0 4px 16px;
+  padding-inline: 16px 0;
+  margin-block-end: 12px;
+}
+.play-latest > p {
+  font-size: 19px;
+  line-height: 1.6;
+  margin-block-start: 10px;
+}
+.play-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  color: var(--muted);
+  font-size: 12px;
+}
+.play-meta time {
+  color: var(--accent);
+}
+.play-meta a {
+  margin-inline-start: auto;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  gap: 3px;
+  color: var(--accent);
+}
+.play-meta .play-focus {
+  color: var(--accent);
+  font-size: 11px;
+}
+.play-history {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 330px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.play-history li {
+  padding-block: 10px;
+  border-block-start: 1px solid var(--line);
+}
+.play-history li > p {
+  font-size: 14px;
+  line-height: 1.65;
+}
+.play-followed {
+  background: #ffffff06;
+}
+.play-more {
+  margin-block-start: 12px;
+}
+.play-empty {
+  padding: 18px 0;
+}
+.play-empty p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.65;
+  margin-block-start: 8px;
+}
+@media (max-width: 600px) {
+  .play-by-play {
+    padding: 20px 16px;
+  }
+}
+.tracking-metric-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+.tracking-metric-grid > div {
+  border-inline-start: 2px solid var(--accent);
+  padding-inline-start: 16px;
+}
+.tracking-metric-grid dt {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+.tracking-metric-grid dd {
+  margin: 8px 0 0;
+  font-size: 30px;
+  font-weight: 600;
+}
+.tracking-metric-grid small {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--muted);
+}
+.high-intensity .section-heading {
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.high-intensity label {
+  display: grid;
+  gap: 8px;
+  font-size: 13px;
+}
+.team-shape .section-heading {
+  flex-wrap: wrap;
+  gap: 12px;
+}
 .extra-panel {
   min-width: 0;
   padding: 28px;

@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { activeOverlays, initialStream, parseMessage, reduceStream } from './stream';
+import {
+  activeOverlays,
+  activeCommentary,
+  initialStream,
+  parseMessage,
+  reduceStream,
+} from './stream';
 import type { Overlay, Preferences, StreamMessage } from './types';
 
 const prefs: Preferences = {
@@ -109,5 +115,67 @@ describe('broadcast timing', () => {
   it('ignores unknown envelopes and non-finite clocks', () => {
     expect(parseMessage('{"type":"surprise","data":{},"run_id":"r","game_time_s":1}')).toBeNull();
     expect(parseMessage('{"type":"state","data":{},"run_id":"r","game_time_s":null}')).toBeNull();
+  });
+});
+
+describe('continuous match commentary', () => {
+  const action = (id: string, seq: number, show: number): StreamMessage => ({
+    type: 'event',
+    match_id: 'match_001',
+    run_id: 'r1',
+    game_time_s: 10,
+    data: {
+      event_id: id,
+      seq,
+      type: 'pass',
+      team_id: 'nile_fc',
+      player_id: 'nil_06',
+      receiver_id: 'nil_10',
+    },
+    commentary: { show_at_s: show, text: { en: 'A completed pass.', ar: 'تمريرة مكتملة.' } },
+  });
+  it('waits for completion without moving the picture clock and removes duplicates', () => {
+    let s = reduceStream(initialStream(), tick(10));
+    s = reduceStream(s, action('evt_00001', 1, 12.5));
+    s = reduceStream(s, action('evt_00001', 1, 12.5));
+    expect(s.clock).toBe(10);
+    expect(activeCommentary(s)).toEqual([]);
+    s = reduceStream(s, tick(12.5));
+    expect(activeCommentary(s)).toHaveLength(1);
+    expect(s.commentary).toHaveLength(1);
+  });
+  it('orders completed actions by their display time, then source sequence', () => {
+    let s = reduceStream(initialStream(), tick(20));
+    s = reduceStream(s, action('evt_00001', 1, 15));
+    s = reduceStream(s, action('evt_00002', 2, 11));
+    s = reduceStream(s, action('evt_00003', 3, 15));
+    expect(activeCommentary(s).map((e) => e.event_id)).toEqual([
+      'evt_00003',
+      'evt_00001',
+      'evt_00002',
+    ]);
+  });
+  it('clears action history on seeks and ignores stale-run messages', () => {
+    let s = reduceStream(initialStream(), action('evt_00001', 1, 10));
+    s = reduceStream(s, {
+      type: 'reset',
+      match_id: 'match_001',
+      run_id: 'r2',
+      game_time_s: 0,
+      data: { reason: 'seek' },
+    });
+    expect(s.commentary).toEqual([]);
+    expect(reduceStream(s, action('evt_00002', 2, 11))).toBe(s);
+  });
+  it('supports older servers and ignores invalid annotations', () => {
+    const old: StreamMessage = {
+      type: 'event',
+      match_id: 'match_001',
+      run_id: 'r1',
+      game_time_s: 10,
+      data: { event_id: 'old', type: 'pass' },
+    };
+    expect(reduceStream(initialStream(), old).commentary).toEqual([]);
+    expect(reduceStream(initialStream(), { ...action('bad', 1, NaN) }).commentary).toEqual([]);
   });
 });

@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 import { request } from './api';
 import { copy, localizedName, clockLabel } from './i18n';
-import { activeOverlays } from './stream';
+import { activeOverlays, activeCommentary } from './stream';
 import { useMatch } from './useMatch';
 import { useFacts } from './useFacts';
 import { useNavigation, screenCopy, isFanScreen } from './navigation';
@@ -38,7 +38,9 @@ import { BeginnerStats, PlayerDashboard, ClubStats, FanControls } from './compon
 import { TacticalDashboard } from './components/TacticalDashboard';
 import { useAdvancedFacts } from './useAdvancedFacts';
 import { useFanFacts } from './useFanFacts';
+import { HighIntensityCard } from './components/TrackingMetrics';
 import { ClubComparison, Leaderboard, MomentumChart, OnTop } from './components/FanExtras';
+import { PlayByPlay } from './components/PlayByPlay';
 const navIcons = {
   beginner: BookOpen,
   tactical: ScanLine,
@@ -111,7 +113,7 @@ export default function App() {
     matchId,
     match.stream.runId,
     match.stream.clock,
-    view === 'tactical' ? analysisWindow : 5400,
+    view === 'tactical' || view === 'player' ? analysisWindow : 5400,
     active && isFanScreen(view),
   );
   useEffect(() => {
@@ -453,6 +455,16 @@ export default function App() {
                   onPlayer={(id) => setPreference((p) => ({ ...p, player: id }))}
                 />
               )}
+              {view === 'player' && meta && (
+                <HighIntensityCard
+                  data={extras.data?.tracking ?? null}
+                  metadata={meta}
+                  playerId={preference.player}
+                  language={preference.language}
+                  window={analysisWindow}
+                  onWindow={setAnalysisWindow}
+                />
+              )}
               {view === 'tactical' && meta && (
                 <TacticalDashboard
                   metadata={meta}
@@ -469,6 +481,16 @@ export default function App() {
               <div className="fan-broadcast">
                 <div className="fan-pitch">{stage}</div>
                 <div className="fan-story">
+                  <PlayByPlay
+                    key={match.stream.runId}
+                    entries={activeCommentary(match.stream)}
+                    preference={fanPreference}
+                    matchId={matchId}
+                    active={active}
+                    speed={match.stream.speed}
+                    canControl={match.canControl}
+                    onMatchSpeed={() => void match.control('speed', 1)}
+                  />
                   <Commentary
                     overlays={overlays}
                     language={preference.language}

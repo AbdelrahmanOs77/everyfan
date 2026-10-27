@@ -145,6 +145,45 @@ export interface AdvancedStats {
   definitions: Record<string, string>;
   teams: Record<string, AdvancedTeam>;
   evidence_event_ids: string[];
+  tracking: TrackingStats | null;
+}
+export interface FrameRange {
+  first_frame: number;
+  last_frame: number;
+  from_s: number;
+  to_s: number;
+  sample_count: number;
+}
+export interface TrackingStats {
+  at_s: number;
+  window_s: number;
+  window_start_s: number;
+  thresholds: {
+    distance_threshold_kmh: number;
+    sprint_threshold_kmh: number;
+    sprint_min_duration_s: number;
+  };
+  defensive_line_players: number;
+  teams: Record<
+    string,
+    {
+      mean_width_m: number | null;
+      mean_length_m: number | null;
+      defensive_line_height_m: number | null;
+      defensive_line_sample_count: number;
+      evidence: FrameRange | null;
+    }
+  >;
+  players: Record<
+    string,
+    {
+      distance_above_threshold_m: number | null;
+      sprints: number | null;
+      speed_sample_count: number;
+      window_evidence: FrameRange | null;
+      evidence: FrameRange | null;
+    }
+  >;
 }
 export interface FanStats {
   match_id: string;
@@ -186,6 +225,7 @@ export interface FanStats {
     teams: Record<string, { value: number; evidence_event_ids: string[] }>;
   }[];
   evidence_event_ids: string[];
+  tracking: TrackingStats;
 }
 export interface Evidence {
   moment: Moment;
@@ -234,6 +274,18 @@ export interface Preferences {
   club: string;
   player: string;
 }
+export interface ActionCommentary {
+  show_at_s: number;
+  text: Record<Language, string>;
+}
+export interface PlayByPlayEntry extends ActionCommentary {
+  event_id: string;
+  seq: number;
+  type: string;
+  team_id?: string;
+  player_id?: string;
+  receiver_id?: string;
+}
 export type StreamMessage = { match_id: string; run_id: string; game_time_s: number } & (
   | { type: 'reset'; data: { reason: string } }
   | { type: 'metadata'; data: Metadata }
@@ -241,7 +293,18 @@ export type StreamMessage = { match_id: string; run_id: string; game_time_s: num
   | { type: 'tracking'; data: Tracking }
   | { type: 'overlay'; data: Overlay }
   | { type: 'moment'; data: Moment }
-  | { type: 'event'; data: { event_id: string; type: string; player_id?: string } }
+  | {
+      type: 'event';
+      data: {
+        event_id: string;
+        seq?: number;
+        type: string;
+        team_id?: string;
+        player_id?: string;
+        receiver_id?: string;
+      };
+      commentary?: ActionCommentary;
+    }
   | { type: 'control'; data: { action: string; speed?: number } }
   | { type: 'replay'; data: { state: string; speed: number; game_time_s: number } }
   | { type: 'hello'; data: { mode: string; broadcast_delay_s: number } }

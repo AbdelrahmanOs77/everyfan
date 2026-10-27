@@ -131,6 +131,14 @@ Changing fan type keeps the existing match connection and replay clock. Player
 and club choices are retained. The app automatically chooses the matching
 commentary persona for each fan interface.
 
+All four fans also receive continuous **Match commentary**: every recorded pass,
+shot, out-of-play ball, corner, foul, restart, duel, recovery, substitution and
+other supported action. Calls use source events and bilingual metadata names,
+with timestamps, evidence and recent-play history. Outcomes wait for the recorded
+action duration. The common action feed accompanies persona-specific analysis;
+player/club interests highlight relevant plays. Watch at match speed selects 1x.
+See [continuous commentary](OWNER_C_PLAY_BY_PLAY.md).
+
 ## 5. Beginner interface
 
 **Route:** `/#/beginner`
@@ -192,6 +200,8 @@ The Beginner interface deliberately omits the detailed tactical workbench.
 | Duel win rate | Won duels divided by recorded duels | % |
 | Shot conversion | Shot events with outcome `goal` divided by shot events | % |
 | Mean shot distance | Average distance from the shot origin to the opponent goal centre | Metres |
+| Mean team width / length | Frame-wise outfield-player y/x spread, averaged over the selected window | Metres |
+| Defensive line height | Mean depth of the deepest four outfield players, measured from own goal, averaged over selected frames | Metres |
 
 The headline cards emphasise PPDA, control index, final-third pass share and pass
 rate. The comparison table exposes the wider set of rates and percentages.
@@ -272,6 +282,10 @@ shots hitting the post. The shot map has a textual evidence table as well.
 | Match context | Player moments | Detected moments involving that player, up to the viewer clock |
 | Team ranking | Top-five distance leaderboard | Kilometres, cumulative measured distance, selectable teammates |
 | Team ranking | Top-five top-speed leaderboard | km/h, existing three-frame smoothed maximum; not a sprint count |
+| High-intensity performance | Distance above 19.8 km/h | Metres from actual path steps classified by the existing smoothed speed |
+| High-intensity performance | Sprint count | Continuous bouts above 25.2 km/h that first exceed 1 second in the selected window |
+| High-intensity scope | One-, five-, fifteen-minute or match-so-far window | Selected independently of the player's match-to-date event/shot overview |
+| Tracking evidence | Selected and causal-source frame ranges | Frame IDs, timestamps and paginated original coordinates |
 | Match context | Momentum timeline | Both teams' server-calculated attacking activity and source events |
 
 Numbers are match-to-date at their displayed measurement timestamp, not career
@@ -441,10 +455,10 @@ Last completed checks for the implemented fan-interface revision:
 
 | Check | Result |
 |---|---|
-| Python regression suite | 598 tests passed |
+| Python regression suite | 651 tests passed |
 | Python lint | Pyflakes clean |
-| Frontend scheduler tests | 7 passed |
-| Isolated browser scenarios | 8 passed, including full replay, fan extras and fan navigation |
+| Frontend scheduler tests | 11 passed |
+| Isolated browser scenarios | 10 verified, including continuous commentary, tracking cards, full replay and fan navigation |
 | TypeScript, production build and formatting | Passed |
 | Stub numeric-faithfulness gate | 236/236 published outputs faithful; all 80 injected drafts caught |
 

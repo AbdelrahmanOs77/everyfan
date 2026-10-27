@@ -10,7 +10,7 @@ built on Microsoft Foundry, Agent Framework, Azure Event Hubs, Cosmos DB and Con
 Backend complete and integrated (Owners A, B, C): simulator → Event Hubs → analytics → Foundry agents
 (Producer, Analyst over MCP, persona writers, Verifier with repair, Recap) → verified overlays on WebSockets,
 a public overlay feed and match recaps. Personas: Beginner, Tactical, Player Focus, Favorite Club; English and
-Arabic. 598 offline tests. The React viewer now includes the tracking pitch,
+Arabic. 651 offline tests. The React viewer now includes the tracking pitch,
 four-way comparison, Arabic RTL, evidence, measured indices, recaps and Judge
 mode. Public frontend hosting awaits a subscription permitting Azure Static Web
 Apps regions and the backend CORS update; there is no live frontend URL yet.

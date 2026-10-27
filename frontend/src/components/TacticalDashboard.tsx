@@ -4,6 +4,7 @@ import { apiUrl } from '../api';
 import { clockLabel, displayNumber, localizedName } from '../i18n';
 import type { AdvancedStats, AdvancedTeam, FanStats, Language, Metadata } from '../types';
 import { TrackingPositions } from './FanExtras';
+import { TeamShapeCard } from './TrackingMetrics';
 
 const metrics: [string, string, string, string][] = [
   ['possession_pct', 'Possession', 'الاستحواذ', '%'],
@@ -278,6 +279,14 @@ export function TacticalDashboard({
       )}
       {team && tab === 'overview' && (
         <>
+          {data?.tracking && (
+            <TeamShapeCard
+              data={data.tracking}
+              metadata={metadata}
+              teamId={selected.team_id}
+              language={language}
+            />
+          )}
           <div className="tactical-kpis">
             {[
               ['ppda', 'PPDA', 'PPDA'],
