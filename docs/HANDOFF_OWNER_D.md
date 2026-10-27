@@ -14,7 +14,7 @@ everything works with zero model cost in demo mode. Full contract: [API.md](API.
 | Watch demo match | `WS /ws/demo/match_001?speed=20` (private, cached, zero cost; controls are JSON text frames) |
 | Run live | `POST /api/matches/match_001/start?speed=5` → keep `control_token`; `WS /ws/matches/match_001` |
 | Break it | `POST /api/demo/break-it?persona=tactical&lang=en` → show `draft` (red), `verdict.reason_code` and `detail`, then `repaired_or_fallback_overlay` (green) |
-| Switch to Arabic | reconnect with `lang=ar`; overlays carry `dir: "rtl"`; names from metadata `name_ar` |
+| Switch to Arabic | the implemented viewer keeps one unfiltered socket and selects `language=ar` locally; overlays carry `dir: "rtl"`; names from metadata `name_ar` |
 | Pick a player | Player Focus: keep overlays where `persona == "player"` and `fields.player_id` is the chosen player; ticker from `GET /api/matches/{id}/players/{player_id}/stats?at_s=<clock>` |
 | Pick a club | Favorite Club: `persona=club&club=nile_fc` on the socket (or filter `fields.club_id`) |
 
@@ -58,16 +58,27 @@ Languages: `en`, `ar`. Changing persona or language changes the words, never the
 
 ## Demo bundles available now
 
-All four matches (`match_001` derby 2–2 is the demo match). Each has 128–218 overlays covering every
-agent-worthy moment in every persona and language. Today they are checked templates; Owner C will re-record
-`match_001` with live Foundry agents (`source: "agent"`), same format, no frontend change.
+All four matches are available (`match_001` derby 2–2 is the demo match). The
+deployed health response checked on 2026-10-27 Cairo time reports 218 overlays
+for `match_001`: 146 approved agent outputs, 72 checked template fallbacks and ten
+recorded recaps. The other three bundles contain 128–188 checked templates;
+their recaps use the deterministic backend path. Demo playback makes no model
+calls. These bundle counts are distinct from the 236-output evaluation sample.
+
+The user completed the Step 5 review in place of Owner B and merged PR #5
+(`2aa91ff`). The implementation is now in `frontend`; see [OWNER_D.md](OWNER_D.md)
+and [TESTING_GUIDE.md](TESTING_GUIDE.md). The current account's Azure location
+policy prevents Static Web Apps provisioning; public hosting and Owner A's exact
+frontend-origin CORS update remain open. The deployed API revision remains
+`93b141ef1793`; the Step 5 evaluator/docs merge does not itself deploy a backend.
 
 ## Acceptance checks for the frontend (plan 8.4)
 
-- [ ] Score and clock match the stream through a full replay, including after seek.
-- [ ] Persona switch changes words, not numbers (four-way view of one goal).
-- [ ] Each overlay shows once, at `show_at_s` on the viewer clock.
-- [ ] Arabic cards render RTL, reviewed by a native speaker.
-- [ ] Keyboard controls, colour contrast, phone layout.
-- [ ] Break it shows rejection → replacement.
+- [x] Score and clock match backend state through a full replay and seek.
+- [x] Four-way view uses the same moment on one socket, with no generated stats.
+- [x] Timing/duplicate/expiry/priority/reset checks and rejected-output exclusion.
+- [x] Arabic cards render RTL; recorded overlay native review completed in Step 4.
+- [x] Keyboard controls, automated contrast/accessibility and phone layout checks.
+- [x] Break it shows rejection → replacement.
+- [ ] Native-speaker signoff for the newly written Arabic interface strings.
 - [ ] Works from a phone on mobile data in a private window.

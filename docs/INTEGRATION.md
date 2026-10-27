@@ -2,7 +2,8 @@
 
 Owners A, B and C are complete and integrated: one deterministic pipeline turns a synthetic match into
 moments, verified agent overlays, recaps and a public feed, and every seam between owners is tested.
-Owner D can build the frontend against [HANDOFF_OWNER_D.md](HANDOFF_OWNER_D.md).
+Owner D's viewer is implemented against [HANDOFF_OWNER_D.md](HANDOFF_OWNER_D.md).
+See [OWNER_D.md](OWNER_D.md) for deployment status and browser verification.
 
 Status as of 26 Oct 2026: **559 tests pass** (430 before), pyflakes clean, frozen contracts untouched,
 Bicep compiles and lints clean, local end-to-end smoke **21/21** (real server, live run, MCP over HTTP).
@@ -103,15 +104,32 @@ set `AGENT_CLUB_PERSONA=0` for live. Judges use the cached demo, which costs not
 Step 5 update: the completed Foundry evaluation reports 91.0% raw numeric
 faithfulness (192/211 valid first drafts) and 100.0% final faithfulness (236/236),
 including 149 approved agent drafts and 87 checked fallbacks. The README table,
-dated raw/final records and audit are ready for Owner B's independent review;
+dated raw/final records and audit were reviewed by the user in place of Owner B;
 see [OWNER_C_STEP5.md](OWNER_C_STEP5.md). Step 5 checks: 573 offline tests,
 Pyflakes clean, required stub injection gate at 100% published faithfulness.
 Foundry trace screenshots and optional model-based quality scores remain outside
 this evaluation result.
 
 - Foundry key from Owner C (step 3); Cosmos endpoint and account from Owner B.
-- Owner B's independent review of the measured Foundry results and README table.
+- Step 5 review completed by the user in place of Owner B; PR #5 merged (`2aa91ff`).
 - Foundry trace screenshots for the README and video. The recorded demo's native
   Arabic review is complete; see [OWNER_C_STEP4.md](OWNER_C_STEP4.md).
 - Not built (SHOULD/COULD in the plan, list as roadmap): third language, Single Metric mode, Scenario
   Director, Azure AI Speech narration, studio approval.
+
+## Owner D integration
+
+The new `frontend/` consumes existing REST/WebSocket contracts without modifying
+Owner A/B Python source or frozen schemas. `.github/workflows/ci.yml` adds strict
+frontend build, timing tests, isolated off-mode browser checks and dependency
+audit; deployment of the tested artifact is disabled until the SWA token and
+trusted frontend origin are configured. `deployment/azure/frontend.bicep`
+provisions a separate Free Static Web App; `deployment/deploy-frontend.ps1`
+checks the target subscription's location policy before creating resources.
+
+The currently accessible subscription permits no Static Web Apps region, and
+does not contain the EveryFan backend. Public hosting, Owner A's exact-origin
+CORS update and physical-device/mobile-network acceptance remain external
+dependencies. No policy bypass or unrelated Azure resource change was attempted.
+English pitch, recording and final account-holder actions are in
+[OWNER_D_DELIVERY.md](OWNER_D_DELIVERY.md).
