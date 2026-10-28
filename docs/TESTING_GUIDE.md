@@ -1,5 +1,7 @@
 # Try EveryFan
 
+Open **https://everyfanviewer8414.z1.web.core.windows.net** (no sign-in needed).
+
 ## Advanced features
 
 Start a demo, choose Tactical → **Live pitch**, then toggle each layer. Inspect current/window/match
@@ -16,8 +18,6 @@ Automated checks: Python pytest/pyflakes, required `evals.run_agent_eval` stub f
 The repository has no lint script; format:check is its existing formatting gate. New browser coverage is
 `frontend/e2e/advanced-features.spec.ts`. Rebuild optional recordings using the command in the guide.
 
-The public frontend URL is pending Azure region/account access; see
-[Owner D deployment status](OWNER_D.md#azure-deployment-dependency).
 For local access follow [Owner D setup](OWNER_D.md#local-setup), then open
 http://localhost:5173. All clubs, players and matches are fictional.
 
