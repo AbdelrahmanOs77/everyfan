@@ -2,7 +2,7 @@
 
 **▶ Try it live: https://everyfanviewer8414.z1.web.core.windows.net**
 · API: https://everyfan-api.graybay-511bafbd.uaenorth.azurecontainerapps.io/docs
-· Demo video: link pending
+· Demo video: https://youtu.be/4loX-FDUKG4
 
 Synthetic football events → verified match intelligence → personalised, timed broadcast overlays,
 built on Microsoft Foundry, Agent Framework, Azure Event Hubs, Cosmos DB and Container Apps.
